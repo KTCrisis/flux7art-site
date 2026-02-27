@@ -984,31 +984,36 @@ drawBg();
 // ── WAVEFORM CANVAS ──
 const wfCanvas = document.getElementById('waveform-canvas');
 const wfCtx = wfCanvas.getContext('2d');
-wfCanvas.width = wfCanvas.offsetWidth * 2;
-wfCanvas.height = 320;
+
+function resizeWaveform() {
+  wfCanvas.width  = wfCanvas.clientWidth * window.devicePixelRatio;
+  wfCanvas.height = wfCanvas.clientHeight * window.devicePixelRatio;
+}
+resizeWaveform();
+window.addEventListener('resize', resizeWaveform);
 
 let wfT = 0;
 function drawWaveform() {
   const w = wfCanvas.width, h = wfCanvas.height;
   wfCtx.clearRect(0, 0, w, h);
 
-  // Draw multiple waves
   const waves = [
-    { color: '#ff2d6b', amp: 60, freq: 0.02, speed: 0.04, offset: 0 },
-    { color: '#00ff88', amp: 40, freq: 0.03, speed: 0.06, offset: 1 },
-    { color: '#00e5ff', amp: 30, freq: 0.05, speed: 0.03, offset: 2 },
+    { color: '#ff2d6b', amp: 0.35, freq: 0.02,  speed: 0.04, offset: 0 },
+    { color: '#00ff88', amp: 0.25, freq: 0.03,  speed: 0.06, offset: 1 },
+    { color: '#00e5ff', amp: 0.18, freq: 0.05,  speed: 0.03, offset: 2 },
   ];
 
   waves.forEach(wave => {
     wfCtx.beginPath();
     wfCtx.strokeStyle = wave.color;
-    wfCtx.lineWidth = 1.5;
+    wfCtx.lineWidth   = 1.5 * window.devicePixelRatio;
     wfCtx.globalAlpha = 0.7;
 
     for (let x = 0; x < w; x++) {
-      const y = h / 2 +
-        Math.sin(x * wave.freq + wfT * wave.speed + wave.offset) * wave.amp +
-        Math.sin(x * wave.freq * 2.3 + wfT * wave.speed * 1.5) * (wave.amp * 0.4);
+      const amp = wave.amp * h;
+      const y = h / 2
+        + Math.sin(x * wave.freq + wfT * wave.speed + wave.offset) * amp
+        + Math.sin(x * wave.freq * 2.3 + wfT * wave.speed * 1.5) * (amp * 0.4);
       x === 0 ? wfCtx.moveTo(x, y) : wfCtx.lineTo(x, y);
     }
     wfCtx.stroke();
@@ -1030,4 +1035,12 @@ const observer = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.1 });
 
-document.querySelectorAll('.proje
+document.querySelectorAll('.project-card, .stack-item, .music-tool').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(20px)';
+  el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+  observer.observe(el);
+});
+</script>
+</body>
+</html>

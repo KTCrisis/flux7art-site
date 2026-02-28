@@ -707,7 +707,6 @@ footer span { color: var(--green); }
 <canvas id="bg-canvas"></canvas>
 <div class="cursor-glow" id="cursor-glow"></div>
 
-<!-- NAV -->
 <nav>
   <a href="#" class="nav-logo">flux<span>7</span>.art</a>
   <ul class="nav-links">
@@ -718,7 +717,6 @@ footer span { color: var(--green); }
   </ul>
 </nav>
 
-<!-- HERO -->
 <section id="hero">
   <div class="hero-tag"><span>// creative lab</span></div>
   <h1 class="hero-title">
@@ -741,7 +739,6 @@ footer span { color: var(--green); }
   <div class="scroll-hint">scroll</div>
 </section>
 
-<!-- LAB -->
 <section id="lab">
   <div class="section-header">
     <span class="section-num">01 //</span>
@@ -798,24 +795,35 @@ footer span { color: var(--green); }
       </div>
     </div>
 
-    <div class="project-card card-accent-pink" style="grid-column: span 1;">
+    <div class="project-card card-accent-pink" onclick="window.open('https://staffd.pages.dev/', '_blank')" style="cursor:pointer;">
       <div class="card-cat">// <span>SaaS · HR · Consulting</span></div>
-      <span class="card-status status-wip">◐ wip</span>
+      <span class="card-status status-live">● live</span>
       <div class="card-title">staffd</div>
       <div class="card-desc">
-        Working on SaaS platform for consultant management: project assignments,
-        leave tracking, availability and HR monitoring.
-        Auth, roles, real-time dashboard and AI function...
+        SaaS platform for consultant management: project assignments,
+        leave tracking, and real-time financial monitoring.
+        Features Edge-runtime performance, Supabase Auth, and RLS security.
       </div>
-      <div class="card-stack">
-        <span class="stack-tag">FastAPI</span>
+      <div class="card-stack" style="margin-bottom:20px;">
+        <span class="stack-tag">Next.js 16</span>
         <span class="stack-tag">Supabase</span>
-        <span class="stack-tag">Next.js</span>
-        <span class="stack-tag">Railway</span>
+        <span class="stack-tag">Cloudflare</span>
+        <span class="stack-tag">OpenNext</span>
+        <span class="stack-tag">FastAPI</span>
+      </div>
+      <div class="card-actions">
+        <a href="https://staffd.pages.dev/" target="_blank" class="card-btn card-btn-github" style="border-color: var(--pink); color: var(--pink);" onclick="event.stopPropagation()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+          Live Demo
+        </a>
+        <a href="https://github.com/KTCrisis/staffd" target="_blank" class="card-btn card-btn-github" onclick="event.stopPropagation()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.385-1.335-1.755-1.335-1.755-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12z"/></svg>
+          GitHub
+        </a>
       </div>
     </div>
 
-    <div class="project-card card-accent-cyan" style="grid-column: span 1;">
+    <div class="project-card card-accent-cyan">
       <div class="card-cat">// <span>AI · Agents · Orchestration</span></div>
       <span class="card-status status-wip">◐ wip</span>
       <div class="card-title">Agentic AI Lab</div>
@@ -835,7 +843,6 @@ footer span { color: var(--green); }
   </div>
 </section>
 
-<!-- MUSIC -->
 <section id="music">
   <div class="music-inner">
     <div class="section-header">
@@ -901,7 +908,6 @@ footer span { color: var(--green); }
   </div>
 </section>
 
-<!-- STACK -->
 <section id="stack">
   <div class="section-header">
     <span class="section-num">03 //</span>
@@ -925,7 +931,6 @@ footer span { color: var(--green); }
   </div>
 </section>
 
-<!-- ABOUT -->
 <section id="about">
   <div class="about-inner">
     <div class="about-left">
@@ -953,17 +958,17 @@ footer span { color: var(--green); }
           </div>
           <span class="link-arrow">→</span>
         </a>
-        <a href="#" class="about-link">
+        <a href="https://staffd.pages.dev/" target="_blank" class="about-link">
           <div>
-            <div class="link-label">AstroGenAI</div>
-            <div class="link-sub">astrological content generation pipeline</div>
+            <div class="link-label">staffd</div>
+            <div class="link-sub">HR & Resource management SaaS</div>
           </div>
           <span class="link-arrow">→</span>
         </a>
-        <a href="/cdn-cgi/l/email-protection#3b5d574e430c5a494f7b5c565a525715585456" class="about-link">
+        <a href="mailto:contact@flux7.art" class="about-link">
           <div>
             <div class="link-label">Contact</div>
-            <div class="link-sub"><span class="__cf_email__" data-cfemail="2c4a4059541b4d5e586c4b414d4540024f4341">[email&#160;protected]</span></div>
+            <div class="link-sub">contact@flux7.art</div>
           </div>
           <span class="link-arrow">→</span>
         </a>
@@ -976,7 +981,7 @@ footer span { color: var(--green); }
   <span>flux7.art</span> — built and deployed on cloudflare · 2026
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 // ── CURSOR GLOW ──
 const glow = document.getElementById('cursor-glow');
 document.addEventListener('mousemove', e => {
@@ -1021,7 +1026,6 @@ function drawBg() {
     bgCtx.fill();
   });
 
-  // Draw connections
   for (let i = 0; i < particles.length; i++) {
     for (let j = i + 1; j < particles.length; j++) {
       const dx = particles[i].x - particles[j].x;

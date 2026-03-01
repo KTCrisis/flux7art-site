@@ -700,6 +700,8 @@ footer span { color: var(--green); }
   .projects-grid { grid-template-columns: 1fr; }
   .stack-grid { grid-template-columns: 1fr 1fr; }
 }
+
+/* ── MAIN HTML ── */
 </style>
 </head>
 <body>
@@ -726,13 +728,14 @@ footer span { color: var(--green); }
   </h1>
   <p class="hero-sub">
     Engineering & generative art experiments.<br>
-    <b>API</b> · <b>event streaming</b> · <b>agentic AI</b> · <b>music generation</b> · <b>predictive reliability</b>
+    <b>API</b> · <b>event streaming</b> · <b>agentic AI</b> · <b>music & video generation</b> · <b>predictive reliability</b>
   </p>
   <div class="hero-tags">
     <div class="htag">Confluent Kafka</div>
     <div class="htag">Kong</div>
     <div class="htag">Python</div>
     <div class="htag">Ollama</div>
+    <div class="htag">Openclaw</div>
     <div class="htag">Renoise</div>
     <div class="htag">Predictive Reliability</div>
   </div>
@@ -862,7 +865,7 @@ footer span { color: var(--green); }
         <p>
           Exploring AI-assisted music generation.
           Tracker compositions with Renoise, algorithmic generation
-          of melodies and timbres, and experiments with
+          of melodies and chords, and experiments with
           audio generation models.
         </p>
         <div class="music-tools">
@@ -920,7 +923,6 @@ footer span { color: var(--green); }
     <div class="stack-item"><div class="stack-item-cat">streaming</div><div class="stack-item-name">Apache Pulsar</div></div>
     <div class="stack-item"><div class="stack-item-cat">gateway</div><div class="stack-item-name">Kong</div></div>
     <div class="stack-item"><div class="stack-item-cat">backend</div><div class="stack-item-name">FastAPI</div></div>
-    <div class="stack-item"><div class="stack-item-cat">backend</div><div class="stack-item-name">Flask</div></div>
     <div class="stack-item"><div class="stack-item-cat">language</div><div class="stack-item-name">Python</div></div>
     <div class="stack-item"><div class="stack-item-cat">ai · local</div><div class="stack-item-name">Ollama</div></div>
     <div class="stack-item"><div class="stack-item-cat">ai · model</div><div class="stack-item-name">Claude/MiniMax</div></div>
@@ -982,6 +984,8 @@ footer span { color: var(--green); }
 </footer>
 
 <script>
+
+  
 // ── CURSOR GLOW ──
 const glow = document.getElementById('cursor-glow');
 document.addEventListener('mousemove', e => {

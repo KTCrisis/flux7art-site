@@ -933,6 +933,27 @@ footer span { color: var(--green); }
   transition: transform 0.1s;
 }
 
+
+/* ── ASTRO LOGO ── */
+.astro-logo-wrap {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+.astro-logo-img {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,45,107,0.3);
+  object-fit: cover;
+  box-shadow: 0 0 20px rgba(255,45,107,0.15);
+  transition: all 0.3s;
+}
+.project-card:hover .astro-logo-img {
+  border-color: var(--pink);
+  box-shadow: 0 0 30px rgba(255,45,107,0.3);
+}
 /* ── RESPONSIVE ── */
 @media (max-width: 768px) {
   nav { padding: 16px 20px; }
@@ -951,6 +972,8 @@ footer span { color: var(--green); }
   .projects-grid { grid-template-columns: 1fr; }
   .stack-grid { grid-template-columns: 1fr 1fr; }
 }
+
+
 </style>
 </head>
 <body>
@@ -1129,7 +1152,10 @@ footer span { color: var(--green); }
     <div class="project-card card-accent-pink" onclick="window.open('https://github.com/KTCrisis/astrogenai','_blank')" style="cursor:pointer;">
       <div class="card-cat">// <span>AI · Astrology · Video</span></div>
       <span class="card-status status-live">● live</span>
-      <div class="card-title">astroGenAI</div>
+      <div class="astro-logo-wrap">
+        <img class="astro-logo-img" src="data:image/jpeg;base64,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" alt="astroGenAI">
+        <div class="card-title">astroGenAI</div>
+      </div>
       <div class="card-desc">
         Full astrological content generation pipeline.
         Horoscopes based on real astronomical calculations (Skyfield),
@@ -1139,7 +1165,7 @@ footer span { color: var(--green); }
         <span class="stack-tag">Python</span>
         <span class="stack-tag">Flask</span>
         <span class="stack-tag">Ollama</span>
-        <span class="stack-tag">Llama</span>
+        <span class="stack-tag">Kimi K2.5</span>
         <span class="stack-tag">Skyfield</span>
         <span class="stack-tag">FFmpeg</span>
         <span class="stack-tag">ComfyUI</span>
@@ -1155,25 +1181,6 @@ footer span { color: var(--green); }
         </a>
       </div>
     </div>
-
-    <!-- ── Agentic AI Lab ── -->
-    <div class="project-card card-accent-pink">
-      <div class="card-cat">// <span>AI · Agents · Orchestration</span></div>
-      <span class="card-status status-wip">◐ wip</span>
-      <div class="card-title">agentic AI Lab</div>
-      <div class="card-desc">
-        Experiments around autonomous agents.
-        Integration with local models via Ollama,
-        multi-agent orchestration, MCP servers, Openclaw.
-      </div>
-      <div class="card-stack">
-        <span class="stack-tag">Ollama</span>
-        <span class="stack-tag">LangGraph</span>
-        <span class="stack-tag">MCP</span>
-        <span class="stack-tag">Openclaw</span>
-      </div>
-    </div>
-
   </div>
 </section>
 

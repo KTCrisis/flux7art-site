@@ -16,6 +16,8 @@
   --pink:    #ff2d6b;
   --cyan:    #00e5ff;
   --gold:    #ffd166;
+  --teal:    #0d9488;
+  --teal-light: #14b8a6;
   --dim:     #2a3a2a;
   --text:    #b8ccb8;
   --text2:   #5a7a5a;
@@ -437,6 +439,228 @@ section {
 .status-wip { background: rgba(255,209,102,0.1); color: var(--gold); border: 1px solid rgba(255,209,102,0.3); }
 .status-poc { background: rgba(0,229,255,0.1); color: var(--cyan); border: 1px solid rgba(0,229,255,0.3); }
 
+/* ── FEATURED CARDS (shared) ── */
+.featured-card {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  background: var(--bg2);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  transition: border-color 0.3s;
+  margin-bottom: 4px;
+}
+
+.featured-left {
+  padding: 40px 48px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-right: 1px solid var(--border);
+  position: relative;
+}
+
+.featured-right {
+  padding: 40px 48px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.featured-metrics {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.featured-metric {
+  padding: 16px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  transition: border-color 0.2s;
+}
+
+.featured-metric-val {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -1px;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.featured-metric-label {
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text2);
+}
+
+.featured-logo {
+  font-size: 64px;
+  font-weight: 700;
+  letter-spacing: -3px;
+  line-height: 1;
+  margin-bottom: 6px;
+  position: relative;
+  display: inline-block;
+}
+
+.featured-tagline {
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+  opacity: 0.7;
+}
+
+.featured-desc {
+  font-size: 13px;
+  color: var(--text2);
+  line-height: 1.8;
+  max-width: 360px;
+}
+
+.featured-desc b {
+  color: var(--text);
+  font-weight: 400;
+}
+
+/* ── EVENT7 FEATURED ── */
+.event7-featured {
+  border: 1px solid rgba(13,148,136,0.35);
+}
+
+.event7-featured:hover {
+  border-color: rgba(13,148,136,0.7);
+}
+
+.event7-featured::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--teal), var(--cyan), transparent);
+  animation: featuredLine 3s ease infinite;
+}
+
+.event7-featured:hover .featured-metric {
+  border-color: rgba(13,148,136,0.25);
+}
+
+.event7-featured .featured-metric-val {
+  color: var(--teal-light);
+}
+
+.event7-logo .e-event { color: #fff; }
+.event7-logo .e-seven {
+  color: var(--teal-light);
+  text-shadow:
+    0 0 10px rgba(13,148,136,0.8),
+    0 0 30px rgba(13,148,136,0.4),
+    0 0 60px rgba(13,148,136,0.2);
+  animation: event7Pulse 2.5s ease-in-out infinite, event7Glitch 6s ease infinite;
+}
+
+@keyframes event7Pulse {
+  0%, 100% {
+    text-shadow:
+      0 0 10px rgba(13,148,136,0.8),
+      0 0 30px rgba(13,148,136,0.4),
+      0 0 60px rgba(13,148,136,0.2);
+  }
+  50% {
+    text-shadow:
+      0 0 20px rgba(13,148,136,1),
+      0 0 50px rgba(13,148,136,0.6),
+      0 0 100px rgba(13,148,136,0.3),
+      0 0 140px rgba(13,148,136,0.1);
+  }
+}
+
+@keyframes event7Glitch {
+  0%, 85%, 100% { text-shadow: 0 0 10px rgba(13,148,136,0.8), 0 0 30px rgba(13,148,136,0.4); transform: none; }
+  87% { text-shadow: 3px 0 var(--pink), -3px 0 var(--cyan); transform: translateX(-2px); }
+  89% { text-shadow: -3px 0 var(--teal-light), 3px 0 var(--pink); transform: translateX(2px); }
+  91% { text-shadow: 0 0 20px rgba(13,148,136,1), 0 0 50px rgba(13,148,136,0.6); transform: none; }
+}
+
+.event7-featured .featured-tagline {
+  color: var(--teal-light);
+}
+
+/* ── STAFF7 FEATURED ── */
+.staff7-featured {
+  border: 1px solid rgba(0,255,136,0.25);
+}
+
+.staff7-featured:hover {
+  border-color: rgba(0,255,136,0.6);
+}
+
+.staff7-featured::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--green), var(--cyan), transparent);
+  animation: featuredLine 3s ease infinite;
+}
+
+@keyframes featuredLine {
+  0%, 100% { opacity: 0.4; transform: scaleX(0.8); }
+  50% { opacity: 1; transform: scaleX(1); }
+}
+
+.staff7-featured:hover .featured-metric {
+  border-color: rgba(0,255,136,0.2);
+}
+
+.staff7-featured .featured-metric-val {
+  color: var(--green);
+}
+
+.staff7-logo .s-staff { color: #fff; }
+.staff7-logo .s-seven {
+  color: var(--green);
+  text-shadow:
+    0 0 10px rgba(0,255,136,0.8),
+    0 0 30px rgba(0,255,136,0.4),
+    0 0 60px rgba(0,255,136,0.2);
+  animation: staff7Pulse 2.5s ease-in-out infinite, staff7Glitch 6s ease infinite;
+}
+
+@keyframes staff7Pulse {
+  0%, 100% {
+    text-shadow:
+      0 0 10px rgba(0,255,136,0.8),
+      0 0 30px rgba(0,255,136,0.4),
+      0 0 60px rgba(0,255,136,0.2);
+  }
+  50% {
+    text-shadow:
+      0 0 20px rgba(0,255,136,1),
+      0 0 50px rgba(0,255,136,0.6),
+      0 0 100px rgba(0,255,136,0.3),
+      0 0 140px rgba(0,255,136,0.1);
+  }
+}
+
+@keyframes staff7Glitch {
+  0%, 85%, 100% { text-shadow: 0 0 10px rgba(0,255,136,0.8), 0 0 30px rgba(0,255,136,0.4); transform: none; }
+  87% { text-shadow: 3px 0 var(--pink), -3px 0 var(--cyan); transform: translateX(-2px); }
+  89% { text-shadow: -3px 0 var(--green), 3px 0 var(--pink); transform: translateX(2px); }
+  91% { text-shadow: 0 0 20px rgba(0,255,136,1), 0 0 50px rgba(0,255,136,0.6); transform: none; }
+}
+
+.staff7-featured .featured-tagline {
+  color: var(--green);
+}
+
 /* ── MUSIC SECTION ── */
 #music {
   padding: 120px 40px;
@@ -717,9 +941,9 @@ footer span { color: var(--green); }
   .music-grid { grid-template-columns: 1fr; }
   .about-inner { grid-template-columns: 1fr; gap: 40px; }
   .hero-title { letter-spacing: -2px; }
-  .staff7-featured { grid-template-columns: 1fr; }
-  .staff7-left { border-right: none; border-bottom: 1px solid var(--border); }
-  .staff7-logo { font-size: 48px; }
+  .featured-card { grid-template-columns: 1fr; }
+  .featured-left { border-right: none; border-bottom: 1px solid var(--border); }
+  .featured-logo { font-size: 48px; }
 }
 
 @media (max-width: 500px) {
@@ -727,161 +951,6 @@ footer span { color: var(--green); }
   .projects-grid { grid-template-columns: 1fr; }
   .stack-grid { grid-template-columns: 1fr 1fr; }
 }
-
-/* ── STAFF7 FEATURED CARD ── */
-.staff7-featured {
-  grid-column: 1 / -1;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0;
-  background: var(--bg2);
-  border: 1px solid rgba(0,229,255,0.25);
-  border-radius: 4px;
-  overflow: hidden;
-  position: relative;
-  cursor: pointer;
-  transition: border-color 0.3s;
-  margin-bottom: 4px;
-}
-
-.staff7-featured:hover {
-  border-color: rgba(0,229,255,0.6);
-}
-
-.staff7-featured::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, var(--cyan), var(--green), transparent);
-  animation: featuredLine 3s ease infinite;
-}
-
-@keyframes featuredLine {
-  0%, 100% { opacity: 0.4; transform: scaleX(0.8); }
-  50% { opacity: 1; transform: scaleX(1); }
-}
-
-.staff7-left {
-  padding: 40px 48px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  border-right: 1px solid var(--border);
-  position: relative;
-}
-
-.staff7-right {
-  padding: 40px 48px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-/* scintillating logo */
-.staff7-logo {
-  font-size: 64px;
-  font-weight: 700;
-  letter-spacing: -3px;
-  line-height: 1;
-  margin-bottom: 6px;
-  position: relative;
-  display: inline-block;
-}
-
-.staff7-logo .s-staff {
-  color: #fff;
-}
-
-.staff7-logo .s-seven {
-  color: var(--cyan);
-  text-shadow:
-    0 0 10px rgba(0,229,255,0.8),
-    0 0 30px rgba(0,229,255,0.4),
-    0 0 60px rgba(0,229,255,0.2);
-  animation: logoPulse 2.5s ease-in-out infinite, logoGlitch 6s ease infinite;
-}
-
-@keyframes logoPulse {
-  0%, 100% {
-    text-shadow:
-      0 0 10px rgba(0,229,255,0.8),
-      0 0 30px rgba(0,229,255,0.4),
-      0 0 60px rgba(0,229,255,0.2);
-  }
-  50% {
-    text-shadow:
-      0 0 20px rgba(0,229,255,1),
-      0 0 50px rgba(0,229,255,0.6),
-      0 0 100px rgba(0,229,255,0.3),
-      0 0 140px rgba(0,229,255,0.1);
-  }
-}
-
-@keyframes logoGlitch {
-  0%, 85%, 100% { text-shadow: 0 0 10px rgba(0,229,255,0.8), 0 0 30px rgba(0,229,255,0.4); transform: none; }
-  87% { text-shadow: 3px 0 var(--pink), -3px 0 var(--green); transform: translateX(-2px); }
-  89% { text-shadow: -3px 0 var(--cyan), 3px 0 var(--pink); transform: translateX(2px); }
-  91% { text-shadow: 0 0 20px rgba(0,229,255,1), 0 0 50px rgba(0,229,255,0.6); transform: none; }
-}
-
-.staff7-tagline {
-  font-size: 11px;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: var(--cyan);
-  margin-bottom: 24px;
-  opacity: 0.7;
-}
-
-.staff7-desc {
-  font-size: 13px;
-  color: var(--text2);
-  line-height: 1.8;
-  max-width: 360px;
-}
-
-.staff7-desc b {
-  color: var(--text);
-  font-weight: 400;
-}
-
-.staff7-metrics {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-  margin-bottom: 28px;
-}
-
-.staff7-metric {
-  padding: 16px;
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: 3px;
-  transition: border-color 0.2s;
-}
-
-.staff7-featured:hover .staff7-metric {
-  border-color: rgba(0,229,255,0.2);
-}
-
-.staff7-metric-val {
-  font-size: 22px;
-  font-weight: 700;
-  color: var(--cyan);
-  letter-spacing: -1px;
-  line-height: 1;
-  margin-bottom: 4px;
-}
-
-.staff7-metric-label {
-  font-size: 9px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--text2);
-}
-
-/* ── MAIN HTML ── */
 </style>
 </head>
 <body>
@@ -937,37 +1006,97 @@ footer span { color: var(--green); }
 
   <div class="projects-grid">
 
-    <!-- ── STAFF7 FEATURED ── -->
-    <div class="staff7-featured" onclick="window.open('https://staffd.pages.dev/', '_blank')">
-      <div class="staff7-left">
+    <!-- ══════════════════════════════════════════ -->
+    <!-- ── EVENT7 FEATURED (first) ────────────── -->
+    <!-- ══════════════════════════════════════════ -->
+    <div class="featured-card event7-featured" onclick="window.open('https://github.com/KTCrisis/event7', '_blank')">
+      <div class="featured-left">
+        <div class="card-cat" style="margin-bottom:20px;">// <span>SaaS · Schema Registry · Governance · Multi-Provider</span></div>
+        <div class="featured-logo event7-logo">
+          <span class="e-event">event</span><span class="e-seven">7</span>
+        </div>
+        <div class="featured-tagline">Schema Registry Governance Platform</div>
+        <p class="featured-desc">
+          <span data-en="Universal governance layer for Schema Registries. Tags, ownership, classification, diff viewer, AsyncAPI, references graph and AI agent — provider-agnostic. Confluent Compatible · Open-core." data-fr="Couche de gouvernance universelle pour Schema Registries. Tags, ownership, classification, diff viewer, AsyncAPI, graphe de références et agent IA — provider-agnostique. Confluent Compatible · Open-core.">Universal governance layer for Schema Registries. <b>Tags</b>, <b>ownership</b>, <b>classification</b>, <b>diff viewer</b>, <b>AsyncAPI</b>, <b>references graph</b> and <b>AI agent</b> — provider-agnostic. Confluent Compatible · Open-core.</span>
+        </p>
+      </div>
+      <div class="featured-right">
+        <div>
+          <span class="card-status status-live" style="margin-bottom:24px; display:inline-block;">● live</span>
+          <div class="featured-metrics">
+            <div class="featured-metric">
+              <div class="featured-metric-val">4</div>
+              <div class="featured-metric-label">SR Providers</div>
+            </div>
+            <div class="featured-metric">
+              <div class="featured-metric-val">AI</div>
+              <div class="featured-metric-label">Schema Agent</div>
+            </div>
+            <div class="featured-metric">
+              <div class="featured-metric-val">SaaS</div>
+              <div class="featured-metric-label">+ On-Prem / GKE</div>
+            </div>
+            <div class="featured-metric">
+              <div class="featured-metric-val">OSS</div>
+              <div class="featured-metric-label">Apache 2.0 Open-Core</div>
+            </div>
+          </div>
+          <div class="card-stack" style="margin-bottom: 24px;">
+            <span class="stack-tag">Next.js</span>
+            <span class="stack-tag">FastAPI</span>
+            <span class="stack-tag">Supabase</span>
+            <span class="stack-tag">Confluent</span>
+            <span class="stack-tag">Apicurio</span>
+            <span class="stack-tag">Redpanda</span>
+            <span class="stack-tag">Karapace</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <a href="https://github.com/KTCrisis/event7" target="_blank" class="card-btn" style="border-color: var(--teal-light); color: var(--teal-light); background: rgba(13,148,136,0.05);" onclick="event.stopPropagation()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.385-1.335-1.755-1.335-1.755-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12z"/></svg>
+            GitHub
+          </a>
+          <a href="https://github.com/KTCrisis/event7/blob/main/ARCHITECTURE.md" target="_blank" class="card-btn card-btn-github" style="border-color: var(--teal-light); color: var(--teal-light);" onclick="event.stopPropagation()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+            Docs
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════ -->
+    <!-- ── STAFF7 FEATURED (second) ───────────── -->
+    <!-- ══════════════════════════════════════════ -->
+    <div class="featured-card staff7-featured" onclick="window.open('https://staffd.pages.dev/', '_blank')">
+      <div class="featured-left">
         <div class="card-cat" style="margin-bottom:20px;">// <span>SaaS · Staffing · Capacity · Margin · AI</span></div>
-        <div class="staff7-logo">
+        <div class="featured-logo staff7-logo">
           <span class="s-staff">staff</span><span class="s-seven">7</span>
         </div>
-        <div class="staff7-tagline">AI-Native Professional Services Platform</div>
-        <p class="staff7-desc">
+        <div class="featured-tagline">AI-Native Professional Services Platform</div>
+        <p class="featured-desc">
           <span data-en="Staffing, capacity and margin platform for consulting firms and agencies. Connects skills, assignments, timesheets and financials in real time — with an AI copilot connected to live data. Multi-tenant · RLS · Edge-deployed." data-fr="Plateforme de staffing, capacité et marge pour ESN et agences. Relie compétences, affectations, timesheets et financials en temps réel — avec un copilote IA connecté aux données live. Multi-tenant · RLS · Edge-deployed.">Staffing, capacity and margin platform for consulting firms and agencies. Connects <b>skills</b>, <b>assignments</b>, <b>timesheets</b> and <b>financials</b> in real time — with an AI copilot connected to live data. Multi-tenant · RLS · Edge-deployed.</span>
         </p>
       </div>
-      <div class="staff7-right">
+      <div class="featured-right">
         <div>
           <span class="card-status status-live" style="margin-bottom:24px; display:inline-block;">● live</span>
-          <div class="staff7-metrics">
-            <div class="staff7-metric">
-              <div class="staff7-metric-val">100%</div>
-              <div class="staff7-metric-label">Multi-tenant RLS</div>
+          <div class="featured-metrics">
+            <div class="featured-metric">
+              <div class="featured-metric-val">100%</div>
+              <div class="featured-metric-label">Multi-tenant RLS</div>
             </div>
-            <div class="staff7-metric">
-              <div class="staff7-metric-val">AI</div>
-              <div class="staff7-metric-label">Live Supabase context</div>
+            <div class="featured-metric">
+              <div class="featured-metric-val">AI</div>
+              <div class="featured-metric-label">Live Supabase context</div>
             </div>
-            <div class="staff7-metric">
-              <div class="staff7-metric-val">Edge</div>
-              <div class="staff7-metric-label">Cloudflare / OpenNext</div>
+            <div class="featured-metric">
+              <div class="featured-metric-val">Edge</div>
+              <div class="featured-metric-label">Cloudflare / OpenNext</div>
             </div>
-            <div class="staff7-metric">
-              <div class="staff7-metric-val">EN/FR</div>
-              <div class="staff7-metric-label">i18n next-intl</div>
+            <div class="featured-metric">
+              <div class="featured-metric-val">EN/FR</div>
+              <div class="featured-metric-label">i18n next-intl</div>
             </div>
           </div>
           <div class="card-stack" style="margin-bottom: 24px;">
@@ -980,7 +1109,7 @@ footer span { color: var(--green); }
           </div>
         </div>
         <div class="card-actions">
-          <a href="https://staffd.pages.dev/" target="_blank" class="card-btn" style="border-color: var(--cyan); color: var(--cyan); background: rgba(0,229,255,0.05);" onclick="event.stopPropagation()">
+          <a href="https://staffd.pages.dev/" target="_blank" class="card-btn" style="border-color: var(--green); color: var(--green); background: rgba(0,255,136,0.05);" onclick="event.stopPropagation()">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
             Live Demo
           </a>
@@ -996,7 +1125,7 @@ footer span { color: var(--green); }
       </div>
     </div>
 
-
+    <!-- ── astroGenAI ── -->
     <div class="project-card card-accent-pink" onclick="window.open('https://github.com/KTCrisis/astrogenai','_blank')" style="cursor:pointer;">
       <div class="card-cat">// <span>AI · Astrology · Video</span></div>
       <span class="card-status status-live">● live</span>
@@ -1027,24 +1156,7 @@ footer span { color: var(--green); }
       </div>
     </div>
 
-    <div class="project-card card-accent-cyan">
-      <div class="card-cat">// <span>Event Streaming · Governance</span></div>
-      <span class="card-status status-poc">◎ poc</span>
-      <div class="card-title">event7</div>
-      <div class="card-desc">
-        Proof of concept on data governance in event streaming.
-        Schema registry, data lineage, compliance and observability
-        on Confluent Kafka architecture.
-      </div>
-      <div class="card-stack">
-        <span class="stack-tag">Confluent</span>
-        <span class="stack-tag">Kafka</span>
-        <span class="stack-tag">Schema Registry</span>
-        <span class="stack-tag">Python</span>
-      </div>
-    </div>
-
-
+    <!-- ── Agentic AI Lab ── -->
     <div class="project-card card-accent-pink">
       <div class="card-cat">// <span>AI · Agents · Orchestration</span></div>
       <span class="card-status status-wip">◐ wip</span>
@@ -1179,12 +1291,19 @@ footer span { color: var(--green); }
           </div>
           <span class="link-arrow">→</span>
         </a>
-        <a href="https://staffd.pages.dev/" target="_blank" class="about-link" style="border-bottom: 1px solid rgba(0,229,255,0.15); background: rgba(0,229,255,0.02); padding: 14px 8px; border-radius: 3px; margin: -2px 0;">
+        <a href="https://github.com/KTCrisis/event7" target="_blank" class="about-link" style="border-bottom: 1px solid rgba(13,148,136,0.2); background: rgba(13,148,136,0.03); padding: 14px 8px; border-radius: 3px; margin: -2px 0;">
           <div>
-            <div class="link-label" style="color: var(--cyan);">staff<span style="color: var(--cyan); text-shadow: 0 0 8px rgba(0,229,255,0.8);">7</span></div>
+            <div class="link-label" style="color: var(--teal-light);">event<span style="color: var(--teal-light); text-shadow: 0 0 8px rgba(13,148,136,0.8);">7</span></div>
+            <div class="link-sub">Schema Registry Governance Platform · <span style="color: rgba(0,255,136,0.6);">● live</span></div>
+          </div>
+          <span class="link-arrow" style="color: var(--teal-light);">→</span>
+        </a>
+        <a href="https://staffd.pages.dev/" target="_blank" class="about-link" style="border-bottom: 1px solid rgba(0,255,136,0.15); background: rgba(0,255,136,0.02); padding: 14px 8px; border-radius: 3px; margin: -2px 0;">
+          <div>
+            <div class="link-label" style="color: var(--green);">staff<span style="color: var(--green); text-shadow: 0 0 8px rgba(0,255,136,0.8);">7</span></div>
             <div class="link-sub">AI-Native Professional Services Automation · <span style="color: rgba(0,255,136,0.6);">● live</span></div>
           </div>
-          <span class="link-arrow" style="color: var(--cyan);">→</span>
+          <span class="link-arrow" style="color: var(--green);">→</span>
         </a>
         <a href="/cdn-cgi/l/email-protection#3b5d574e430c5a494f7b5c565a525715585456" class="about-link">
           <div>
@@ -1204,7 +1323,6 @@ footer span { color: var(--green); }
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 
-  
 // ── CURSOR GLOW ──
 const glow = document.getElementById('cursor-glow');
 document.addEventListener('mousemove', e => {
@@ -1322,7 +1440,7 @@ const observer = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.1 });
 
-document.querySelectorAll('.project-card, .staff7-featured').forEach(el => {
+document.querySelectorAll('.project-card, .featured-card').forEach(el => {
   el.style.opacity = '0';
   el.style.transform = 'translateY(24px)';
   el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';

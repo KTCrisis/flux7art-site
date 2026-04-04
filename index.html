@@ -197,6 +197,8 @@ section { position: relative; z-index: 1; }
 .e7-logo .e-seven { color: var(--teal-light); text-shadow: 0 0 10px rgba(13,148,136,0.8), 0 0 30px rgba(13,148,136,0.4); animation: event7Pulse 2.5s ease-in-out infinite; }
 .s7-logo .s-staff { color: #fff; }
 .s7-logo .s-seven { color: var(--green); text-shadow: 0 0 10px rgba(0,255,136,0.8), 0 0 30px rgba(0,255,136,0.4); animation: staff7Pulse 2.5s ease-in-out infinite; }
+.am-logo .am-agent { color: #fff; }
+.am-logo .am-mesh { color: var(--purple); text-shadow: 0 0 10px rgba(168,85,247,0.8), 0 0 30px rgba(168,85,247,0.4); animation: amPulse 2.5s ease-in-out infinite; }
 
 .astro-logo-wrap-v2 { display: flex; align-items: center; gap: 12px; }
 .astro-logo-img-v2 { width: 48px; height: 48px; border-radius: 10px; border: 1px solid rgba(255,45,107,0.3); object-fit: cover; box-shadow: 0 0 16px rgba(255,45,107,0.15); }
@@ -209,6 +211,10 @@ section { position: relative; z-index: 1; }
 @keyframes staff7Pulse {
   0%, 100% { text-shadow: 0 0 10px rgba(0,255,136,0.8), 0 0 30px rgba(0,255,136,0.4), 0 0 60px rgba(0,255,136,0.2); }
   50% { text-shadow: 0 0 20px rgba(0,255,136,1), 0 0 50px rgba(0,255,136,0.6), 0 0 100px rgba(0,255,136,0.3); }
+}
+@keyframes amPulse {
+  0%, 100% { text-shadow: 0 0 10px rgba(168,85,247,0.8), 0 0 30px rgba(168,85,247,0.4), 0 0 60px rgba(168,85,247,0.2); }
+  50% { text-shadow: 0 0 20px rgba(168,85,247,1), 0 0 50px rgba(168,85,247,0.6), 0 0 100px rgba(168,85,247,0.3); }
 }
 @keyframes featuredLine {
   0%, 100% { opacity: 0.4; transform: scaleX(0.8); }
@@ -425,7 +431,7 @@ footer span { color: var(--green); }
           <div class="flip-cat">// <span>OSS · AI Governance · MCP · Proxy</span></div>
           <span class="flip-status status-live">● live</span>
           <div class="flip-logo-area">
-            <div class="flip-logo-text" style="font-size:28px;letter-spacing:-1px;"><span style="color:var(--purple);">agent</span><span style="color:var(--text2);">-mesh</span></div>
+            <div class="flip-logo-text am-logo"><span class="am-agent">agent</span><span class="am-mesh">-mesh</span></div>
           </div>
           <div class="flip-tagline">Guardrails for AI Agents</div>
           <p class="flip-desc" data-en="Lightweight policy and tracing layer for AI agent tool calls. Controls what agents can do with MCP servers, REST APIs, and tools — without changing agent code. One binary, one YAML." data-fr="Couche de gouvernance et de trace pour les appels d'outils des agents AI. Controle ce que les agents peuvent faire avec les MCP servers, APIs REST et outils — sans changer le code agent.">Lightweight policy and tracing layer for AI agent tool calls. Controls what agents can do with <b>MCP servers</b>, <b>REST APIs</b>, and <b>tools</b> — without changing agent code.</p>

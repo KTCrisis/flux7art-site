@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Middleware vs Sidecar: two ways to govern AI agents — flux7.art</title>
+<meta name="description" content="Comparing Microsoft Agent Governance Toolkit (middleware) and agent-mesh (sidecar proxy) — two architectures for governing AI agent tool calls, mapped against the OWASP Agentic Top 10.">
+<link rel="canonical" href="https://flux7.art/blog/middleware-vs-sidecar.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' font-size='80' font-family='monospace' font-weight='bold' fill='%23ff2d6b'>7</text></svg>">
+<style>
+:root {
+  --bg:      #060a06;
+  --bg2:     #0c120c;
+  --bg3:     #111811;
+  --green:   #00ff88;
+  --pink:    #ff2d6b;
+  --cyan:    #00e5ff;
+  --gold:    #ffd166;
+  --purple:  #a855f7;
+  --teal:    #0d9488;
+  --dim:     #2a3a2a;
+  --text:    #b8ccb8;
+  --text2:   #5a7a5a;
+  --border:  #1a2a1a;
+  --font:    'JetBrains Mono', monospace;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── SCANLINES ── */
+body::after {
+  content: ''; position: fixed; inset: 0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.07) 2px, rgba(0,0,0,0.07) 4px);
+  pointer-events: none; z-index: 9999;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 40px;
+  background: linear-gradient(to bottom, rgba(6,10,6,0.95), transparent);
+  backdrop-filter: blur(2px);
+}
+.nav-logo { font-size: 18px; font-weight: 700; color: var(--green); text-decoration: none; letter-spacing: -0.5px; }
+.nav-logo span { color: var(--pink); }
+.nav-links { display: flex; gap: 32px; list-style: none; }
+.nav-links a {
+  color: var(--text2); text-decoration: none; font-size: 12px;
+  letter-spacing: 2px; text-transform: uppercase; transition: color 0.2s; position: relative;
+}
+.nav-links a::after {
+  content: ''; position: absolute; bottom: -4px; left: 0;
+  width: 0; height: 1px; background: var(--green); transition: width 0.2s;
+}
+.nav-links a:hover { color: var(--green); }
+.nav-links a:hover::after { width: 100%; }
+.nav-links a.active { color: var(--green); }
+.nav-links a.active::after { width: 100%; }
+
+/* ── ARTICLE ── */
+.article-wrapper {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 120px 40px 80px;
+  position: relative;
+  z-index: 1;
+}
+
+.article-meta {
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--text2);
+  margin-bottom: 12px;
+}
+.article-meta .tag {
+  color: var(--purple);
+  border: 1px solid rgba(168,85,247,0.3);
+  padding: 2px 8px;
+  border-radius: 2px;
+  margin-right: 12px;
+}
+.article-meta .date { color: var(--text2); }
+
+.article-title {
+  font-size: clamp(28px, 5vw, 42px);
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -1.5px;
+  line-height: 1.15;
+  margin-bottom: 24px;
+}
+.article-title em { font-style: normal; color: var(--purple); }
+
+.article-subtitle {
+  font-size: 13px;
+  color: var(--text2);
+  line-height: 1.8;
+  margin-bottom: 48px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--border);
+}
+
+/* ── PROSE ── */
+.prose h2 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.5px;
+  margin: 48px 0 20px;
+  padding-top: 16px;
+}
+.prose h2::before {
+  content: '// ';
+  color: var(--purple);
+  font-weight: 400;
+}
+
+.prose p {
+  font-size: 13px;
+  line-height: 1.9;
+  color: var(--text);
+  margin-bottom: 18px;
+}
+
+.prose strong { color: #fff; font-weight: 600; }
+.prose em { color: var(--cyan); font-style: normal; }
+
+.prose a {
+  color: var(--purple);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(168,85,247,0.3);
+  transition: border-color 0.2s;
+}
+.prose a:hover { border-color: var(--purple); }
+
+.prose ul, .prose ol {
+  margin: 0 0 18px 20px;
+  font-size: 13px;
+  line-height: 1.9;
+}
+.prose li { margin-bottom: 6px; }
+.prose li::marker { color: var(--purple); }
+
+.prose blockquote {
+  border-left: 2px solid var(--purple);
+  padding: 12px 20px;
+  margin: 24px 0;
+  background: rgba(168,85,247,0.03);
+  border-radius: 0 4px 4px 0;
+}
+.prose blockquote p { color: var(--text2); margin-bottom: 0; font-style: italic; }
+
+.prose code {
+  font-family: var(--font);
+  font-size: 12px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  padding: 1px 6px;
+  border-radius: 2px;
+  color: var(--green);
+}
+
+.prose pre {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 20px;
+  margin: 24px 0;
+  overflow-x: auto;
+  font-size: 12px;
+  line-height: 1.7;
+}
+.prose pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--text);
+}
+
+/* ── TABLES ── */
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 24px 0;
+  font-size: 11px;
+}
+.prose th {
+  text-align: left;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--purple);
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg2);
+}
+.prose td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  line-height: 1.6;
+  vertical-align: top;
+}
+.prose tr:hover td { background: rgba(168,85,247,0.02); }
+
+/* ── DIVIDER ── */
+.prose hr {
+  border: none;
+  height: 1px;
+  background: var(--border);
+  margin: 48px 0;
+}
+
+/* ── FOOTER NOTE ── */
+.article-footer {
+  margin-top: 48px;
+  padding-top: 32px;
+  border-top: 1px solid var(--border);
+  font-size: 12px;
+  color: var(--text2);
+  line-height: 1.8;
+}
+.article-footer a { color: var(--purple); text-decoration: none; border-bottom: 1px solid rgba(168,85,247,0.3); }
+.article-footer a:hover { border-color: var(--purple); }
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 32px;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text2);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.back-link:hover { color: var(--green); }
+
+/* ── FOOTER ── */
+footer {
+  text-align: center;
+  padding: 40px;
+  border-top: 1px solid var(--border);
+  font-size: 10px;
+  color: var(--text2);
+  letter-spacing: 2px;
+  position: relative;
+  z-index: 1;
+}
+footer span { color: var(--green); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  nav { padding: 16px 20px; }
+  .nav-links { gap: 20px; }
+  .article-wrapper { padding: 100px 20px 60px; }
+  .prose table { font-size: 10px; }
+  .prose th, .prose td { padding: 8px 6px; }
+}
+@media (max-width: 500px) {
+  .nav-links { display: none; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">flux<span>7</span>.art</a>
+  <div style="display:flex;align-items:center;">
+    <ul class="nav-links">
+      <li><a href="/#projects">Projects</a></li>
+      <li><a href="/#lab">Lab</a></li>
+      <li><a href="/#music">Music</a></li>
+      <li><a href="/#stack">Stack</a></li>
+      <li><a href="/blog/" class="active">Blog</a></li>
+      <li><a href="/#about">About</a></li>
+    </ul>
+  </div>
+</nav>
+
+<article class="article-wrapper">
+  <div class="article-meta">
+    <span class="tag">agent governance</span>
+    <span class="date">April 6, 2026</span>
+  </div>
+
+  <h1 class="article-title">Middleware vs Sidecar: two ways to govern <em>AI agents</em></h1>
+
+  <p class="article-subtitle">
+    Comparing Microsoft's Agent Governance Toolkit and agent-mesh &mdash; two open-source architectures for the same problem, mapped against the OWASP Agentic Top 10.
+  </p>
+
+  <div class="prose">
+
+    <p>I've spent the last decade building governance layers &mdash; schema registries for Kafka, policies for Kong, contract validation for event-driven systems. Always the same job: sit between components, enforce rules, keep a trace.</p>
+
+    <p>When I started running multiple AI agents (Claude Code, Cursor, custom LangChain bots), I noticed the same gap I'd seen before. Every agent has some permission model. None of them talk to each other. No shared policy. No unified trace. Sound familiar? It's 2018 microservices all over again, before service meshes became a thing.</p>
+
+    <p>So I built <a href="https://github.com/KTCrisis/agent-mesh">agent-mesh</a> &mdash; a sidecar proxy for agent tool calls. YAML policy, centralized traces, per-agent identity. One Go binary, works with anything that speaks MCP or HTTP.</p>
+
+    <p>Four days ago, Microsoft dropped the <a href="https://github.com/microsoft/agent-governance-toolkit">Agent Governance Toolkit</a>. Open-source, MIT. Same problem space. Different architecture.</p>
+
+    <p>Worth comparing honestly &mdash; especially now that OWASP gave us a shared vocabulary for what "agent security" actually means.</p>
+
+    <blockquote><p>Full disclosure: Microsoft AGT dropped while I was already building agent-mesh. I hadn't mapped against OWASP until I saw their claim of covering all 10. That comparison forced me to think harder about what a sidecar actually covers &mdash; and what it doesn't.</p></blockquote>
+
+    <h2>The two approaches</h2>
+
+    <p><strong>Microsoft AGT</strong> is a middleware. It runs <em>inside</em> your agent's process &mdash; Python callbacks for LangChain, decorators for CrewAI, plugins for ADK. Sub-millisecond policy checks. Deep integration. You add a few lines of code and your agent is governed.</p>
+
+    <p><strong>agent-mesh</strong> is a sidecar proxy. It runs <em>next to</em> your agents &mdash; intercepts tool calls at the MCP/HTTP level. No code changes. Your agent points to agent-mesh instead of the real backend. Agent-mesh checks the policy, logs the trace, forwards or denies.</p>
+
+    <p>If you've worked with API gateways, you already know this pattern. Microsoft AGT is Express middleware. agent-mesh is Envoy.</p>
+
+    <h2>When each approach wins</h2>
+
+    <p>Middleware wins when:</p>
+    <ul>
+      <li>You own the agent's code</li>
+      <li>You're all-in on one framework (LangChain, CrewAI, Semantic Kernel)</li>
+      <li>You want sub-millisecond overhead</li>
+      <li>Your agents are Python or .NET</li>
+    </ul>
+
+    <p>Sidecar wins when:</p>
+    <ul>
+      <li>You run heterogeneous agents (CLI tools + frameworks + custom bots)</li>
+      <li>You can't or won't modify agent code</li>
+      <li>You want one YAML policy for all agents</li>
+      <li>Your agents are Claude Code, Cursor, Gemini CLI, or anything MCP-native</li>
+    </ul>
+
+    <p>That last point matters. Claude Code, Cursor, Gemini CLI, Cline, OpenCode &mdash; none of these expose Python callback hooks. Microsoft AGT can't govern them. A sidecar proxy can, because it operates at the protocol level.</p>
+
+    <h2>What about LangChain and CrewAI?</h2>
+
+    <p>LangChain has LangSmith Fleet &mdash; agent identity, permissions, sandboxes. Real features. But scoped to LangChain. If you also run Claude Code and a custom HTTP agent, LangSmith doesn't see them.</p>
+
+    <p>CrewAI has task guardrails &mdash; validation after the agent produces output. That's quality control, not governance. You can't block a dangerous action before it happens.</p>
+
+    <p>Neither provides cross-agent policy-as-code.</p>
+
+    <h2>What about Kong, Gravitee, Apigee?</h2>
+
+    <p>Different layer entirely. These are AI gateways &mdash; they govern north-south traffic between your apps and LLMs. Rate limiting, PII redaction, semantic routing, model abstraction. Important stuff, but not the same problem.</p>
+
+    <p>They don't know which <em>agent</em> made the call, don't enforce <em>action-level</em> policy (allow <code>create_issue</code>, deny <code>delete_repo</code>), and don't differentiate permissions per agent identity.</p>
+
+    <p>Gateways and governance meshes are complementary. You can run Gravitee in front for LLM routing and agent-mesh behind for tool call governance. Different layers, different jobs.</p>
+
+    <pre><code>Agent CLI / Framework
+      |
+  AI Gateway (Kong/Gravitee/Apigee)  &larr; LLM routing, PII, rate limits
+      |
+  Governance Mesh (agent-mesh)       &larr; semantic policy, agent identity, trace
+      |
+  Tools (GitHub, DB, APIs)</code></pre>
+
+    <h2>Mapping to OWASP Agentic Top 10</h2>
+
+    <p>OWASP published the <a href="https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/">Top 10 for Agentic Applications</a> &mdash; the first serious attempt at cataloging what can go wrong when AI agents act in the real world. It's peer-reviewed by 100+ security researchers. If you build or run agents, you should read it.</p>
+
+    <p>Here's how the landscape maps against it:</p>
+
+    <table>
+      <thead>
+        <tr><th>OWASP Risk</th><th>What it means</th><th>Who covers it</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>ASI01 &mdash; Goal Hijacking</strong></td><td>Poisoned input redirects agent objectives</td><td>Prompt-level defenses (none of the governance tools)</td></tr>
+        <tr><td><strong>ASI02 &mdash; Tool Misuse</strong></td><td>Agent uses tools in unintended ways</td><td><strong>agent-mesh</strong> (semantic policy on params), <strong>Microsoft AGT</strong> (action interception)</td></tr>
+        <tr><td><strong>ASI03 &mdash; Identity &amp; Privilege Abuse</strong></td><td>Agent abuses its tokens, roles, sessions</td><td><strong>agent-mesh</strong> (per-agent identity, temporal grants), <strong>Microsoft AGT</strong> (zero-trust Ed25519)</td></tr>
+        <tr><td><strong>ASI04 &mdash; Delegated Trust</strong></td><td>Blind trust between agents</td><td><strong>agent-mesh</strong> (policy-as-code between agents), <strong>Microsoft AGT</strong> (trust scoring)</td></tr>
+        <tr><td><strong>ASI05 &mdash; Uncontrolled Autonomy</strong></td><td>Critical decisions without human validation</td><td><strong>agent-mesh</strong> (human approval workflow), CLI tools (approval prompts)</td></tr>
+        <tr><td><strong>ASI06 &mdash; Memory Poisoning</strong></td><td>Persistent memory poisoned with malicious data</td><td>Not directly addressed &mdash; needs runtime sandboxing</td></tr>
+        <tr><td><strong>ASI07 &mdash; Multi-Agent Comms</strong></td><td>Inter-agent communication not secured</td><td><strong>agent-mesh</strong> (JWT auth on sidecar), <strong>Microsoft AGT</strong> (Agent Mesh component)</td></tr>
+        <tr><td><strong>ASI08 &mdash; Cascading Failures</strong></td><td>One agent failing triggers a chain reaction</td><td><strong>agent-mesh</strong> (rate limiting, loop detection), gateways (circuit breaking)</td></tr>
+        <tr><td><strong>ASI09 &mdash; Emergent Behavior</strong></td><td>Agent develops unanticipated behavior</td><td>Observability + traces (LangSmith, agent-mesh, Microsoft AGT audit)</td></tr>
+        <tr><td><strong>ASI10 &mdash; Rogue Agents</strong></td><td>Compromised agent diverges from intended behavior</td><td><strong>agent-mesh</strong> (deny-by-default), <strong>Microsoft AGT</strong> (trust scoring)</td></tr>
+      </tbody>
+    </table>
+
+    <p>A few things stand out:</p>
+
+    <p><strong>No single tool covers everything.</strong> ASI01 (goal hijacking) is a prompt-level problem &mdash; no governance proxy or middleware can fix it. ASI06 (memory poisoning) needs runtime isolation, not policy.</p>
+
+    <p><strong>The middleware vs sidecar split shows up clearly.</strong> Microsoft AGT and agent-mesh cover roughly the same risks (ASI02-05, ASI07-08, ASI10), but from different positions in the stack. Microsoft intercepts inside the process. agent-mesh intercepts at the protocol boundary. Same coverage, different blast radius if the governance layer itself is compromised.</p>
+
+    <p><strong>Gateways (Kong, Gravitee, Apigee) cover almost none of this.</strong> They weren't designed for it. They govern LLM traffic, not agent behavior. That's fine &mdash; it's a different layer. But if someone tells you their AI gateway handles agentic security, check which ASIs it actually addresses.</p>
+
+    <h2>The real question</h2>
+
+    <p>The agentic ecosystem is splitting into two governance models:</p>
+
+    <ol>
+      <li><strong>Framework-level</strong> &mdash; deep, fast, but locked to one stack</li>
+      <li><strong>Protocol-level</strong> &mdash; universal, zero code change, but adds a hop</li>
+    </ol>
+
+    <p>My bet is that protocol-level wins long-term. The same way Envoy won over framework-specific circuit breakers &mdash; because in practice, nobody runs just one framework. You'll have Claude Code for coding, a LangChain pipeline for data, a custom agent for ops. You need one policy layer that sees all of them.</p>
+
+    <p>But I'm biased. I built the sidecar.</p>
+
+    <hr>
+
+    <div class="article-footer">
+      <p><a href="https://github.com/KTCrisis/agent-mesh">agent-mesh</a> is open-source, written in Go. One binary, one YAML config. Works with any agent that speaks MCP or HTTP.</p>
+
+      <a href="/blog/" class="back-link">&larr; back to blog</a>
+    </div>
+
+  </div>
+</article>
+
+<footer>
+  <span>flux7.art</span> &mdash; built and deployed on cloudflare &middot; 2026
+</footer>
+
+</body>
+</html>

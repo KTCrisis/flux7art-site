@@ -239,15 +239,6 @@ section { position: relative; z-index: 1; }
 .tool-info .tool-name { font-size: 13px; color: #fff; font-weight: 600; margin-bottom: 2px; }
 .tool-info .tool-desc { font-size: 10px; color: var(--text2); letter-spacing: 0.5px; }
 
-/* ── STACK SECTION ── */
-#stack { padding: 120px 40px; max-width: 1200px; margin: 0 auto; }
-.stack-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; margin-top: 60px; }
-.stack-item { padding: 20px; background: var(--bg2); border: 1px solid var(--border); border-radius: 4px; transition: all 0.2s; }
-.stack-item:hover { border-color: var(--cyan); background: var(--bg3); }
-.stack-item:hover .stack-item-name { color: var(--cyan); }
-.stack-item-cat { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--text2); margin-bottom: 8px; }
-.stack-item-name { font-size: 15px; font-weight: 700; color: #fff; transition: color 0.2s; }
-
 /* ── ABOUT / FOOTER ── */
 #about { padding: 120px 40px 60px; background: var(--bg2); border-top: 1px solid var(--border); }
 .about-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
@@ -312,7 +303,6 @@ footer span { color: var(--green); }
       <li><a href="#projects">Projects</a></li>
       <li><a href="#lab">Lab</a></li>
       <li><a href="#music">Music</a></li>
-      <li><a href="#stack">Stack</a></li>
       <li><a href="/blog/">Blog</a></li>
       <li><a href="#about">About</a></li>
     </ul>
@@ -532,26 +522,6 @@ footer span { color: var(--green); }
   </div>
 </section>
 
-<section id="stack">
-  <div class="section-header">
-    <span class="section-num">04 //</span>
-    <h2 class="section-title">Stack</h2>
-    <div class="section-line"></div>
-  </div>
-  <div class="stack-grid">
-    <div class="stack-item"><div class="stack-item-cat">streaming</div><div class="stack-item-name">Confluent Kafka</div></div>
-    <div class="stack-item"><div class="stack-item-cat">streaming</div><div class="stack-item-name">Apache Pulsar</div></div>
-    <div class="stack-item"><div class="stack-item-cat">gateway</div><div class="stack-item-name">Kong</div></div>
-    <div class="stack-item"><div class="stack-item-cat">backend</div><div class="stack-item-name">FastAPI</div></div>
-    <div class="stack-item"><div class="stack-item-cat">language</div><div class="stack-item-name">Python</div></div>
-    <div class="stack-item"><div class="stack-item-cat">ai · local</div><div class="stack-item-name">Ollama</div></div>
-    <div class="stack-item"><div class="stack-item-cat">ai · model</div><div class="stack-item-name">Claude/MiniMax</div></div>
-    <div class="stack-item"><div class="stack-item-cat">ai · agent</div><div class="stack-item-name">LangGraph/Openclaw</div></div>
-    <div class="stack-item"><div class="stack-item-cat">ai · proto</div><div class="stack-item-name">MCP</div></div>
-    <div class="stack-item"><div class="stack-item-cat">music</div><div class="stack-item-name">Renoise</div></div>
-    <div class="stack-item"><div class="stack-item-cat">video</div><div class="stack-item-name">ComfyUI</div></div>
-  </div>
-</section>
 
 <section id="about">
   <div class="about-inner">

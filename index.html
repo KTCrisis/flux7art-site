@@ -98,7 +98,9 @@ section { position: relative; z-index: 1; }
 .hero-tags { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 36px; opacity: 0; animation: fadeUp 0.6s ease 0.8s forwards; }
 .htag { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; padding: 5px 14px; border: 1px solid var(--border); border-radius: 2px; color: var(--text2); transition: all 0.2s; }
 .htag:hover { border-color: var(--green); color: var(--green); background: rgba(0,255,136,0.05); }
-.scroll-hint { position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%); font-size: 10px; letter-spacing: 3px; color: var(--text2); text-transform: uppercase; opacity: 0; animation: fadeUp 0.6s ease 1.2s forwards; }
+.scroll-hint { position: absolute; bottom: 36px; left: 0; right: 0; text-align: center; font-size: 10px; letter-spacing: 3px; color: var(--text2); text-transform: uppercase; opacity: 0; animation: fadeUp 0.6s ease 1.2s forwards; }
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+.log-cursor { animation: blink 1s step-end infinite; color: var(--purple); }
 .scroll-hint::after { content: ''; display: block; width: 1px; height: 36px; background: linear-gradient(to bottom, var(--text2), transparent); margin: 10px auto 0; animation: scrollLine 2s ease infinite; }
 
 /* ── PROJECT & LAB SECTIONS ── */
@@ -323,8 +325,8 @@ footer span { color: var(--green); }
   <p class="hero-sub">
     <span data-en="Building open-source tools for API, event, and AI governance." data-fr="Outils open-source pour la gouvernance des APIs, événements et agents AI.">Building open-source tools for API, event, and AI governance.</span>
   </p>
-  <a href="/blog/" style="display:inline-flex;align-items:center;gap:8px;margin-top:36px;font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--text2);text-decoration:none;border:1px solid var(--border);padding:10px 24px;border-radius:2px;transition:all 0.2s;opacity:0;animation:fadeUp 0.6s ease 0.8s forwards;" onmouseover="this.style.borderColor='var(--purple)';this.style.color='var(--purple)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text2)'">
-    <span data-en="// log" data-fr="// log">// log</span> <span style="font-size:14px;">→</span>
+  <a href="/blog/" style="display:inline-flex;align-items:center;gap:8px;margin-top:36px;font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--purple);text-decoration:none;border:1px solid rgba(168,85,247,0.4);padding:10px 24px;border-radius:2px;transition:all 0.3s;opacity:0;animation:fadeUp 0.6s ease 0.8s forwards;text-shadow:0 0 12px rgba(168,85,247,0.4);" onmouseover="this.style.borderColor='var(--purple)';this.style.textShadow='0 0 20px rgba(168,85,247,0.7)';this.style.boxShadow='0 0 16px rgba(168,85,247,0.15)'" onmouseout="this.style.borderColor='rgba(168,85,247,0.4)';this.style.textShadow='0 0 12px rgba(168,85,247,0.4)';this.style.boxShadow='none'">
+    <span data-en="// log" data-fr="// log">// log</span><span class="log-cursor">_</span>
   </a>
   <div class="scroll-hint">scroll</div>
 </section>

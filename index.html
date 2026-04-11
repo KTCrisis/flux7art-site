@@ -195,6 +195,18 @@ section { position: relative; z-index: 1; }
 .flip-accent-purple .flip-back { border-color: rgba(168,85,247,0.25); }
 .flip-accent-purple .flip-back-metric-val { color: var(--purple); }
 
+.flip-accent-cyan .flip-front { border-color: rgba(0,229,255,0.22); }
+.flip-accent-cyan:hover .flip-front { border-color: rgba(0,229,255,0.55); }
+.flip-accent-cyan .flip-front::before { background: linear-gradient(90deg, transparent, var(--cyan), var(--purple), transparent); animation: featuredLine 3s ease infinite; }
+.flip-accent-cyan .flip-back { border-color: rgba(0,229,255,0.22); }
+.flip-accent-cyan .flip-back-metric-val { color: var(--cyan); }
+
+.flip-accent-gold .flip-front { border-color: rgba(255,209,102,0.25); }
+.flip-accent-gold:hover .flip-front { border-color: rgba(255,209,102,0.6); }
+.flip-accent-gold .flip-front::before { background: linear-gradient(90deg, transparent, var(--gold), var(--pink), transparent); animation: featuredLine 3s ease infinite; }
+.flip-accent-gold .flip-back { border-color: rgba(255,209,102,0.25); }
+.flip-accent-gold .flip-back-metric-val { color: var(--gold); }
+
 /* Logos */
 .e7-logo .e-event { color: #fff; }
 .e7-logo .e-seven { color: var(--teal-light); text-shadow: 0 0 10px rgba(13,148,136,0.8), 0 0 30px rgba(13,148,136,0.4); animation: event7Pulse 2.5s ease-in-out infinite; }
@@ -202,6 +214,10 @@ section { position: relative; z-index: 1; }
 .s7-logo .s-seven { color: var(--green); text-shadow: 0 0 10px rgba(0,255,136,0.8), 0 0 30px rgba(0,255,136,0.4); animation: staff7Pulse 2.5s ease-in-out infinite; }
 .am-logo .am-agent { color: #fff; }
 .am-logo .am-mesh { color: var(--purple); text-shadow: 0 0 10px rgba(168,85,247,0.8), 0 0 30px rgba(168,85,247,0.4); animation: amPulse 2.5s ease-in-out infinite; }
+.a7-logo .a-agent { color: #fff; }
+.a7-logo .a-seven { color: var(--cyan); text-shadow: 0 0 10px rgba(0,229,255,0.8), 0 0 30px rgba(0,229,255,0.4); animation: agent7Pulse 2.5s ease-in-out infinite; }
+.m7-logo .m-mem { color: #fff; }
+.m7-logo .m-seven { color: var(--gold); text-shadow: 0 0 10px rgba(255,209,102,0.8), 0 0 30px rgba(255,209,102,0.4); animation: mem7Pulse 2.5s ease-in-out infinite; }
 
 .astro-logo-wrap-v2 { display: flex; align-items: center; gap: 12px; }
 .astro-logo-img-v2 { width: 48px; height: 48px; border-radius: 10px; border: 1px solid rgba(255,45,107,0.3); object-fit: cover; box-shadow: 0 0 16px rgba(255,45,107,0.15); }
@@ -218,6 +234,14 @@ section { position: relative; z-index: 1; }
 @keyframes amPulse {
   0%, 100% { text-shadow: 0 0 10px rgba(168,85,247,0.8), 0 0 30px rgba(168,85,247,0.4), 0 0 60px rgba(168,85,247,0.2); }
   50% { text-shadow: 0 0 20px rgba(168,85,247,1), 0 0 50px rgba(168,85,247,0.6), 0 0 100px rgba(168,85,247,0.3); }
+}
+@keyframes agent7Pulse {
+  0%, 100% { text-shadow: 0 0 10px rgba(0,229,255,0.8), 0 0 30px rgba(0,229,255,0.4), 0 0 60px rgba(0,229,255,0.2); }
+  50% { text-shadow: 0 0 20px rgba(0,229,255,1), 0 0 50px rgba(0,229,255,0.6), 0 0 100px rgba(0,229,255,0.3); }
+}
+@keyframes mem7Pulse {
+  0%, 100% { text-shadow: 0 0 10px rgba(255,209,102,0.8), 0 0 30px rgba(255,209,102,0.4), 0 0 60px rgba(255,209,102,0.2); }
+  50% { text-shadow: 0 0 20px rgba(255,209,102,1), 0 0 50px rgba(255,209,102,0.6), 0 0 100px rgba(255,209,102,0.3); }
 }
 @keyframes featuredLine {
   0%, 100% { opacity: 0.4; transform: scaleX(0.8); }
@@ -431,6 +455,68 @@ footer span { color: var(--green); }
             <div class="flip-back-metric"><div class="flip-back-metric-val">MCP</div><div class="flip-back-metric-label">Import + Export</div></div>
             <div class="flip-back-metric"><div class="flip-back-metric-val">REST</div><div class="flip-back-metric-label">OpenAPI Import</div></div>
             <div class="flip-back-metric"><div class="flip-back-metric-val">57</div><div class="flip-back-metric-label">Tests</div></div>
+            <div class="flip-back-metric"><div class="flip-back-metric-val">OSS</div><div class="flip-back-metric-label">Apache 2.0</div></div>
+          </div>
+          <div class="flip-back-hint">← tap to flip</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ AGENT7 ═══ -->
+    <div class="flip-container flip-accent-cyan" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <div class="flip-cat">// <span>OSS · Management Plane · Observability</span></div>
+          <span class="flip-status status-wip">● wip</span>
+          <div class="flip-logo-area">
+            <div class="flip-logo-text a7-logo"><span class="a-agent">agent</span><span class="a-seven">7</span></div>
+          </div>
+          <div class="flip-tagline">AI Agent Governance Platform</div>
+          <p class="flip-desc" data-en="Management plane for agent-mesh. Live dashboard for tool catalogs, policies, traces and agents. Turns JSONL traces and YAML policies into a real-time governance UI." data-fr="Plan de management pour agent-mesh. Dashboard temps réel des catalogues de tools, policies, traces et agents. Transforme les traces JSONL et policies YAML en UI de gouvernance.">Management plane for <b>agent-mesh</b>. Live dashboard for <b>tool catalogs</b>, <b>policies</b>, <b>traces</b> and <b>agents</b> — JSONL + YAML become a real-time governance UI.</p>
+          <div class="flip-stack">
+            <span class="stack-tag">Next.js 16</span><span class="stack-tag">TanStack Query</span><span class="stack-tag">Go</span><span class="stack-tag">OTEL</span><span class="stack-tag">MCP</span>
+          </div>
+          <div class="flip-actions">
+            <a href="https://github.com/KTCrisis/agent7" target="_blank" class="card-btn" style="border-color:var(--cyan);color:var(--cyan);background:rgba(0,229,255,0.05);" onclick="event.stopPropagation()"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.385-1.335-1.755-1.335-1.755-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12z"/></svg> GitHub</a>
+          </div>
+          <div class="flip-hint">tap to flip →</div>
+        </div>
+        <div class="flip-back">
+          <div class="flip-back-metrics">
+            <div class="flip-back-metric"><div class="flip-back-metric-val">Live</div><div class="flip-back-metric-label">Mesh Dashboard</div></div>
+            <div class="flip-back-metric"><div class="flip-back-metric-val">OTEL</div><div class="flip-back-metric-label">Trace Viewer</div></div>
+            <div class="flip-back-metric"><div class="flip-back-metric-val">YAML</div><div class="flip-back-metric-label">Policy Editor</div></div>
+            <div class="flip-back-metric"><div class="flip-back-metric-val">OSS</div><div class="flip-back-metric-label">Apache 2.0</div></div>
+          </div>
+          <div class="flip-back-hint">← tap to flip</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ MEM7 ═══ -->
+    <div class="flip-container flip-accent-gold" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <div class="flip-cat">// <span>OSS · Memory · MCP · Governance</span></div>
+          <span class="flip-status status-live">● live</span>
+          <div class="flip-logo-area">
+            <div class="flip-logo-text m7-logo"><span class="m-mem">mem</span><span class="m-seven">7</span></div>
+          </div>
+          <div class="flip-tagline">Governed Shared Memory for AI Agents</div>
+          <p class="flip-desc" data-en="MCP server exposing a shared memory store for AI agents. Recall, store, list and forget over JSON and markdown. Built as a foundation for governed, temporal, multi-agent memory." data-fr="Serveur MCP exposant une mémoire partagée pour agents AI. Recall, store, list, forget sur JSON et markdown. Fondation pour une mémoire multi-agents gouvernée et temporelle.">MCP server exposing a shared memory store for AI agents. <b>Recall</b>, <b>store</b>, <b>list</b> and <b>forget</b> over JSON and markdown — foundation for governed, temporal, multi-agent memory.</p>
+          <div class="flip-stack">
+            <span class="stack-tag">Go</span><span class="stack-tag">MCP</span><span class="stack-tag">JSON</span><span class="stack-tag">Markdown</span>
+          </div>
+          <div class="flip-actions">
+            <a href="https://github.com/KTCrisis/mem7" target="_blank" class="card-btn" style="border-color:var(--gold);color:var(--gold);background:rgba(255,209,102,0.05);" onclick="event.stopPropagation()"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.385-1.335-1.755-1.335-1.755-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12z"/></svg> GitHub</a>
+          </div>
+          <div class="flip-hint">tap to flip →</div>
+        </div>
+        <div class="flip-back">
+          <div class="flip-back-metrics">
+            <div class="flip-back-metric"><div class="flip-back-metric-val">4</div><div class="flip-back-metric-label">MCP Tools</div></div>
+            <div class="flip-back-metric"><div class="flip-back-metric-val">v1</div><div class="flip-back-metric-label">Shipped</div></div>
+            <div class="flip-back-metric"><div class="flip-back-metric-val">Go</div><div class="flip-back-metric-label">Single Binary</div></div>
             <div class="flip-back-metric"><div class="flip-back-metric-val">OSS</div><div class="flip-back-metric-label">Apache 2.0</div></div>
           </div>
           <div class="flip-back-hint">← tap to flip</div>

@@ -13,9 +13,16 @@
 
   <url>
     <loc>https://flux7.art/blog/</loc>
-    <lastmod>2026-04-11</lastmod>
+    <lastmod>2026-04-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://flux7.art/blog/schema-governance-without-lockin.html</loc>
+    <lastmod>2026-04-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
 
   <url>

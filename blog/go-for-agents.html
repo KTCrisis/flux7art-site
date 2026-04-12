@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Go for AI agents: a field report — flux7.art</title>
+<meta name="description" content="Why I build AI agent infrastructure in Go instead of Python. Six projects, one external dependency, and what the numbers actually say.">
+<meta name="author" content="Marc Verchiani">
+<meta name="keywords" content="Go, Golang, AI agents, MCP, agent-mesh, Python, infrastructure, sidecar, proxy">
+<link rel="canonical" href="https://flux7.art/blog/go-for-agents.html">
+
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="flux7.art">
+<meta property="og:title" content="Go for AI agents: a field report">
+<meta property="og:description" content="Why I build AI agent infrastructure in Go instead of Python. Six projects, one external dependency, and what the numbers actually say.">
+<meta property="og:url" content="https://flux7.art/blog/go-for-agents.html">
+<meta property="og:image" content="https://flux7.art/img/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="article:author" content="Marc Verchiani">
+<meta property="article:published_time" content="2026-04-13">
+<meta property="article:section" content="AI Agent Infrastructure">
+<meta property="article:tag" content="Go">
+<meta property="article:tag" content="AI agents">
+<meta property="article:tag" content="MCP">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Go for AI agents: a field report">
+<meta name="twitter:description" content="Why I build AI agent infrastructure in Go instead of Python. Six projects, one external dependency.">
+<meta name="twitter:image" content="https://flux7.art/img/og.png">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Go for AI agents: a field report",
+  "description": "Why I build AI agent infrastructure in Go instead of Python. Six projects, one external dependency, and what the numbers actually say.",
+  "author": {
+    "@type": "Person",
+    "name": "Marc Verchiani",
+    "url": "https://flux7.art/"
+  },
+  "datePublished": "2026-04-13",
+  "image": "https://flux7.art/img/og.png",
+  "mainEntityOfPage": "https://flux7.art/blog/go-for-agents.html"
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<style>
+:root {
+  --bg:      #060a06;
+  --bg2:     #0c120c;
+  --bg3:     #111811;
+  --green:   #00ff88;
+  --pink:    #ff2d6b;
+  --cyan:    #00e5ff;
+  --gold:    #ffd166;
+  --purple:  #a855f7;
+  --teal:    #0d9488;
+  --dim:     #2a3a2a;
+  --text:    #b8ccb8;
+  --text2:   #5a7a5a;
+  --border:  #1a2a1a;
+  --font:    'JetBrains Mono', monospace;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── SCANLINES ── */
+body::after {
+  content: ''; position: fixed; inset: 0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.07) 2px, rgba(0,0,0,0.07) 4px);
+  pointer-events: none; z-index: 9999;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 40px;
+  background: linear-gradient(to bottom, rgba(6,10,6,0.95), transparent);
+  backdrop-filter: blur(2px);
+}
+.nav-logo { font-size: 18px; font-weight: 700; color: var(--green); text-decoration: none; letter-spacing: -0.5px; }
+.nav-logo span { color: var(--pink); }
+.nav-links { display: flex; gap: 32px; list-style: none; }
+.nav-links a {
+  color: var(--text2); text-decoration: none; font-size: 12px;
+  letter-spacing: 2px; text-transform: uppercase; transition: color 0.2s; position: relative;
+}
+.nav-links a::after {
+  content: ''; position: absolute; bottom: -4px; left: 0;
+  width: 0; height: 1px; background: var(--green); transition: width 0.2s;
+}
+.nav-links a:hover { color: var(--green); }
+.nav-links a:hover::after { width: 100%; }
+.nav-links a.active { color: var(--green); }
+.nav-links a.active::after { width: 100%; }
+
+/* ── ARTICLE ── */
+.article-wrapper {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 120px 40px 80px;
+  position: relative;
+  z-index: 1;
+}
+
+.article-meta {
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--text2);
+  margin-bottom: 12px;
+}
+.article-meta .tag {
+  color: var(--purple);
+  border: 1px solid rgba(168,85,247,0.3);
+  padding: 2px 8px;
+  border-radius: 2px;
+  margin-right: 12px;
+}
+.article-meta .date { color: var(--text2); }
+
+.article-title {
+  font-size: clamp(28px, 5vw, 42px);
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -1.5px;
+  line-height: 1.15;
+  margin-bottom: 24px;
+}
+.article-title em { font-style: normal; color: var(--cyan); }
+
+.article-subtitle {
+  font-size: 13px;
+  color: var(--text2);
+  line-height: 1.8;
+  margin-bottom: 48px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--border);
+}
+
+/* ── PROSE ── */
+.prose h2 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.5px;
+  margin: 48px 0 20px;
+  padding-top: 16px;
+}
+.prose h2::before {
+  content: '// ';
+  color: var(--purple);
+  font-weight: 400;
+}
+
+.prose p {
+  font-size: 13px;
+  line-height: 1.9;
+  color: var(--text);
+  margin-bottom: 18px;
+}
+
+.prose strong { color: #fff; font-weight: 600; }
+.prose em { color: var(--cyan); font-style: normal; }
+
+.prose a {
+  color: var(--purple);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(168,85,247,0.3);
+  transition: border-color 0.2s;
+}
+.prose a:hover { border-color: var(--purple); }
+
+.prose ul, .prose ol {
+  margin: 0 0 18px 20px;
+  font-size: 13px;
+  line-height: 1.9;
+}
+.prose li { margin-bottom: 6px; }
+.prose li::marker { color: var(--purple); }
+
+.prose blockquote {
+  border-left: 2px solid var(--purple);
+  padding: 12px 20px;
+  margin: 24px 0;
+  background: rgba(168,85,247,0.03);
+  border-radius: 0 4px 4px 0;
+}
+.prose blockquote p { color: var(--text2); margin-bottom: 0; font-style: italic; }
+
+.prose code {
+  font-family: var(--font);
+  font-size: 12px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  padding: 1px 6px;
+  border-radius: 2px;
+  color: var(--green);
+}
+
+.prose pre {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 20px;
+  margin: 24px 0;
+  overflow-x: auto;
+  font-size: 12px;
+  line-height: 1.7;
+}
+.prose pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--text);
+}
+
+/* ── TABLES ── */
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 24px 0;
+  font-size: 11px;
+}
+.prose th {
+  text-align: left;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--purple);
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg2);
+}
+.prose td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  line-height: 1.6;
+  vertical-align: top;
+}
+.prose tr:hover td { background: rgba(168,85,247,0.02); }
+
+/* ── DIVIDER ── */
+.prose hr {
+  border: none;
+  height: 1px;
+  background: var(--border);
+  margin: 48px 0;
+}
+
+/* ── FOOTER NOTE ── */
+.article-footer {
+  margin-top: 48px;
+  padding-top: 32px;
+  border-top: 1px solid var(--border);
+  font-size: 12px;
+  color: var(--text2);
+  line-height: 1.8;
+}
+.article-footer a { color: var(--purple); text-decoration: none; border-bottom: 1px solid rgba(168,85,247,0.3); }
+.article-footer a:hover { border-color: var(--purple); }
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 32px;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text2);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.back-link:hover { color: var(--green); }
+
+/* ── FOOTER ── */
+footer {
+  text-align: center;
+  padding: 40px;
+  border-top: 1px solid var(--border);
+  font-size: 10px;
+  color: var(--text2);
+  letter-spacing: 2px;
+  position: relative;
+  z-index: 1;
+}
+footer span { color: var(--green); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  nav { padding: 16px 20px; }
+  .nav-links { gap: 20px; }
+  .article-wrapper { padding: 100px 20px 60px; }
+  .prose table { font-size: 10px; }
+  .prose th, .prose td { padding: 8px 6px; }
+}
+@media (max-width: 500px) {
+  .nav-links { display: none; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">flux<span>7</span>.art</a>
+  <div style="display:flex;align-items:center;">
+    <ul class="nav-links">
+      <li><a href="/#projects">Projects</a></li>
+      <li><a href="/#lab">Lab</a></li>
+      <li><a href="/#music">Music</a></li>
+      <li><a href="/blog/" class="active">Blog</a></li>
+      <li><a href="/#about">About</a></li>
+    </ul>
+  </div>
+</nav>
+
+<article class="article-wrapper">
+  <div class="article-meta">
+    <span class="tag">infrastructure</span>
+    <span class="date">April 13, 2026</span>
+  </div>
+
+  <h1 class="article-title">Go for AI agents: <em>a field report</em></h1>
+
+  <p class="article-subtitle">
+    Six Go projects for agent infrastructure. One external dependency across four of them. Here's what worked, what didn't, and why I keep choosing Go over Python for this layer.
+  </p>
+
+  <div class="prose">
+
+    <p>The agentic AI ecosystem runs on Python. LangChain, CrewAI, AutoGen, Semantic Kernel, LlamaIndex &mdash; all Python. The SDKs are Python-first. The tutorials assume Python. If you want to build something for AI agents, the path of least resistance is <code>pip install</code>.</p>
+
+    <p>I went the other way. Over the past months I've built six agent-related projects in Go: a governance proxy, a memory server, an MCP bridge for Ollama, an autonomous research agent, an architecture diagram generator, and a management dashboard backend. This is a field report on that choice.</p>
+
+    <h2>The projects</h2>
+
+    <table>
+      <thead>
+        <tr><th>Project</th><th>What it does</th><th>Go lines</th><th>Binary</th><th>Direct deps</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong><a href="https://github.com/KTCrisis/agent-mesh">agent-mesh</a></strong></td><td>Governance proxy for agent tool calls</td><td>11,340</td><td>7.2 MB</td><td>1 (yaml.v3)</td></tr>
+        <tr><td><strong><a href="https://github.com/KTCrisis/mem7">mem7</a></strong></td><td>Shared memory MCP server</td><td>2,938</td><td>&mdash;</td><td>1 (sqlite)</td></tr>
+        <tr><td><strong><a href="https://github.com/KTCrisis/scout7">scout7</a></strong></td><td>Autonomous web research agent</td><td>1,112</td><td>9.3 MB</td><td>1 (yaml.v3)</td></tr>
+        <tr><td><strong><a href="https://github.com/KTCrisis/ollama-mcp-go">ollama-mcp-go</a></strong></td><td>MCP server for Ollama</td><td>929</td><td>8.4 MB</td><td>0</td></tr>
+        <tr><td><strong><a href="https://github.com/KTCrisis/arch7">arch7</a></strong></td><td>Excalidraw diagram generator</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
+        <tr><td><strong><a href="https://github.com/KTCrisis/agent7">agent7</a></strong></td><td>Mesh management dashboard</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
+      </tbody>
+    </table>
+
+    <p>The pattern that jumps out: <strong>agent-mesh has one external dependency</strong>. Eleven thousand lines of Go &mdash; MCP client/server, policy engine, rate limiter, approval workflow, trace store, OTEL exporter, HTTP proxy, CLI &mdash; built on the standard library plus a YAML parser. ollama-mcp-go has zero.</p>
+
+    <h2>Why Go for this layer</h2>
+
+    <p>AI agents need two things to work: an LLM that reasons, and infrastructure that moves data between the LLM and the outside world. The first part is model weights and tensor math &mdash; Python's territory, for good reason. The second part is networking, concurrency, serialization, and process management. That's plumbing. Go was designed for plumbing.</p>
+
+    <p><strong>MCP is a concurrency problem.</strong> An MCP proxy manages multiple stdio subprocesses (one per upstream server), each with its own stdin/stdout pair, plus incoming requests from multiple agents over HTTP or stdio. agent-mesh starts all MCP servers in parallel on boot &mdash; goroutines and channels make this natural. The equivalent Python code would be asyncio tasks with subprocess pipes, which works but fights the language rather than using it.</p>
+
+    <p><strong>Single binary distribution matters.</strong> <code>curl | tar xz</code> and it runs. No runtime, no virtualenv, no node_modules. When your user is a developer setting up Claude Code, "download one file" beats "install Python 3.11+, create a venv, pip install six packages, hope nothing conflicts with your system Python." Cross-compilation is free: <code>GOOS=darwin GOARCH=arm64 go build</code> produces a macOS ARM binary from a Linux machine.</p>
+
+    <p><strong>Startup time is not trivial.</strong> agent-mesh launches as a subprocess of Claude Code (via MCP stdio). Every millisecond of startup is latency the user feels on the first tool call. Go binaries start in single-digit milliseconds. A Python process with imports takes 200&ndash;500ms before it executes a single line of application code.</p>
+
+    <p><strong>Memory footprint is predictable.</strong> agent-mesh idles at ~14 MB RSS. A comparable Python process with FastAPI, uvicorn, and a few imports sits at 80&ndash;120 MB before handling a request. When you run five MCP servers plus a proxy on a developer laptop, that adds up.</p>
+
+    <h2>The cost</h2>
+
+    <p>Choosing Go for agent infrastructure has real costs. I won't pretend otherwise.</p>
+
+    <p><strong>The ecosystem doesn't exist.</strong> There's no LangChain for Go. No official MCP SDK (I wrote my own client and server). No Ollama Go client that speaks MCP (I wrote <a href="https://github.com/KTCrisis/ollama-mcp-go">ollama-mcp-go</a>). Every integration point is hand-built. In Python, these are one-line imports.</p>
+
+    <p><strong>LLM interaction is verbose.</strong> Calling Ollama's chat API in Python with the official SDK is three lines. In Go, it's an HTTP request, JSON marshaling, response parsing, error handling &mdash; 30 lines for the same result. I've factored this into helpers, but the boilerplate exists.</p>
+
+    <p><strong>Prototyping is slower.</strong> Python lets you sketch an idea in 20 lines and iterate. Go's type system and explicit error handling force structure earlier. For scout7 (the research agent), the first working version took longer than it would have in Python. But the second version &mdash; with proper error handling, timeouts, and graceful shutdown &mdash; came almost for free, because Go had already made me handle those cases.</p>
+
+    <p><strong>Hiring and contributions.</strong> If these projects grow, the contributor pool for Go agent tooling is smaller than Python's. Most people building in this space think in Python. That's a real constraint.</p>
+
+    <h2>Where Python wins</h2>
+
+    <p>I still use Python where it makes sense. <a href="https://github.com/KTCrisis/event7">event7</a> (schema registry governance) has a FastAPI backend &mdash; because it's a web app with a database, not a systems proxy. The LangChain demo for agent-mesh is Python, because it demonstrates governance on a Python agent. If I were building a RAG pipeline or fine-tuning a model, I'd use Python without hesitation.</p>
+
+    <p>The split is simple: <strong>if it touches model weights or needs rapid ML prototyping, Python. If it's infrastructure that moves data, enforces policy, or manages processes, Go.</strong></p>
+
+    <h2>What the ecosystem is missing</h2>
+
+    <p>The Go ecosystem for agentic AI has gaps. Real ones:</p>
+
+    <ul>
+      <li><strong>No official MCP SDK for Go.</strong> Anthropic ships Python and TypeScript. The community Go implementations are young and incomplete. I ended up writing my own MCP client and server inside agent-mesh because none of the existing options handled both stdio and SSE transports reliably.</li>
+      <li><strong>No structured output libraries.</strong> Python has Instructor, Outlines, Marvin for forcing LLM output into typed schemas. In Go, you parse JSON and hope. scout7 does regex extraction on LLM responses as a fallback. It works. It's not elegant.</li>
+      <li><strong>No agent framework.</strong> Not necessarily a bad thing &mdash; frameworks often add more abstraction than value &mdash; but it means every Go agent starts from scratch.</li>
+    </ul>
+
+    <p>These gaps are also opportunities. The first solid Go MCP SDK will get adoption, because Go developers building agent tooling have no good option today.</p>
+
+    <h2>The real argument</h2>
+
+    <p>The case for Go in agent infrastructure isn't "Go is better than Python." It's that <strong>agents are not monoliths</strong>. An agent system has layers: the reasoning layer (LLM), the orchestration layer (framework), and the infrastructure layer (transport, policy, memory, tracing). Python dominates the first two. The third layer is systems programming, and Go is a systems language.</p>
+
+    <p>Service meshes didn't get written in Java because microservices were Java. Envoy is C++. Linkerd is Rust. They're infrastructure &mdash; they sit below the application and need to be fast, small, and reliable. Agent governance, memory servers, and MCP proxies are the same kind of thing. They deserve a systems language.</p>
+
+    <p>Six projects in, I haven't regretted the choice. The binaries are small, the deploys are trivial, the concurrency model fits the problem, and the dependency count stays close to zero. The ecosystem cost is real but manageable &mdash; you write more code, but you understand all of it.</p>
+
+    <hr>
+
+    <div class="article-footer">
+      <p>All projects mentioned are open-source: <a href="https://github.com/KTCrisis/agent-mesh">agent-mesh</a>, <a href="https://github.com/KTCrisis/mem7">mem7</a>, <a href="https://github.com/KTCrisis/scout7">scout7</a>, <a href="https://github.com/KTCrisis/ollama-mcp-go">ollama-mcp-go</a>. Built on a 4070 Ti with Ollama, Claude Code, and too much coffee.</p>
+
+      <a href="/blog/" class="back-link">&larr; back to blog</a>
+    </div>
+
+  </div>
+</article>
+
+<footer>
+  <span>flux7.art</span> &mdash; built and deployed on cloudflare &middot; 2026
+</footer>
+
+</body>
+</html>

@@ -349,7 +349,7 @@ footer span { color: var(--green); }
 
     <p>The agentic AI ecosystem runs on Python. LangChain, CrewAI, AutoGen, Semantic Kernel, LlamaIndex, all Python. The SDKs are Python-first. The tutorials assume Python. If you want to build something for AI agents, the path of least resistance is <code>pip install</code>.</p>
 
-    <p>I went the other way. Over the past months I've built five agent-related projects in Go: a governance proxy, a memory server, an MCP bridge for Ollama, an autonomous research agent, and a management dashboard backend. This wasn't a carefully planned decision. I started with one project, it worked, and I kept going. This is a field report on that choice, for better or worse.</p>
+    <p>I went the other way. Over the past weeks I've built five agent-related projects in Go: a governance proxy, a memory server, an MCP bridge for Ollama, an autonomous research agent, and a management dashboard backend. This wasn't a carefully planned decision. I started with one project, it worked, thanks to Claude, and I kept going. This is a field report on that choice, for better or worse.</p>
 
     <h2>The projects</h2>
 
@@ -372,11 +372,11 @@ footer span { color: var(--green); }
 
     <p>AI agents need two things to work: an LLM that reasons, and infrastructure that moves data between the LLM and the outside world. The first part is model weights and tensor math, and Python owns that space for good reason. The second part is networking, concurrency, serialization, and process management. That's plumbing. Go was designed for plumbing.</p>
 
-    <p><strong>MCP is a concurrency problem.</strong> An MCP proxy manages multiple stdio subprocesses (one per upstream server), each with its own stdin/stdout pair, plus incoming requests from multiple agents over HTTP or stdio. agent-mesh starts all MCP servers in parallel on boot, and goroutines with channels make this natural. The equivalent Python code would be asyncio tasks with subprocess pipes, which works but fights the language rather than using it.</p>
+    <p><strong>MCP is a concurrency problem.</strong> An MCP proxy manages multiple stdio subprocesses (one per upstream server), each with its own stdin/stdout pair, plus incoming requests from multiple agents over HTTP or stdio. agent-mesh starts all MCP servers in parallel on boot, and goroutines with channels make this natural. The equivalent Python code would be asyncio tasks with subprocess pipes, which works but can be difficult to implement properly.</p>
 
     <p><strong>Single binary distribution matters.</strong> <code>curl | tar xz</code> and it runs. No runtime, no virtualenv, no node_modules. When your user is a developer setting up Claude Code, "download one file" beats "install Python 3.11+, create a venv, pip install six packages, hope nothing conflicts with your system Python." Cross-compilation is free: <code>GOOS=darwin GOARCH=arm64 go build</code> produces a macOS ARM binary from a Linux machine.</p>
 
-    <p><strong>Startup time is not trivial.</strong> agent-mesh launches as a subprocess of Claude Code (via MCP stdio). Every millisecond of startup is latency the user feels on the first tool call. Go binaries start in single-digit milliseconds. A Python process with imports takes 200&ndash;500ms before it executes a single line of application code.</p>
+    <p><strong>Startup time is not trivial.</strong> agent-mesh launches as a subprocess of Claude Code (via MCP stdio). Every millisecond of startup is latency the user feels on the first tool call. Go binaries start in single-digit milliseconds. A Python process with imports takes ~200&ndash;500ms before it executes a single line of application code.</p>
 
     <p><strong>Memory footprint is predictable.</strong> agent-mesh idles at ~14 MB RSS. A comparable Python process with FastAPI, uvicorn, and a few imports sits at 80&ndash;120 MB before handling a request. When you run five MCP servers plus a proxy on a developer laptop, that adds up.</p>
 
@@ -386,13 +386,15 @@ footer span { color: var(--green); }
 
     <p><strong>The ecosystem doesn't exist.</strong> There's no LangChain for Go. No official MCP SDK (I wrote my own client and server, which was educational but not exactly fast). No Ollama Go client that speaks MCP (I wrote <a href="https://github.com/KTCrisis/ollama-mcp-go">ollama-mcp-go</a>). Every integration point is hand-built. In Python, these are one-line imports. In Go, they're weekends.</p>
 
-    <p><strong>LLM interaction is verbose.</strong> Calling Ollama's chat API in Python with the official SDK is three lines. In Go, it's an HTTP request, JSON marshaling, response parsing, and explicit error handling. About 30 lines for the same result. I've factored this into helpers, but the boilerplate exists.</p>
+    <p><strong>LLM interaction is verbose.</strong> Calling Ollama's chat API in Python with the official SDK is three lines. In Go, it's an HTTP request, JSON marshaling, response parsing, and explicit error handling. About 30 lines for the same result. And I do not mention the headache with understanding how interfaces works in Go...</p>
 
-    <p><strong>Prototyping is slower.</strong> Python lets you sketch an idea in 20 lines and iterate. Go's type system and explicit error handling force structure earlier. For scout7 (the research agent), the first working version took longer than it would have in Python. But the second version, with proper error handling, timeouts, and graceful shutdown, came almost for free because Go had already made me handle those cases.</p>
+    <p><strong>Prototyping is slower.</strong> Python lets you sketch an idea in 20 lines and iterate. Go's type system and explicit error handling force structure earlier. For scout7 (the web research agent), the first working version took longer than it would have in Python. But the second version, with proper error handling, timeouts, and graceful shutdown, came almost for free because Go had already made me handle those cases.</p>
 
     <p><strong>Hiring and contributions.</strong> If these projects grow, the contributor pool for Go agent tooling is smaller than Python's. Most people building in this space think in Python. That's a real constraint.</p>
 
-    <p><strong>I'm still learning Go.</strong> I should probably mention that. I don't come from a Go background. My primary language is Python, and I've been writing Go for months, not years. I don't always understand what the compiler is angry about. I occasionally discover that a pattern I was proud of is actually an antipattern. Half of these projects were pair-programmed with Claude, which means an AI agent helped me build governance tooling for AI agents. There's a joke in there somewhere. But the point is: you don't need to master a language to ship useful things in it. You need a good feedback loop. The compiler catches the stupid mistakes. The AI catches the architectural ones. I catch the rest... eventually.</p>
+    <p><strong>I'm still learning Go.</strong> I should probably mention that. I don't come from a Go background. My primary language is Python (even if I'm not an expert), and I've been writing Go for weeks only, not years. I don't always understand what the compiler is angry about. I occasionally discover that a pattern I was proud of is actually an antipattern in Go.</p>
+
+    <p>Half of these projects were pair-programmed with Claude, which means an AI agent helped me build governance tooling for AI agents. There's a joke in there somewhere. But the point is: you don't need to master a language to ship useful things in it. You need a good feedback loop. The compiler catches the stupid mistakes. The AI catches the architectural ones, and you keep asking questions about things you don't understand. I catch the rest... eventually.</p>
 
     <h2>Where Python wins</h2>
 
@@ -402,15 +404,15 @@ footer span { color: var(--green); }
 
     <h2>What the ecosystem is missing</h2>
 
-    <p>The Go ecosystem for agentic AI has gaps. Real ones:</p>
+    <p>The Go ecosystem for agentic AI has real gaps:</p>
 
     <ul>
       <li><strong>No official MCP SDK for Go.</strong> Anthropic ships Python and TypeScript. The community Go implementations are young and incomplete. I ended up writing my own MCP client and server inside agent-mesh because none of the existing options handled both stdio and SSE transports reliably.</li>
-      <li><strong>No structured output libraries.</strong> Python has Instructor, Outlines, Marvin for forcing LLM output into typed schemas. In Go, you parse JSON and hope. scout7 does regex extraction on LLM responses as a fallback. It works. It's not elegant.</li>
-      <li><strong>No agent framework.</strong> Not necessarily a bad thing, since frameworks often add more abstraction than value. But it means every Go agent starts from scratch.</li>
+      <li><strong>No structured output libraries.</strong> Python has Instructor, Outlines, Marvin for forcing LLM output into typed schemas. In Go, you parse JSON and hope. scout7 for example does regex extraction on LLM responses as a fallback. It works but it's not elegant.</li>
+      <li><strong>No agent framework.</strong> Not necessarily a bad thing, since frameworks often add more abstraction than value in my opinion. But it means every Go agent starts from scratch.</li>
     </ul>
 
-    <p>These gaps are also opportunities. The first solid Go MCP SDK will get adoption, because Go developers building agent tooling have no good option today. If someone beats me to it, I'll be their first user.</p>
+    <p>These gaps are also opportunities. The first solid Go MCP SDK will get adoption, because Go developers building agent tooling have no good option today.</p>
 
     <h2>The real argument</h2>
 
@@ -418,7 +420,7 @@ footer span { color: var(--green); }
 
     <p>Service meshes didn't get written in Java because microservices were Java. Envoy is C++. Linkerd is Rust. They're infrastructure. They sit below the application and need to be fast, small, and reliable. Agent governance, memory servers, and MCP proxies are the same kind of thing. They deserve a systems language.</p>
 
-    <p>Five projects in, I haven't regretted the choice. The binaries are small, the deploys are trivial, the concurrency model fits the problem, and the dependency count stays close to zero. The ecosystem cost is real but manageable. You write more code, but you understand all of it.</p>
+    <p>Five projects in, I haven't regretted the choice. The binaries are small, the deploys are trivial, the concurrency model fits perfectly the problem, and the dependency count stays close to zero. The ecosystem cost is real but manageable. You write more code eventually, but you understand all of it.</p>
 
     <p>If you're considering Go for this kind of work and you're not sure, just try one small project. A single MCP server, maybe. The worst that happens is you learn something. That's more or less how all of this started for me.</p>
 

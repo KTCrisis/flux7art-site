@@ -346,31 +346,27 @@ footer span { color: var(--green); }
 
   <div class="prose">
 
-    <p>If you're running event-driven systems in production, you have a schema registry somewhere. Confluent Schema Registry, Apicurio, Karapace, Redpanda &mdash; pick your flavor. It stores your Avro, JSON Schema, or Protobuf definitions. It checks compatibility when you push a new version. It does its job.</p>
+    <p>Any event-driven system of sufficient age accumulates schemas. Confluent Schema Registry, Apicurio, Karapace, Redpanda &mdash; the registry stores Avro, JSON Schema, or Protobuf definitions, enforces compatibility on version changes, and serves them over HTTP.</p>
 
-    <p>But at some point, someone asks a question the registry can't answer.</p>
+    <p>Then someone asks: who owns this schema? Which topics carry it? Does it follow naming conventions? When did it last change, and what broke downstream?</p>
 
-    <p><em>Who owns this schema? What business domain does it belong to? Which topics use it? Is it documented? Does it follow our naming conventions? When did it last change, and did that change break anything downstream?</em></p>
-
-    <p>The registry doesn't know. It was never designed to.</p>
+    <p>The registry has no answer. It was built to store, not to govern.</p>
 
     <h2>The governance gap</h2>
 
-    <p>Schema registries are storage engines. They hold schemas, enforce compatibility modes, and serve versions over HTTP. That's it. Everything else &mdash; ownership, classification, business context, validation rules, documentation, cross-reference tracking &mdash; lives nowhere. Or worse, it lives in a spreadsheet, a Confluence page last updated eight months ago, or in someone's head.</p>
+    <p>A schema registry is a storage engine. Ownership, classification, business context, validation rules, documentation, cross-reference tracking &mdash; none of this belongs to it. In practice, that metadata lives in a Confluence page last updated eight months ago, or in someone's head.</p>
 
-    <p>Confluent recognized this and built <strong>Stream Governance</strong>. It's good. Tags, business metadata, data contracts, schema validation rules, audit logs. If you're all-in on Confluent Cloud, it solves the problem.</p>
+    <p>Confluent addressed this with <strong>Stream Governance</strong>: tags, business metadata, data contracts, validation rules, audit logs. For teams fully committed to Confluent Cloud, the problem is solved.</p>
 
-    <p>But that's the catch: <em>if you're all-in on Confluent</em>.</p>
-
-    <p>Plenty of teams run Apicurio behind their self-managed Kafka clusters. Others use Karapace on Aiven or Redpanda's built-in registry. Some run multiple registries across environments. Stream Governance doesn't help them. The governance metadata is locked inside Confluent's proprietary layer.</p>
+    <p>For teams running Apicurio behind self-managed Kafka, Karapace on Aiven, Redpanda's built-in registry, or multiple registries across environments... the governance metadata remains locked inside Confluent's proprietary layer.</p>
 
     <h2>What event7 does</h2>
 
-    <p><a href="https://github.com/KTCrisis/event7">event7</a> sits above your registry as a governance layer. It connects to Confluent, Apicurio, Karapace, or Redpanda &mdash; reads your schemas, versions, and compatibility modes &mdash; and adds everything the registry doesn't provide.</p>
+    <p><a href="https://github.com/KTCrisis/event7">event7</a> operates as a governance layer above the registry. It connects to Confluent, Apicurio, Karapace, or Redpanda, reads schemas, versions, and compatibility modes, then provides everything the registry does not.</p>
 
-    <p><strong>Schemas stay in your registry.</strong> event7 never copies or duplicates them. It stores governance data in its own database: enrichments, channels, rules, AsyncAPI specs. If you disconnect event7, your registry is untouched.</p>
+    <p><strong>Schemas remain in the registry.</strong> event7 stores governance data in its own database: enrichments, channels, rules, AsyncAPI specs. Disconnect event7 and the registry is untouched.</p>
 
-    <p>Concretely:</p>
+    <p>The feature set:</p>
 
     <ul>
       <li><strong>Schema Explorer</strong> &mdash; browse subjects, versions, and formats across registries. Visual diff with field-level breaking change detection.</li>
@@ -385,7 +381,7 @@ footer span { color: var(--green); }
 
     <h2>The Docker-first approach</h2>
 
-    <p>event7 ships as a Docker Compose stack. One command, five containers, everything works:</p>
+    <p>event7 ships as a Docker Compose stack. One command, five containers:</p>
 
     <pre><code>git clone https://github.com/KTCrisis/event7.git
 cd event7
@@ -406,21 +402,21 @@ docker compose -f docker-compose.local.yml up -d --build</code></pre>
       </tbody>
     </table>
 
-    <p>That Apicurio instance matters. If you don't have a schema registry yet &mdash; maybe you're running RabbitMQ, or self-managed Kafka without a registry, or you just want to evaluate the tool &mdash; you have one out of the box. Connect it in Settings, start registering schemas, and governance is already active.</p>
+    <p>The bundled Apicurio instance deserves attention. Teams running RabbitMQ, self-managed Kafka without a registry, or simply evaluating the tool get a working schema registry out of the box. Connect it in Settings, register schemas, governance is active.</p>
 
-    <p>If you already have Confluent Cloud or an existing Apicurio, skip the bundled registry. Point event7 at your production registry instead. Same governance features, same UI, zero migration.</p>
+    <p>Teams already running Confluent Cloud or an existing Apicurio skip the bundled registry and point event7 at their production instance. Same governance, same UI, no migration.</p>
 
     <h2>Two starting points</h2>
 
-    <p><strong>Starting from zero.</strong> You have events flowing through your broker but no schema registry. The Docker stack gives you Apicurio as a free, open-source registry (Apache 2.0). Register your schemas there, either manually through event7's UI or by importing an AsyncAPI spec. event7 handles governance from day one &mdash; no separate setup, no additional infrastructure.</p>
+    <p><strong>Starting from zero.</strong> Events flow through the broker, but no schema registry exists. The Docker stack provides Apicurio as a free, open-source registry (Apache 2.0). Schemas can be registered manually or by importing an AsyncAPI spec. Governance is immediate &mdash; no separate setup, no additional infrastructure.</p>
 
-    <p><strong>Starting from Confluent.</strong> You already have hundreds of schemas in Confluent Schema Registry. Connect event7, and within seconds you're browsing your subjects with visual diffs, dependency graphs, and governance scoring. Your schemas don't move. event7 reads them through the Confluent API and stores governance data separately. You can even import your existing Confluent Data Contract rules (ruleSet + metadata) into event7's rule engine.</p>
+    <p><strong>Starting from Confluent.</strong> Hundreds of schemas already live in Confluent Schema Registry. Connect event7, and within seconds the subjects appear with visual diffs, dependency graphs, and governance scoring. Schemas stay in Confluent. event7 reads them through the Confluent API and stores governance data separately. Existing Data Contract rules (ruleSet + metadata) can be imported into event7's rule engine.</p>
 
-    <p>Both paths converge to the same place: a governed registry with enrichments, rules, channels, and AsyncAPI specs. The difference is whether the registry was already there or event7 brought one along.</p>
+    <p>Both paths converge: a governed registry with enrichments, rules, channels, and AsyncAPI specs. The difference is whether the registry existed before or event7 brought one along.</p>
 
     <h2>Where it sits</h2>
 
-    <p>event7 is not a registry. It's not a documentation portal. It's not a Kafka ops tool. It occupies a specific layer in the event-driven stack:</p>
+    <p>event7 occupies a specific layer in the event-driven stack:</p>
 
     <pre><code>1  Infra / Broker         Kafka, RabbitMQ, Pulsar, NATS
 2  Schema Registry        Confluent, Apicurio, Karapace, Redpanda
@@ -428,21 +424,21 @@ docker compose -f docker-compose.local.yml up -d --build</code></pre>
 4  Spec / Contract        AsyncAPI, CloudEvents
 5  Documentation          EventCatalog, Backstage</code></pre>
 
-    <p>Layer 3 is the gap. Most teams jump from layer 2 (registry) to layer 5 (documentation) &mdash; if they document at all. Governance and contract specs are either manual, vendor-locked, or missing entirely.</p>
+    <p>Layer 3 is absent in most organizations. Teams jump from registry to documentation &mdash; when they document at all. Governance and contract specs are manual, vendor-locked, or missing.</p>
 
-    <p>event7 fills layer 3 and bridges to layers 4 and 5. It generates AsyncAPI specs (layer 4) and exports to EventCatalog (layer 5). The governance data flows downstream automatically.</p>
+    <p>event7 fills layer 3 and bridges to layers 4 and 5. It generates AsyncAPI specs and exports to EventCatalog. Governance data flows downstream automatically.</p>
 
     <h2>Provider-agnostic by design</h2>
 
-    <p>Adding a new registry provider to event7 means writing one Python file that implements the <code>SchemaRegistryProvider</code> interface. No changes to services, routes, or frontend. The Apicurio provider was added exactly this way &mdash; one file, one factory branch.</p>
+    <p>Adding a registry provider means implementing one Python interface. No changes to services, routes, or frontend. The Apicurio provider was added this way &mdash; one file, one factory entry.</p>
 
-    <p>Today, event7 supports Confluent Schema Registry (Cloud and Platform), Apicurio Registry v3, and any Confluent-compatible registry (Karapace, Redpanda, Red Hat Service Registry). AWS Glue and Azure Schema Registry are on the roadmap.</p>
+    <p>Supported registries: Confluent Schema Registry (Cloud and Platform), Apicurio Registry v3, and any Confluent-compatible registry (Karapace, Redpanda, Red Hat Service Registry). AWS Glue and Azure Schema Registry are on the roadmap.</p>
 
-    <p>The governance data itself is completely decoupled from the registry. Enrichments, channels, rules, and AsyncAPI specs live in event7's PostgreSQL database. If you switch from Confluent to Apicurio tomorrow, your governance layer survives intact. That's the point.</p>
+    <p>Governance data is entirely decoupled from the registry. Enrichments, channels, rules, and AsyncAPI specs live in event7's PostgreSQL database. Switch from Confluent to Apicurio, and the governance layer survives intact.</p>
 
     <h2>What it looks like in practice</h2>
 
-    <p>A typical daily workflow:</p>
+    <p>A typical workflow:</p>
 
     <ol>
       <li>Open the <strong>Schema Explorer</strong>. Browse your subjects, check recent version changes.</li>
@@ -453,13 +449,13 @@ docker compose -f docker-compose.local.yml up -d --build</code></pre>
       <li>Generate or refresh <strong>AsyncAPI specs</strong>. event7 detects drift &mdash; if a schema changed but the spec is stale, you see it immediately.</li>
     </ol>
 
-    <p>None of this requires leaving event7. None of it requires Confluent Cloud. And all of it works the same whether your schemas are in Confluent, Apicurio, or the bundled registry.</p>
+    <p>The entire workflow runs in event7, regardless of the underlying registry.</p>
 
     <h2>Open source</h2>
 
-    <p>event7 is Apache 2.0. The core platform &mdash; Explorer, Catalog, Validator, Rules, Channels, AsyncAPI, EventCatalog Generator &mdash; is fully open source. Commercial tiers add managed deployment, provider sync, and enterprise controls. But the governance engine itself is free to run, modify, and deploy.</p>
+    <p>event7 is Apache 2.0. The core platform &mdash; Explorer, Catalog, Validator, Rules, Channels, AsyncAPI, EventCatalog Generator &mdash; is open source. Commercial tiers add managed deployment, provider sync, and enterprise controls.</p>
 
-    <p>If you're evaluating it, the Docker stack with seed data gives you a realistic environment in under five minutes. Connect your own registry to see your actual schemas governed.</p>
+    <p>The Docker stack with seed data provides a realistic evaluation environment in under five minutes. Connect a production registry to govern actual schemas.</p>
 
     <hr>
 

@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Schema governance without vendor lock-in — flux7.art</title>
+<meta name="description" content="Schema registries store schemas. They don't govern them. event7 adds a provider-agnostic governance layer above Confluent, Apicurio, Karapace, and Redpanda — with a Docker-first deployment that works out of the box.">
+<meta name="author" content="Marc Verchiani">
+<meta name="keywords" content="schema registry, schema governance, event-driven, Confluent, Apicurio, Karapace, Redpanda, AsyncAPI, event7, Docker">
+<link rel="canonical" href="https://flux7.art/blog/schema-governance-without-lockin.html">
+
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="flux7.art">
+<meta property="og:title" content="Schema governance without vendor lock-in">
+<meta property="og:description" content="Schema registries store schemas. They don't govern them. event7 adds a provider-agnostic governance layer above Confluent, Apicurio, Karapace, and Redpanda.">
+<meta property="og:url" content="https://flux7.art/blog/schema-governance-without-lockin.html">
+<meta property="og:image" content="https://flux7.art/img/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="article:author" content="Marc Verchiani">
+<meta property="article:published_time" content="2026-04-12">
+<meta property="article:section" content="Event-Driven Architecture">
+<meta property="article:tag" content="schema registry">
+<meta property="article:tag" content="event7">
+<meta property="article:tag" content="AsyncAPI">
+<meta property="article:tag" content="Confluent">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Schema governance without vendor lock-in">
+<meta name="twitter:description" content="Schema registries store schemas. They don't govern them. event7 adds a provider-agnostic governance layer.">
+<meta name="twitter:image" content="https://flux7.art/img/og.png">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Schema governance without vendor lock-in",
+  "description": "Schema registries store schemas. They don't govern them. event7 adds a provider-agnostic governance layer above Confluent, Apicurio, Karapace, and Redpanda.",
+  "author": {
+    "@type": "Person",
+    "name": "Marc Verchiani",
+    "url": "https://flux7.art/"
+  },
+  "datePublished": "2026-04-12",
+  "image": "https://flux7.art/img/og.png",
+  "mainEntityOfPage": "https://flux7.art/blog/schema-governance-without-lockin.html"
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' font-size='80' font-family='monospace' font-weight='bold' fill='%23ff2d6b'>7</text></svg>">
+<style>
+:root {
+  --bg:      #060a06;
+  --bg2:     #0c120c;
+  --bg3:     #111811;
+  --green:   #00ff88;
+  --pink:    #ff2d6b;
+  --cyan:    #00e5ff;
+  --gold:    #ffd166;
+  --purple:  #a855f7;
+  --teal:    #0d9488;
+  --dim:     #2a3a2a;
+  --text:    #b8ccb8;
+  --text2:   #5a7a5a;
+  --border:  #1a2a1a;
+  --font:    'JetBrains Mono', monospace;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── SCANLINES ── */
+body::after {
+  content: ''; position: fixed; inset: 0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.07) 2px, rgba(0,0,0,0.07) 4px);
+  pointer-events: none; z-index: 9999;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 40px;
+  background: linear-gradient(to bottom, rgba(6,10,6,0.95), transparent);
+  backdrop-filter: blur(2px);
+}
+.nav-logo { font-size: 18px; font-weight: 700; color: var(--green); text-decoration: none; letter-spacing: -0.5px; }
+.nav-logo span { color: var(--pink); }
+.nav-links { display: flex; gap: 32px; list-style: none; }
+.nav-links a {
+  color: var(--text2); text-decoration: none; font-size: 12px;
+  letter-spacing: 2px; text-transform: uppercase; transition: color 0.2s; position: relative;
+}
+.nav-links a::after {
+  content: ''; position: absolute; bottom: -4px; left: 0;
+  width: 0; height: 1px; background: var(--green); transition: width 0.2s;
+}
+.nav-links a:hover { color: var(--green); }
+.nav-links a:hover::after { width: 100%; }
+.nav-links a.active { color: var(--green); }
+.nav-links a.active::after { width: 100%; }
+
+/* ── ARTICLE ── */
+.article-wrapper {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 120px 40px 80px;
+  position: relative;
+  z-index: 1;
+}
+
+.article-meta {
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--text2);
+  margin-bottom: 12px;
+}
+.article-meta .tag {
+  color: var(--purple);
+  border: 1px solid rgba(168,85,247,0.3);
+  padding: 2px 8px;
+  border-radius: 2px;
+  margin-right: 12px;
+}
+.article-meta .date { color: var(--text2); }
+
+.article-title {
+  font-size: clamp(28px, 5vw, 42px);
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -1.5px;
+  line-height: 1.15;
+  margin-bottom: 24px;
+}
+.article-title em { font-style: normal; color: var(--purple); }
+
+.article-subtitle {
+  font-size: 13px;
+  color: var(--text2);
+  line-height: 1.8;
+  margin-bottom: 48px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--border);
+}
+
+/* ── PROSE ── */
+.prose h2 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.5px;
+  margin: 48px 0 20px;
+  padding-top: 16px;
+}
+.prose h2::before {
+  content: '// ';
+  color: var(--purple);
+  font-weight: 400;
+}
+
+.prose p {
+  font-size: 13px;
+  line-height: 1.9;
+  color: var(--text);
+  margin-bottom: 18px;
+}
+
+.prose strong { color: #fff; font-weight: 600; }
+.prose em { color: var(--cyan); font-style: normal; }
+
+.prose a {
+  color: var(--purple);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(168,85,247,0.3);
+  transition: border-color 0.2s;
+}
+.prose a:hover { border-color: var(--purple); }
+
+.prose ul, .prose ol {
+  margin: 0 0 18px 20px;
+  font-size: 13px;
+  line-height: 1.9;
+}
+.prose li { margin-bottom: 6px; }
+.prose li::marker { color: var(--purple); }
+
+.prose blockquote {
+  border-left: 2px solid var(--purple);
+  padding: 12px 20px;
+  margin: 24px 0;
+  background: rgba(168,85,247,0.03);
+  border-radius: 0 4px 4px 0;
+}
+.prose blockquote p { color: var(--text2); margin-bottom: 0; font-style: italic; }
+
+.prose code {
+  font-family: var(--font);
+  font-size: 12px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  padding: 1px 6px;
+  border-radius: 2px;
+  color: var(--green);
+}
+
+.prose pre {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 20px;
+  margin: 24px 0;
+  overflow-x: auto;
+  font-size: 12px;
+  line-height: 1.7;
+}
+.prose pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--text);
+}
+
+/* ── TABLES ── */
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 24px 0;
+  font-size: 11px;
+}
+.prose th {
+  text-align: left;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--purple);
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg2);
+}
+.prose td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  line-height: 1.6;
+  vertical-align: top;
+}
+.prose tr:hover td { background: rgba(168,85,247,0.02); }
+
+/* ── DIVIDER ── */
+.prose hr {
+  border: none;
+  height: 1px;
+  background: var(--border);
+  margin: 48px 0;
+}
+
+/* ── FOOTER NOTE ── */
+.article-footer {
+  margin-top: 48px;
+  padding-top: 32px;
+  border-top: 1px solid var(--border);
+  font-size: 12px;
+  color: var(--text2);
+  line-height: 1.8;
+}
+.article-footer a { color: var(--purple); text-decoration: none; border-bottom: 1px solid rgba(168,85,247,0.3); }
+.article-footer a:hover { border-color: var(--purple); }
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 32px;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text2);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.back-link:hover { color: var(--green); }
+
+/* ── FOOTER ── */
+footer {
+  text-align: center;
+  padding: 40px;
+  border-top: 1px solid var(--border);
+  font-size: 10px;
+  color: var(--text2);
+  letter-spacing: 2px;
+  position: relative;
+  z-index: 1;
+}
+footer span { color: var(--green); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  nav { padding: 16px 20px; }
+  .nav-links { gap: 20px; }
+  .article-wrapper { padding: 100px 20px 60px; }
+  .prose table { font-size: 10px; }
+  .prose th, .prose td { padding: 8px 6px; }
+}
+@media (max-width: 500px) {
+  .nav-links { display: none; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">flux<span>7</span>.art</a>
+  <div style="display:flex;align-items:center;">
+    <ul class="nav-links">
+      <li><a href="/#projects">Projects</a></li>
+      <li><a href="/#lab">Lab</a></li>
+      <li><a href="/#music">Music</a></li>
+      <li><a href="/blog/" class="active">Blog</a></li>
+      <li><a href="/#about">About</a></li>
+    </ul>
+  </div>
+</nav>
+
+<article class="article-wrapper">
+  <div class="article-meta">
+    <span class="tag">event-driven</span>
+    <span class="date">April 12, 2026</span>
+  </div>
+
+  <h1 class="article-title">Schema governance without <em>vendor lock-in</em></h1>
+
+  <p class="article-subtitle">
+    Schema registries store schemas. They don't govern them. event7 adds a provider-agnostic governance layer above Confluent, Apicurio, Karapace, and Redpanda &mdash; with a Docker-first deployment that works out of the box.
+  </p>
+
+  <div class="prose">
+
+    <p>If you're running event-driven systems in production, you have a schema registry somewhere. Confluent Schema Registry, Apicurio, Karapace, Redpanda &mdash; pick your flavor. It stores your Avro, JSON Schema, or Protobuf definitions. It checks compatibility when you push a new version. It does its job.</p>
+
+    <p>But at some point, someone asks a question the registry can't answer.</p>
+
+    <p><em>Who owns this schema? What business domain does it belong to? Which topics use it? Is it documented? Does it follow our naming conventions? When did it last change, and did that change break anything downstream?</em></p>
+
+    <p>The registry doesn't know. It was never designed to.</p>
+
+    <h2>The governance gap</h2>
+
+    <p>Schema registries are storage engines. They hold schemas, enforce compatibility modes, and serve versions over HTTP. That's it. Everything else &mdash; ownership, classification, business context, validation rules, documentation, cross-reference tracking &mdash; lives nowhere. Or worse, it lives in a spreadsheet, a Confluence page last updated eight months ago, or in someone's head.</p>
+
+    <p>Confluent recognized this and built <strong>Stream Governance</strong>. It's good. Tags, business metadata, data contracts, schema validation rules, audit logs. If you're all-in on Confluent Cloud, it solves the problem.</p>
+
+    <p>But that's the catch: <em>if you're all-in on Confluent</em>.</p>
+
+    <p>Plenty of teams run Apicurio behind their self-managed Kafka clusters. Others use Karapace on Aiven or Redpanda's built-in registry. Some run multiple registries across environments. Stream Governance doesn't help them. The governance metadata is locked inside Confluent's proprietary layer.</p>
+
+    <h2>What event7 does</h2>
+
+    <p><a href="https://github.com/KTCrisis/event7">event7</a> sits above your registry as a governance layer. It connects to Confluent, Apicurio, Karapace, or Redpanda &mdash; reads your schemas, versions, and compatibility modes &mdash; and adds everything the registry doesn't provide.</p>
+
+    <p><strong>Schemas stay in your registry.</strong> event7 never copies or duplicates them. It stores governance data in its own database: enrichments, channels, rules, AsyncAPI specs. If you disconnect event7, your registry is untouched.</p>
+
+    <p>Concretely:</p>
+
+    <ul>
+      <li><strong>Schema Explorer</strong> &mdash; browse subjects, versions, and formats across registries. Visual diff with field-level breaking change detection.</li>
+      <li><strong>References Graph</strong> &mdash; interactive dependency graph. See which schemas reference which, spot orphans and hotspots, trace transitive chains (Order &rarr; Customer &rarr; Address).</li>
+      <li><strong>Governance Rules</strong> &mdash; define naming conventions, required fields, documentation rules, compliance checks. Four types: conditions, transforms, validations, policies. Built-in templates, or import your Confluent Data Contract rules.</li>
+      <li><strong>Schema Validator</strong> &mdash; validate before publishing. One report, three checks: registry compatibility, governance rules, visual diff. PASS, WARN, or FAIL.</li>
+      <li><strong>Channel Model</strong> &mdash; map schemas to channels across 22 broker types. Kafka topics, RabbitMQ exchanges, Redis streams, Pulsar, NATS, Google Pub/Sub, AWS SNS/SQS. N:N bindings with strategy, role, and data layer tagging.</li>
+      <li><strong>AsyncAPI</strong> &mdash; bidirectional. Import an existing spec into event7 (creates channels, bindings, enrichments in one click). Or generate AsyncAPI 3.0 specs from your event7 data. Drift detection included &mdash; event7 tracks when a schema changed but the spec wasn't regenerated.</li>
+      <li><strong>Governance Scoring</strong> &mdash; three-axis score (enrichments + rules + schema quality) with a confidence indicator. The catalog shows a governance funnel: how many schemas are fully governed vs. partially vs. not at all.</li>
+      <li><strong>EventCatalog Generator</strong> &mdash; export governance data to <a href="https://www.eventcatalog.dev/">EventCatalog</a>. Scores, rules, channels, teams, AsyncAPI specs. The first governance-aware generator for EventCatalog.</li>
+    </ul>
+
+    <h2>The Docker-first approach</h2>
+
+    <p>event7 ships as a Docker Compose stack. One command, five containers, everything works:</p>
+
+    <pre><code>git clone https://github.com/KTCrisis/event7.git
+cd event7
+docker compose -f docker-compose.local.yml up -d --build</code></pre>
+
+    <p>You get:</p>
+
+    <table>
+      <thead>
+        <tr><th>Service</th><th>Port</th><th>What it does</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Frontend (Next.js)</td><td>3000</td><td>UI &mdash; Explorer, Catalog, Validator, Graph</td></tr>
+        <tr><td>Backend (FastAPI)</td><td>8000</td><td>API &mdash; 56+ endpoints, Swagger at /docs</td></tr>
+        <tr><td>Apicurio Registry</td><td>8081</td><td>Schema Registry (empty, ready to use)</td></tr>
+        <tr><td>PostgreSQL</td><td>5432</td><td>Governance data (auto-migrated)</td></tr>
+        <tr><td>Redis</td><td>6379</td><td>Cache (5-min TTL on registry calls)</td></tr>
+      </tbody>
+    </table>
+
+    <p>That Apicurio instance matters. If you don't have a schema registry yet &mdash; maybe you're running RabbitMQ, or self-managed Kafka without a registry, or you just want to evaluate the tool &mdash; you have one out of the box. Connect it in Settings, start registering schemas, and governance is already active.</p>
+
+    <p>If you already have Confluent Cloud or an existing Apicurio, skip the bundled registry. Point event7 at your production registry instead. Same governance features, same UI, zero migration.</p>
+
+    <h2>Two starting points</h2>
+
+    <p><strong>Starting from zero.</strong> You have events flowing through your broker but no schema registry. The Docker stack gives you Apicurio as a free, open-source registry (Apache 2.0). Register your schemas there, either manually through event7's UI or by importing an AsyncAPI spec. event7 handles governance from day one &mdash; no separate setup, no additional infrastructure.</p>
+
+    <p><strong>Starting from Confluent.</strong> You already have hundreds of schemas in Confluent Schema Registry. Connect event7, and within seconds you're browsing your subjects with visual diffs, dependency graphs, and governance scoring. Your schemas don't move. event7 reads them through the Confluent API and stores governance data separately. You can even import your existing Confluent Data Contract rules (ruleSet + metadata) into event7's rule engine.</p>
+
+    <p>Both paths converge to the same place: a governed registry with enrichments, rules, channels, and AsyncAPI specs. The difference is whether the registry was already there or event7 brought one along.</p>
+
+    <h2>Where it sits</h2>
+
+    <p>event7 is not a registry. It's not a documentation portal. It's not a Kafka ops tool. It occupies a specific layer in the event-driven stack:</p>
+
+    <pre><code>1  Infra / Broker         Kafka, RabbitMQ, Pulsar, NATS
+2  Schema Registry        Confluent, Apicurio, Karapace, Redpanda
+3  Governance             event7
+4  Spec / Contract        AsyncAPI, CloudEvents
+5  Documentation          EventCatalog, Backstage</code></pre>
+
+    <p>Layer 3 is the gap. Most teams jump from layer 2 (registry) to layer 5 (documentation) &mdash; if they document at all. Governance and contract specs are either manual, vendor-locked, or missing entirely.</p>
+
+    <p>event7 fills layer 3 and bridges to layers 4 and 5. It generates AsyncAPI specs (layer 4) and exports to EventCatalog (layer 5). The governance data flows downstream automatically.</p>
+
+    <h2>Provider-agnostic by design</h2>
+
+    <p>Adding a new registry provider to event7 means writing one Python file that implements the <code>SchemaRegistryProvider</code> interface. No changes to services, routes, or frontend. The Apicurio provider was added exactly this way &mdash; one file, one factory branch.</p>
+
+    <p>Today, event7 supports Confluent Schema Registry (Cloud and Platform), Apicurio Registry v3, and any Confluent-compatible registry (Karapace, Redpanda, Red Hat Service Registry). AWS Glue and Azure Schema Registry are on the roadmap.</p>
+
+    <p>The governance data itself is completely decoupled from the registry. Enrichments, channels, rules, and AsyncAPI specs live in event7's PostgreSQL database. If you switch from Confluent to Apicurio tomorrow, your governance layer survives intact. That's the point.</p>
+
+    <h2>What it looks like in practice</h2>
+
+    <p>A typical daily workflow:</p>
+
+    <ol>
+      <li>Open the <strong>Schema Explorer</strong>. Browse your subjects, check recent version changes.</li>
+      <li>Click a subject &mdash; see the schema, its evolution timeline, which channels use it, its governance score.</li>
+      <li>Before pushing a new version, paste it in the <strong>Validator</strong>. Get a report: registry compatibility check + governance rules + visual diff. One screen, three signals.</li>
+      <li>Check the <strong>Catalog</strong> for coverage gaps. Filter by "no enrichments" or "low governance score" to find schemas that need attention.</li>
+      <li>Open the <strong>References Graph</strong> to understand impact before a breaking change. If <code>Address</code> is referenced by <code>Customer</code> which is referenced by <code>Order</code>, you see the full chain.</li>
+      <li>Generate or refresh <strong>AsyncAPI specs</strong>. event7 detects drift &mdash; if a schema changed but the spec is stale, you see it immediately.</li>
+    </ol>
+
+    <p>None of this requires leaving event7. None of it requires Confluent Cloud. And all of it works the same whether your schemas are in Confluent, Apicurio, or the bundled registry.</p>
+
+    <h2>Open source</h2>
+
+    <p>event7 is Apache 2.0. The core platform &mdash; Explorer, Catalog, Validator, Rules, Channels, AsyncAPI, EventCatalog Generator &mdash; is fully open source. Commercial tiers add managed deployment, provider sync, and enterprise controls. But the governance engine itself is free to run, modify, and deploy.</p>
+
+    <p>If you're evaluating it, the Docker stack with seed data gives you a realistic environment in under five minutes. Connect your own registry to see your actual schemas governed.</p>
+
+    <hr>
+
+    <div class="article-footer">
+      <p><a href="https://github.com/KTCrisis/event7">event7</a> is open-source, built with FastAPI and Next.js. Docker Compose stack included. Works with Confluent, Apicurio, Karapace, and Redpanda.</p>
+
+      <a href="/blog/" class="back-link">&larr; back to blog</a>
+    </div>
+
+  </div>
+</article>
+
+<footer>
+  <span>flux7.art</span> &mdash; built and deployed on cloudflare &middot; 2026
+</footer>
+
+</body>
+</html>

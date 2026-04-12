@@ -172,6 +172,39 @@ footer {
 }
 footer span { color: var(--green); }
 
+/* ── FILTERS ── */
+.section-filter {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 32px;
+}
+.filter-btn {
+  font-family: var(--font);
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  background: var(--bg2);
+  color: var(--text2);
+  border: 1px solid var(--border);
+  padding: 6px 16px;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.filter-btn:hover {
+  color: var(--purple);
+  border-color: rgba(168,85,247,0.3);
+}
+.filter-btn.active {
+  color: var(--purple);
+  border-color: var(--purple);
+  background: rgba(168,85,247,0.06);
+}
+
+.post-item.hidden {
+  display: none;
+}
+
 @media (max-width: 768px) {
   nav { padding: 16px 20px; }
   .nav-links { gap: 20px; }
@@ -204,10 +237,25 @@ footer span { color: var(--green); }
     <div class="section-line"></div>
   </div>
 
+  <div class="section-filter">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="event-driven">Event-Driven</button>
+    <button class="filter-btn" data-filter="agentic-ai">Agentic AI</button>
+  </div>
+
   <ul class="post-list">
-    <a href="/blog/middleware-vs-sidecar.html" class="post-item">
+    <a href="/blog/schema-governance-without-lockin.html" class="post-item" data-section="event-driven">
       <div class="post-meta">
-        <span class="tag">agent governance</span>
+        <span class="tag">event-driven</span>
+        <span>April 12, 2026</span>
+      </div>
+      <div class="post-title">Schema governance without vendor lock-in</div>
+      <p class="post-excerpt">Schema registries store schemas. They don't govern them. event7 adds a provider-agnostic governance layer above Confluent, Apicurio, Karapace, and Redpanda &mdash; with a Docker-first deployment that works out of the box.</p>
+    </a>
+
+    <a href="/blog/middleware-vs-sidecar.html" class="post-item" data-section="agentic-ai">
+      <div class="post-meta">
+        <span class="tag">agentic ai</span>
         <span>April 6, 2026</span>
       </div>
       <div class="post-title">Middleware vs Sidecar: two ways to govern AI agents</div>
@@ -219,6 +267,23 @@ footer span { color: var(--green); }
 <footer>
   <span>flux7.art</span> &mdash; built and deployed on cloudflare &middot; 2026
 </footer>
+
+<script>
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const filter = btn.dataset.filter;
+    document.querySelectorAll('.post-item').forEach(post => {
+      if (filter === 'all' || post.dataset.section === filter) {
+        post.classList.remove('hidden');
+      } else {
+        post.classList.add('hidden');
+      }
+    });
+  });
+});
+</script>
 
 </body>
 </html>

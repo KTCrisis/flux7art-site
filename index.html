@@ -82,6 +82,7 @@
   --teal-light: #14b8a6;
   --indigo:  #6366f1;
   --orange:  #ff8c42;
+  --emerald: #34d399;
   --dim:     #2a3a2a;
   --text:    #b8ccb8;
   --text2:   #5a7a5a;
@@ -322,6 +323,12 @@ section { position: relative; z-index: 1; }
 .flip-accent-orange .flip-back { border-color: rgba(255,140,66,0.25); }
 .flip-accent-orange .flip-back-metric-val { color: var(--orange); }
 
+.flip-accent-emerald .flip-front { border-color: rgba(52,211,153,0.25); }
+.flip-accent-emerald:hover .flip-front { border-color: rgba(52,211,153,0.6); }
+.flip-accent-emerald .flip-front::before { background: linear-gradient(90deg, transparent, var(--emerald), var(--cyan), transparent); animation: featuredLine 3s ease infinite; }
+.flip-accent-emerald .flip-back { border-color: rgba(52,211,153,0.25); }
+.flip-accent-emerald .flip-back-metric-val { color: var(--emerald); }
+
 /* Logos */
 .e7-logo .e-event { color: #fff; }
 .e7-logo .e-seven { color: var(--teal-light); text-shadow: 0 0 10px rgba(13,148,136,0.8), 0 0 30px rgba(13,148,136,0.4); animation: event7Pulse 2.5s ease-in-out infinite; }
@@ -337,6 +344,8 @@ section { position: relative; z-index: 1; }
 .ar7-logo .ar-seven { color: var(--indigo); text-shadow: 0 0 10px rgba(99,102,241,0.8), 0 0 30px rgba(99,102,241,0.4); animation: arch7Pulse 2.5s ease-in-out infinite; }
 .om-logo .om-ollama { color: #fff; }
 .om-logo .om-mcp { color: var(--orange); text-shadow: 0 0 10px rgba(255,140,66,0.8), 0 0 30px rgba(255,140,66,0.4); animation: omPulse 2.5s ease-in-out infinite; }
+.sc7-logo .sc-scout { color: #fff; }
+.sc7-logo .sc-seven { color: var(--emerald); text-shadow: 0 0 10px rgba(52,211,153,0.8), 0 0 30px rgba(52,211,153,0.4); animation: scout7Pulse 2.5s ease-in-out infinite; }
 
 .astro-logo-wrap-v2 { display: flex; align-items: center; gap: 12px; }
 .astro-logo-img-v2 { width: 48px; height: 48px; border-radius: 10px; border: 1px solid rgba(255,45,107,0.3); object-fit: cover; box-shadow: 0 0 16px rgba(255,45,107,0.15); }
@@ -369,6 +378,10 @@ section { position: relative; z-index: 1; }
 @keyframes omPulse {
   0%, 100% { text-shadow: 0 0 10px rgba(255,140,66,0.8), 0 0 30px rgba(255,140,66,0.4), 0 0 60px rgba(255,140,66,0.2); }
   50% { text-shadow: 0 0 20px rgba(255,140,66,1), 0 0 50px rgba(255,140,66,0.6), 0 0 100px rgba(255,140,66,0.3); }
+}
+@keyframes scout7Pulse {
+  0%, 100% { text-shadow: 0 0 10px rgba(52,211,153,0.8), 0 0 30px rgba(52,211,153,0.4), 0 0 60px rgba(52,211,153,0.2); }
+  50% { text-shadow: 0 0 20px rgba(52,211,153,1), 0 0 50px rgba(52,211,153,0.6), 0 0 100px rgba(52,211,153,0.3); }
 }
 @keyframes featuredLine {
   0%, 100% { opacity: 0.4; transform: scaleX(0.8); }
@@ -486,12 +499,14 @@ footer span { color: var(--green); }
       <span class="ticker-item"><span class="dot">&gt;</span><span class="name">mem7</span><span class="desc">temporal memory for agents</span></span>
       <span class="ticker-item"><span class="dot">&gt;</span><span class="name">agent7</span><span class="desc">mesh management dashboard</span></span>
       <span class="ticker-item"><span class="dot">&gt;</span><span class="name">arch7</span><span class="desc">excalidraw diagram generator</span></span>
+      <span class="ticker-item"><span class="dot">&gt;</span><span class="name">scout7</span><span class="desc">autonomous web research agent</span></span>
       <span class="ticker-item"><span class="dot">&gt;</span><span class="name">ollama-mcp-go</span><span class="desc">mcp server for ollama</span></span>
       <span class="ticker-item"><span class="dot">&gt;</span><span class="name">agent-mesh</span><span class="desc">ai agent governance proxy</span></span>
       <span class="ticker-item"><span class="dot">&gt;</span><span class="name">event7</span><span class="desc">schema registry governance</span></span>
       <span class="ticker-item"><span class="dot">&gt;</span><span class="name">mem7</span><span class="desc">temporal memory for agents</span></span>
       <span class="ticker-item"><span class="dot">&gt;</span><span class="name">agent7</span><span class="desc">mesh management dashboard</span></span>
       <span class="ticker-item"><span class="dot">&gt;</span><span class="name">arch7</span><span class="desc">excalidraw diagram generator</span></span>
+      <span class="ticker-item"><span class="dot">&gt;</span><span class="name">scout7</span><span class="desc">autonomous web research agent</span></span>
       <span class="ticker-item"><span class="dot">&gt;</span><span class="name">ollama-mcp-go</span><span class="desc">mcp server for ollama</span></span>
     </div>
   </div>
@@ -774,6 +789,37 @@ footer span { color: var(--green); }
             <div class="flip-back-metric"><div class="flip-back-metric-val">0</div><div class="flip-back-metric-label">Dependencies</div></div>
             <div class="flip-back-metric"><div class="flip-back-metric-val">Go</div><div class="flip-back-metric-label">Single Binary</div></div>
             <div class="flip-back-metric"><div class="flip-back-metric-val">MIT</div><div class="flip-back-metric-label">License</div></div>
+          </div>
+          <div class="flip-back-hint">← tap to flip</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ SCOUT7 ═══ -->
+    <div class="flip-container flip-accent-emerald" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <div class="flip-cat">// <span>OSS · Autonomous Agent · Web Research · Go</span></div>
+          <span class="flip-status status-live">● live</span>
+          <div class="flip-logo-area">
+            <div class="flip-logo-text sc7-logo"><span class="sc-scout">scout</span><span class="sc-seven">7</span></div>
+          </div>
+          <div class="flip-tagline">Autonomous Web Research Agent</div>
+          <p class="flip-desc" data-en="Autonomous agent that searches the web, extracts structured architectures, and produces output via any MCP tool. Pluggable output — Excalidraw diagrams, markdown reports, JSON, or memory. Runs on agent-mesh with full policy, tracing, and approval." data-fr="Agent autonome qui recherche sur le web, extrait des architectures structurées, et produit un output via n'importe quel outil MCP. Sortie pluggable — diagrammes Excalidraw, rapports markdown, JSON, ou mémoire. Tourne sur agent-mesh avec policies, traces et approbation.">Autonomous agent that <b>searches the web</b>, extracts structured architectures, and produces output via any <b>MCP tool</b>. Pluggable output — <b>Excalidraw diagrams</b>, markdown, JSON, or memory. First autonomous agent on the <b>agent-mesh</b> stack.</p>
+          <div class="flip-stack">
+            <span class="stack-tag">Go 1.23+</span><span class="stack-tag">agent-mesh</span><span class="stack-tag">searxng</span><span class="stack-tag">Ollama</span><span class="stack-tag">arch7</span><span class="stack-tag">mem7</span>
+          </div>
+          <div class="flip-actions">
+            <a href="https://github.com/KTCrisis/scout7" target="_blank" class="card-btn" style="border-color:var(--emerald);color:var(--emerald);background:rgba(52,211,153,0.05);" onclick="event.stopPropagation()"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.385-1.335-1.755-1.335-1.755-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12z"/></svg> GitHub</a>
+          </div>
+          <div class="flip-hint">tap to flip →</div>
+        </div>
+        <div class="flip-back">
+          <div class="flip-back-metrics">
+            <div class="flip-back-metric"><div class="flip-back-metric-val">4</div><div class="flip-back-metric-label">Output Formats</div></div>
+            <div class="flip-back-metric"><div class="flip-back-metric-val">24h</div><div class="flip-back-metric-label">Cycle Interval</div></div>
+            <div class="flip-back-metric"><div class="flip-back-metric-val">Go</div><div class="flip-back-metric-label">Single Binary</div></div>
+            <div class="flip-back-metric"><div class="flip-back-metric-val">Apache</div><div class="flip-back-metric-label">License</div></div>
           </div>
           <div class="flip-back-hint">← tap to flip</div>
         </div>

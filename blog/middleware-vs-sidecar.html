@@ -4,15 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Middleware vs Sidecar: two ways to govern AI agents — flux7.art</title>
-<meta name="description" content="Comparing Microsoft Agent Governance Toolkit (middleware) and agent-mesh (sidecar proxy) — two architectures for governing AI agent tool calls, mapped against the OWASP Agentic Top 10.">
+<meta name="description" content="Comparing Microsoft Agent Governance Toolkit (middleware) and flux7-mesh (sidecar proxy) — two architectures for governing AI agent tool calls, mapped against the OWASP Agentic Top 10.">
 <meta name="author" content="Marc Verchiani">
-<meta name="keywords" content="AI agent governance, agent-mesh, Microsoft Agent Governance Toolkit, OWASP Agentic Top 10, MCP, sidecar, middleware">
+<meta name="keywords" content="AI agent governance, flux7-mesh, Microsoft Agent Governance Toolkit, OWASP Agentic Top 10, MCP, sidecar, middleware">
 <link rel="canonical" href="https://flux7.art/blog/middleware-vs-sidecar.html">
 
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="flux7.art">
 <meta property="og:title" content="Middleware vs Sidecar: two ways to govern AI agents">
-<meta property="og:description" content="Comparing Microsoft Agent Governance Toolkit and agent-mesh — two architectures for governing AI agent tool calls, mapped against the OWASP Agentic Top 10.">
+<meta property="og:description" content="Comparing Microsoft Agent Governance Toolkit and flux7-mesh — two architectures for governing AI agent tool calls, mapped against the OWASP Agentic Top 10.">
 <meta property="og:url" content="https://flux7.art/blog/middleware-vs-sidecar.html">
 <meta property="og:image" content="https://flux7.art/img/og.png">
 <meta property="og:image:width" content="1200">
@@ -20,13 +20,13 @@
 <meta property="article:author" content="Marc Verchiani">
 <meta property="article:published_time" content="2026-04-06">
 <meta property="article:section" content="AI Agent Governance">
-<meta property="article:tag" content="agent-mesh">
+<meta property="article:tag" content="flux7-mesh">
 <meta property="article:tag" content="OWASP Agentic Top 10">
 <meta property="article:tag" content="MCP">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Middleware vs Sidecar: two ways to govern AI agents">
-<meta name="twitter:description" content="Microsoft Agent Governance Toolkit vs agent-mesh — mapped against the OWASP Agentic Top 10.">
+<meta name="twitter:description" content="Microsoft Agent Governance Toolkit vs flux7-mesh — mapped against the OWASP Agentic Top 10.">
 <meta name="twitter:image" content="https://flux7.art/img/og.png">
 
 <script type="application/ld+json">
@@ -34,7 +34,7 @@
   "@context": "https://schema.org",
   "@type": "BlogPosting",
   "headline": "Middleware vs Sidecar: two ways to govern AI agents",
-  "description": "Comparing Microsoft Agent Governance Toolkit and agent-mesh — two architectures for governing AI agent tool calls, mapped against the OWASP Agentic Top 10.",
+  "description": "Comparing Microsoft Agent Governance Toolkit and flux7-mesh — two architectures for governing AI agent tool calls, mapped against the OWASP Agentic Top 10.",
   "author": {
     "@type": "Person",
     "name": "Marc Verchiani",
@@ -340,7 +340,7 @@ footer span { color: var(--green); }
   <h1 class="article-title">Middleware vs Sidecar: two ways to govern <em>AI agents</em></h1>
 
   <p class="article-subtitle">
-    Comparing Microsoft's Agent Governance Toolkit and agent-mesh &mdash; two open-source architectures for the same problem, mapped against the OWASP Agentic Top 10.
+    Comparing Microsoft's Agent Governance Toolkit and flux7-mesh &mdash; two open-source architectures for the same problem, mapped against the OWASP Agentic Top 10.
   </p>
 
   <div class="prose">
@@ -349,21 +349,21 @@ footer span { color: var(--green); }
 
     <p>When I started running multiple AI agents (Claude Code, Cursor, custom LangChain bots), I noticed the same gap I'd seen before. Every agent has some permission model. None of them talk to each other. No shared policy. No unified trace. Sound familiar? It's 2018 microservices all over again, before service meshes became a thing.</p>
 
-    <p>So I built <a href="https://github.com/KTCrisis/flux7-mesh">agent-mesh</a> &mdash; a sidecar proxy for agent tool calls. YAML policy, centralized traces, per-agent identity. One Go binary, works with anything that speaks MCP or HTTP.</p>
+    <p>So I built <a href="https://github.com/KTCrisis/flux7-mesh">flux7-mesh</a> &mdash; a sidecar proxy for agent tool calls. YAML policy, centralized traces, per-agent identity. One Go binary, works with anything that speaks MCP or HTTP.</p>
 
     <p>Four days ago, Microsoft dropped the <a href="https://github.com/microsoft/agent-governance-toolkit">Agent Governance Toolkit</a>. Open-source, MIT. Same problem space. Different architecture.</p>
 
     <p>Worth comparing honestly &mdash; especially now that OWASP gave us a shared vocabulary for what "agent security" actually means.</p>
 
-    <blockquote><p>Full disclosure: Microsoft AGT dropped while I was already building agent-mesh. I hadn't mapped against OWASP until I saw their claim of covering all 10. That comparison forced me to think harder about what a sidecar actually covers &mdash; and what it doesn't.</p></blockquote>
+    <blockquote><p>Full disclosure: Microsoft AGT dropped while I was already building flux7-mesh. I hadn't mapped against OWASP until I saw their claim of covering all 10. That comparison forced me to think harder about what a sidecar actually covers &mdash; and what it doesn't.</p></blockquote>
 
     <h2>The two approaches</h2>
 
     <p><strong>Microsoft AGT</strong> is a middleware. It runs <em>inside</em> your agent's process &mdash; Python callbacks for LangChain, decorators for CrewAI, plugins for ADK. Sub-millisecond policy checks. Deep integration. You add a few lines of code and your agent is governed.</p>
 
-    <p><strong>agent-mesh</strong> is a sidecar proxy. It runs <em>next to</em> your agents &mdash; intercepts tool calls at the MCP/HTTP level. No code changes. Your agent points to agent-mesh instead of the real backend. Agent-mesh checks the policy, logs the trace, forwards or denies.</p>
+    <p><strong>flux7-mesh</strong> is a sidecar proxy. It runs <em>next to</em> your agents &mdash; intercepts tool calls at the MCP/HTTP level. No code changes. Your agent points to flux7-mesh instead of the real backend. flux7-mesh checks the policy, logs the trace, forwards or denies.</p>
 
-    <p>If you've worked with API gateways, you already know this pattern. Microsoft AGT is Express middleware. agent-mesh is Envoy.</p>
+    <p>If you've worked with API gateways, you already know this pattern. Microsoft AGT is Express middleware. flux7-mesh is Envoy.</p>
 
     <!-- Middleware diagram -->
     <div style="margin:32px 0;text-align:center;">
@@ -469,13 +469,13 @@ footer span { color: var(--green); }
 
     <p>They don't know which <em>agent</em> made the call, don't enforce <em>action-level</em> policy (allow <code>create_issue</code>, deny <code>delete_repo</code>), and don't differentiate permissions per agent identity.</p>
 
-    <p>Gateways and governance meshes are complementary. You can run Gravitee in front for LLM routing and agent-mesh behind for tool call governance. Different layers, different jobs.</p>
+    <p>Gateways and governance meshes are complementary. You can run Gravitee in front for LLM routing and flux7-mesh behind for tool call governance. Different layers, different jobs.</p>
 
     <pre><code>Agent CLI / Framework
       |
   AI Gateway (Kong/Gravitee/Apigee)  &larr; LLM routing, PII, rate limits
       |
-  Governance Mesh (agent-mesh)       &larr; semantic policy, agent identity, trace
+  Governance Mesh (flux7-mesh)       &larr; semantic policy, agent identity, trace
       |
   Tools (GitHub, DB, APIs)</code></pre>
 
@@ -491,15 +491,15 @@ footer span { color: var(--green); }
       </thead>
       <tbody>
         <tr><td><strong>ASI01 &mdash; Goal Hijacking</strong></td><td>Poisoned input redirects agent objectives</td><td>Prompt-level defenses (none of the governance tools)</td></tr>
-        <tr><td><strong>ASI02 &mdash; Tool Misuse</strong></td><td>Agent uses tools in unintended ways</td><td><strong>agent-mesh</strong> (semantic policy on params), <strong>Microsoft AGT</strong> (action interception)</td></tr>
-        <tr><td><strong>ASI03 &mdash; Identity &amp; Privilege Abuse</strong></td><td>Agent abuses its tokens, roles, sessions</td><td><strong>agent-mesh</strong> (per-agent identity, temporal grants), <strong>Microsoft AGT</strong> (zero-trust Ed25519)</td></tr>
-        <tr><td><strong>ASI04 &mdash; Delegated Trust</strong></td><td>Blind trust between agents</td><td><strong>agent-mesh</strong> (policy-as-code between agents), <strong>Microsoft AGT</strong> (trust scoring)</td></tr>
-        <tr><td><strong>ASI05 &mdash; Uncontrolled Autonomy</strong></td><td>Critical decisions without human validation</td><td><strong>agent-mesh</strong> (human approval workflow), CLI tools (approval prompts)</td></tr>
+        <tr><td><strong>ASI02 &mdash; Tool Misuse</strong></td><td>Agent uses tools in unintended ways</td><td><strong>flux7-mesh</strong> (semantic policy on params), <strong>Microsoft AGT</strong> (action interception)</td></tr>
+        <tr><td><strong>ASI03 &mdash; Identity &amp; Privilege Abuse</strong></td><td>Agent abuses its tokens, roles, sessions</td><td><strong>flux7-mesh</strong> (per-agent identity, temporal grants), <strong>Microsoft AGT</strong> (zero-trust Ed25519)</td></tr>
+        <tr><td><strong>ASI04 &mdash; Delegated Trust</strong></td><td>Blind trust between agents</td><td><strong>flux7-mesh</strong> (policy-as-code between agents), <strong>Microsoft AGT</strong> (trust scoring)</td></tr>
+        <tr><td><strong>ASI05 &mdash; Uncontrolled Autonomy</strong></td><td>Critical decisions without human validation</td><td><strong>flux7-mesh</strong> (human approval workflow), CLI tools (approval prompts)</td></tr>
         <tr><td><strong>ASI06 &mdash; Memory Poisoning</strong></td><td>Persistent memory poisoned with malicious data</td><td>Not directly addressed &mdash; needs runtime sandboxing</td></tr>
-        <tr><td><strong>ASI07 &mdash; Multi-Agent Comms</strong></td><td>Inter-agent communication not secured</td><td><strong>agent-mesh</strong> (JWT auth on sidecar), <strong>Microsoft AGT</strong> (Agent Mesh component)</td></tr>
-        <tr><td><strong>ASI08 &mdash; Cascading Failures</strong></td><td>One agent failing triggers a chain reaction</td><td><strong>agent-mesh</strong> (rate limiting, loop detection), gateways (circuit breaking)</td></tr>
-        <tr><td><strong>ASI09 &mdash; Emergent Behavior</strong></td><td>Agent develops unanticipated behavior</td><td>Observability + traces (LangSmith, agent-mesh, Microsoft AGT audit)</td></tr>
-        <tr><td><strong>ASI10 &mdash; Rogue Agents</strong></td><td>Compromised agent diverges from intended behavior</td><td><strong>agent-mesh</strong> (deny-by-default), <strong>Microsoft AGT</strong> (trust scoring)</td></tr>
+        <tr><td><strong>ASI07 &mdash; Multi-Agent Comms</strong></td><td>Inter-agent communication not secured</td><td><strong>flux7-mesh</strong> (JWT auth on sidecar), <strong>Microsoft AGT</strong> (Agent Mesh component)</td></tr>
+        <tr><td><strong>ASI08 &mdash; Cascading Failures</strong></td><td>One agent failing triggers a chain reaction</td><td><strong>flux7-mesh</strong> (rate limiting, loop detection), gateways (circuit breaking)</td></tr>
+        <tr><td><strong>ASI09 &mdash; Emergent Behavior</strong></td><td>Agent develops unanticipated behavior</td><td>Observability + traces (LangSmith, flux7-mesh, Microsoft AGT audit)</td></tr>
+        <tr><td><strong>ASI10 &mdash; Rogue Agents</strong></td><td>Compromised agent diverges from intended behavior</td><td><strong>flux7-mesh</strong> (deny-by-default), <strong>Microsoft AGT</strong> (trust scoring)</td></tr>
       </tbody>
     </table>
 
@@ -507,7 +507,7 @@ footer span { color: var(--green); }
 
     <p><strong>No single tool covers everything.</strong> ASI01 (goal hijacking) is a prompt-level problem &mdash; no governance proxy or middleware can fix it. ASI06 (memory poisoning) needs runtime isolation, not policy.</p>
 
-    <p><strong>The middleware vs sidecar split shows up clearly.</strong> Microsoft AGT and agent-mesh cover roughly the same risks (ASI02-05, ASI07-08, ASI10), but from different positions in the stack. Microsoft intercepts inside the process. agent-mesh intercepts at the protocol boundary. Same coverage, different blast radius if the governance layer itself is compromised.</p>
+    <p><strong>The middleware vs sidecar split shows up clearly.</strong> Microsoft AGT and flux7-mesh cover roughly the same risks (ASI02-05, ASI07-08, ASI10), but from different positions in the stack. Microsoft intercepts inside the process. flux7-mesh intercepts at the protocol boundary. Same coverage, different blast radius if the governance layer itself is compromised.</p>
 
     <p><strong>Gateways (Kong, Gravitee, Apigee) cover almost none of this.</strong> They weren't designed for it. They govern LLM traffic, not agent behavior. That's fine &mdash; it's a different layer. But if someone tells you their AI gateway handles agentic security, check which ASIs it actually addresses.</p>
 
@@ -527,7 +527,7 @@ footer span { color: var(--green); }
     <hr>
 
     <div class="article-footer">
-      <p><a href="https://github.com/KTCrisis/flux7-mesh">agent-mesh</a> is open-source, written in Go. One binary, one YAML config. Works with any agent that speaks MCP or HTTP.</p>
+      <p><a href="https://github.com/KTCrisis/flux7-mesh">flux7-mesh</a> is open-source, written in Go. One binary, one YAML config. Works with any agent that speaks MCP or HTTP.</p>
 
       <a href="/blog/" class="back-link">&larr; back to log_</a>
     </div>

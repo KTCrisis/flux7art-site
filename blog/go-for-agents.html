@@ -6,7 +6,7 @@
 <title>Go for AI agents: a field report — flux7.art</title>
 <meta name="description" content="Why I build AI agent infrastructure in Go instead of Python. Five projects, one external dependency, and what the numbers actually say.">
 <meta name="author" content="Marc Verchiani">
-<meta name="keywords" content="Go, Golang, AI agents, MCP, agent-mesh, Python, infrastructure, sidecar, proxy">
+<meta name="keywords" content="Go, Golang, AI agents, MCP, flux7-mesh, Python, infrastructure, sidecar, proxy">
 <link rel="canonical" href="https://flux7.art/blog/go-for-agents.html">
 
 <meta property="og:type" content="article">
@@ -358,27 +358,27 @@ footer span { color: var(--green); }
         <tr><th>Project</th><th>What it does</th><th>Go lines</th><th>Binary</th><th>Direct deps</th></tr>
       </thead>
       <tbody>
-        <tr><td><strong><a href="https://github.com/KTCrisis/flux7-mesh">agent-mesh</a></strong></td><td>Governance proxy for agent tool calls</td><td>11,340</td><td>7.2 MB</td><td>1 (yaml.v3)</td></tr>
-        <tr><td><strong><a href="https://github.com/KTCrisis/flux7-memory">mem7</a></strong></td><td>Shared memory MCP server</td><td>2,938</td><td>&mdash;</td><td>1 (sqlite)</td></tr>
+        <tr><td><strong><a href="https://github.com/KTCrisis/flux7-mesh">flux7-mesh</a></strong></td><td>Governance proxy for agent tool calls</td><td>11,340</td><td>7.2 MB</td><td>1 (yaml.v3)</td></tr>
+        <tr><td><strong><a href="https://github.com/KTCrisis/flux7-memory">flux7-memory</a></strong></td><td>Shared memory MCP server</td><td>2,938</td><td>&mdash;</td><td>1 (sqlite)</td></tr>
         <tr><td><strong><a href="https://github.com/KTCrisis/scout7">scout7</a></strong></td><td>Autonomous web research agent</td><td>1,112</td><td>9.3 MB</td><td>1 (yaml.v3)</td></tr>
         <tr><td><strong><a href="https://github.com/KTCrisis/ollama-mcp-go">ollama-mcp-go</a></strong></td><td>MCP server for Ollama</td><td>929</td><td>8.4 MB</td><td>0</td></tr>
-        <tr><td><strong><a href="https://github.com/KTCrisis/flux7-console">agent7</a></strong></td><td>Mesh management dashboard</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
+        <tr><td><strong><a href="https://github.com/KTCrisis/flux7-console">flux7-console</a></strong></td><td>Mesh management dashboard</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
       </tbody>
     </table>
 
-    <p>The pattern that jumps out: <strong>agent-mesh has one external dependency</strong>. Eleven thousand lines of Go covering the MCP client and server, a policy engine, rate limiter, approval workflow, trace store, OTEL exporter, HTTP proxy, and CLI. All built on the standard library plus a YAML parser. ollama-mcp-go has zero external dependencies. I didn't plan this. It just kept working without pulling in more packages, so I never did.</p>
+    <p>The pattern that jumps out: <strong>flux7-mesh has one external dependency</strong>. Eleven thousand lines of Go covering the MCP client and server, a policy engine, rate limiter, approval workflow, trace store, OTEL exporter, HTTP proxy, and CLI. All built on the standard library plus a YAML parser. ollama-mcp-go has zero external dependencies. I didn't plan this. It just kept working without pulling in more packages, so I never did.</p>
 
     <h2>Why Go for this layer</h2>
 
     <p>AI agents need two things to work: an LLM that reasons, and infrastructure that moves data between the LLM and the outside world. The first part is model weights and tensor math, and Python owns that space for good reason. The second part is networking, concurrency, serialization, and process management. That's plumbing. Go was designed for plumbing.</p>
 
-    <p><strong>MCP is a concurrency problem.</strong> An MCP proxy manages multiple stdio subprocesses (one per upstream server), each with its own stdin/stdout pair, plus incoming requests from multiple agents over HTTP or stdio. agent-mesh starts all MCP servers in parallel on boot, and goroutines with channels make this natural. The equivalent Python code would be asyncio tasks with subprocess pipes, which works but can be difficult to implement properly.</p>
+    <p><strong>MCP is a concurrency problem.</strong> An MCP proxy manages multiple stdio subprocesses (one per upstream server), each with its own stdin/stdout pair, plus incoming requests from multiple agents over HTTP or stdio. flux7-mesh starts all MCP servers in parallel on boot, and goroutines with channels make this natural. The equivalent Python code would be asyncio tasks with subprocess pipes, which works but can be difficult to implement properly.</p>
 
     <p><strong>Single binary distribution matters.</strong> <code>curl | tar xz</code> and it runs. No runtime, no virtualenv, no node_modules. When your user is a developer setting up Claude Code, "download one file" beats "install Python 3.11+, create a venv, pip install six packages, hope nothing conflicts with your system Python." Cross-compilation is free: <code>GOOS=darwin GOARCH=arm64 go build</code> produces a macOS ARM binary from a Linux machine.</p>
 
-    <p><strong>Startup time is not trivial.</strong> agent-mesh launches as a subprocess of Claude Code (via MCP stdio). Every millisecond of startup is latency the user feels on the first tool call. Go binaries start in single-digit milliseconds. A Python process with imports takes ~200&ndash;500ms before it executes a single line of application code.</p>
+    <p><strong>Startup time is not trivial.</strong> flux7-mesh launches as a subprocess of Claude Code (via MCP stdio). Every millisecond of startup is latency the user feels on the first tool call. Go binaries start in single-digit milliseconds. A Python process with imports takes ~200&ndash;500ms before it executes a single line of application code.</p>
 
-    <p><strong>Memory footprint is predictable.</strong> agent-mesh idles at ~14 MB RSS. A comparable Python process with FastAPI, uvicorn, and a few imports sits at 80&ndash;120 MB before handling a request. When you run five MCP servers plus a proxy on a developer laptop, that adds up.</p>
+    <p><strong>Memory footprint is predictable.</strong> flux7-mesh idles at ~14 MB RSS. A comparable Python process with FastAPI, uvicorn, and a few imports sits at 80&ndash;120 MB before handling a request. When you run five MCP servers plus a proxy on a developer laptop, that adds up.</p>
 
     <h2>The cost</h2>
 
@@ -398,7 +398,7 @@ footer span { color: var(--green); }
 
     <h2>Where Python wins</h2>
 
-    <p>I still use Python where it makes sense. <a href="https://github.com/KTCrisis/event7">event7</a> (schema registry governance) has a FastAPI backend because it's a web app with a database, not a systems proxy. The LangChain demo for agent-mesh is Python, because it demonstrates governance on a Python agent. If I were building a RAG pipeline or fine-tuning a model, I'd use Python without hesitation.</p>
+    <p>I still use Python where it makes sense. <a href="https://github.com/KTCrisis/event7">event7</a> (schema registry governance) has a FastAPI backend because it's a web app with a database, not a systems proxy. The LangChain demo for flux7-mesh is Python, because it demonstrates governance on a Python agent. If I were building a RAG pipeline or fine-tuning a model, I'd use Python without hesitation.</p>
 
     <p>The split is simple: <strong>if it touches model weights or needs rapid ML prototyping, Python. If it's infrastructure that moves data, enforces policy, or manages processes, Go.</strong></p>
 
@@ -407,7 +407,7 @@ footer span { color: var(--green); }
     <p>The Go ecosystem for agentic AI has real gaps:</p>
 
     <ul>
-      <li><strong>No official MCP SDK for Go.</strong> Anthropic ships Python and TypeScript. The community Go implementations are young and incomplete. I ended up writing my own MCP client and server inside agent-mesh because none of the existing options handled both stdio and SSE transports reliably.</li>
+      <li><strong>No official MCP SDK for Go.</strong> Anthropic ships Python and TypeScript. The community Go implementations are young and incomplete. I ended up writing my own MCP client and server inside flux7-mesh because none of the existing options handled both stdio and SSE transports reliably.</li>
       <li><strong>No structured output libraries.</strong> Python has Instructor, Outlines, Marvin for forcing LLM output into typed schemas. In Go, you parse JSON and hope. scout7 for example does regex extraction on LLM responses as a fallback. It works but it's not elegant.</li>
       <li><strong>No agent framework.</strong> Not necessarily a bad thing, since frameworks often add more abstraction than value in my opinion. But it means every Go agent starts from scratch.</li>
     </ul>
@@ -427,7 +427,7 @@ footer span { color: var(--green); }
     <hr>
 
     <div class="article-footer">
-      <p>All projects mentioned are open-source: <a href="https://github.com/KTCrisis/flux7-mesh">agent-mesh</a>, <a href="https://github.com/KTCrisis/flux7-memory">mem7</a>, <a href="https://github.com/KTCrisis/scout7">scout7</a>, <a href="https://github.com/KTCrisis/ollama-mcp-go">ollama-mcp-go</a>. Built on a 4070 Ti with Ollama, Claude Code, and too much coffee.</p>
+      <p>All projects mentioned are open-source: <a href="https://github.com/KTCrisis/flux7-mesh">flux7-mesh</a>, <a href="https://github.com/KTCrisis/flux7-memory">flux7-memory</a>, <a href="https://github.com/KTCrisis/scout7">scout7</a>, <a href="https://github.com/KTCrisis/ollama-mcp-go">ollama-mcp-go</a>. Built on a 4070 Ti with Ollama, Claude Code, and too much coffee.</p>
 
       <a href="/blog/" class="back-link">&larr; back to log_</a>
     </div>

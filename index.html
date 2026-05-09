@@ -180,7 +180,6 @@ section { position: relative; z-index: 1; }
 .ticker {
   display: flex;
   white-space: nowrap;
-  animation: ticker 30s linear infinite;
 }
 .ticker-item {
   font-size: 11px;
@@ -200,10 +199,6 @@ section { position: relative; z-index: 1; }
 .ticker-item .desc {
   color: var(--text2);
   margin-left: 8px;
-}
-@keyframes ticker {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
 }
 .scroll-hint::after { content: ''; display: block; width: 1px; height: 36px; background: linear-gradient(to bottom, var(--text2), transparent); margin: 10px auto 0; animation: scrollLine 2s ease infinite; }
 
@@ -465,15 +460,7 @@ footer span { color: var(--green); }
     <span data-en="// log" data-fr="// log">// log</span><span class="log-cursor">_</span>
   </a>
   <div class="ticker-wrap">
-    <div class="ticker">
-      <span class="ticker-item"><span class="dot">&gt;</span><span class="name">flux7</span><span class="desc">ai agent governance</span></span>
-      <span class="ticker-item"><span class="dot">&gt;</span><span class="name">event7</span><span class="desc">schema registry governance</span></span>
-      <span class="ticker-item"><span class="dot">&gt;</span><span class="name">staff7</span><span class="desc">ai-native psa platform</span></span>
-      <span class="ticker-item"><span class="dot">&gt;</span><span class="name">scout7</span><span class="desc">autonomous web research agent</span></span>
-      <span class="ticker-item"><span class="dot">&gt;</span><span class="name">arch7</span><span class="desc">excalidraw diagram generator</span></span>
-      <span class="ticker-item"><span class="dot">&gt;</span><span class="name">ollama-mcp</span><span class="desc">mcp server for ollama</span></span>
-      <span class="ticker-item"><span class="dot">&gt;</span><span class="name">chromecast-mcp</span><span class="desc">mcp server for chromecast</span></span>
-      <span class="ticker-item"><span class="dot">&gt;</span><span class="name">astroGenAI</span><span class="desc">ai astrological pipeline</span></span>
+    <div class="ticker" id="ticker">
       <span class="ticker-item"><span class="dot">&gt;</span><span class="name">flux7</span><span class="desc">ai agent governance</span></span>
       <span class="ticker-item"><span class="dot">&gt;</span><span class="name">event7</span><span class="desc">schema registry governance</span></span>
       <span class="ticker-item"><span class="dot">&gt;</span><span class="name">staff7</span><span class="desc">ai-native psa platform</span></span>
@@ -736,6 +723,27 @@ function drawBg() {
 }
 drawBg();
 
+
+// ── TICKER ──
+(function() {
+  const ticker = document.getElementById('ticker');
+  if (!ticker) return;
+  const items = Array.from(ticker.children);
+  const wrap = ticker.parentElement;
+  while (ticker.scrollWidth < wrap.offsetWidth * 3) {
+    items.forEach(item => ticker.appendChild(item.cloneNode(true)));
+  }
+  let pos = 0;
+  const speed = 0.5;
+  const half = ticker.scrollWidth / (ticker.children.length / items.length);
+  function tick() {
+    pos -= speed;
+    if (pos <= -half) pos += half;
+    ticker.style.transform = `translateX(${pos}px)`;
+    requestAnimationFrame(tick);
+  }
+  tick();
+})();
 
 // ── SCROLL ANIMATIONS ──
 const observer = new IntersectionObserver((entries) => {

@@ -225,6 +225,9 @@ section { position: relative; z-index: 1; }
 .status-live { background: rgba(0,255,136,0.1); color: var(--green); border: 1px solid rgba(0,255,136,0.3); }
 .status-wip { background: rgba(255,209,102,0.1); color: var(--gold); border: 1px solid rgba(255,209,102,0.3); }
 
+/* ── LAB COMPACT CARDS ── */
+#lab a:hover { border-color: var(--dim) !important; }
+
 /* ── FLIP CARDS ── */
 .sub-header { display: flex; align-items: center; gap: 14px; margin-bottom: 28px; margin-top: 48px; }
 .sub-header:first-child { margin-top: 0; }
@@ -449,6 +452,9 @@ footer span { color: var(--green); }
   .hero-title { letter-spacing: -2px; }
   .flip-grid { grid-template-columns: 1fr; }
   .flip-container { height: 440px; }
+  #flux7 > div > div { grid-template-columns: 1fr !important; }
+  #flux7 > div > div > div:first-child { border-right: none !important; border-bottom: 1px solid var(--border); }
+  #lab > div:last-child { grid-template-columns: 1fr !important; }
   .flip-back-metrics { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 500px) {
@@ -466,6 +472,7 @@ footer span { color: var(--green); }
   <a href="#" class="nav-logo">flux<span>7</span>.art</a>
   <div style="display:flex;align-items:center;">
     <ul class="nav-links">
+      <li><a href="#flux7">flux7</a></li>
       <li><a href="#projects">Projects</a></li>
       <li><a href="#lab">Lab</a></li>
       <li><a href="#music">Music</a></li>
@@ -494,31 +501,70 @@ footer span { color: var(--green); }
   </a>
   <div class="ticker-wrap">
     <div class="ticker">
-      <span class="ticker-item"><span class="dot">&gt;</span><span class="name">flux7-mesh</span><span class="desc">ai agent governance proxy</span></span>
+      <span class="ticker-item"><span class="dot">&gt;</span><span class="name">flux7</span><span class="desc">ai agent governance</span></span>
       <span class="ticker-item"><span class="dot">&gt;</span><span class="name">event7</span><span class="desc">schema registry governance</span></span>
-      <span class="ticker-item"><span class="dot">&gt;</span><span class="name">flux7-memory</span><span class="desc">temporal memory for agents</span></span>
-      <span class="ticker-item"><span class="dot">&gt;</span><span class="name">flux7-console</span><span class="desc">mesh management dashboard</span></span>
-      <span class="ticker-item"><span class="dot">&gt;</span><span class="name">arch7</span><span class="desc">excalidraw diagram generator</span></span>
+      <span class="ticker-item"><span class="dot">&gt;</span><span class="name">staff7</span><span class="desc">ai-native psa platform</span></span>
       <span class="ticker-item"><span class="dot">&gt;</span><span class="name">scout7</span><span class="desc">autonomous web research agent</span></span>
-      <span class="ticker-item"><span class="dot">&gt;</span><span class="name">ollama-mcp-go</span><span class="desc">mcp server for ollama</span></span>
+      <span class="ticker-item"><span class="dot">&gt;</span><span class="name">arch7</span><span class="desc">excalidraw diagram generator</span></span>
+      <span class="ticker-item"><span class="dot">&gt;</span><span class="name">ollama-mcp</span><span class="desc">mcp server for ollama</span></span>
       <span class="ticker-item"><span class="dot">&gt;</span><span class="name">chromecast-mcp</span><span class="desc">mcp server for chromecast</span></span>
-      <span class="ticker-item"><span class="dot">&gt;</span><span class="name">flux7-mesh</span><span class="desc">ai agent governance proxy</span></span>
+      <span class="ticker-item"><span class="dot">&gt;</span><span class="name">astroGenAI</span><span class="desc">ai astrological pipeline</span></span>
+      <span class="ticker-item"><span class="dot">&gt;</span><span class="name">flux7</span><span class="desc">ai agent governance</span></span>
       <span class="ticker-item"><span class="dot">&gt;</span><span class="name">event7</span><span class="desc">schema registry governance</span></span>
-      <span class="ticker-item"><span class="dot">&gt;</span><span class="name">flux7-memory</span><span class="desc">temporal memory for agents</span></span>
-      <span class="ticker-item"><span class="dot">&gt;</span><span class="name">flux7-console</span><span class="desc">mesh management dashboard</span></span>
-      <span class="ticker-item"><span class="dot">&gt;</span><span class="name">arch7</span><span class="desc">excalidraw diagram generator</span></span>
+      <span class="ticker-item"><span class="dot">&gt;</span><span class="name">staff7</span><span class="desc">ai-native psa platform</span></span>
       <span class="ticker-item"><span class="dot">&gt;</span><span class="name">scout7</span><span class="desc">autonomous web research agent</span></span>
-      <span class="ticker-item"><span class="dot">&gt;</span><span class="name">ollama-mcp-go</span><span class="desc">mcp server for ollama</span></span>
+      <span class="ticker-item"><span class="dot">&gt;</span><span class="name">arch7</span><span class="desc">excalidraw diagram generator</span></span>
+      <span class="ticker-item"><span class="dot">&gt;</span><span class="name">ollama-mcp</span><span class="desc">mcp server for ollama</span></span>
       <span class="ticker-item"><span class="dot">&gt;</span><span class="name">chromecast-mcp</span><span class="desc">mcp server for chromecast</span></span>
+      <span class="ticker-item"><span class="dot">&gt;</span><span class="name">astroGenAI</span><span class="desc">ai astrological pipeline</span></span>
     </div>
   </div>
   <div class="scroll-hint">scroll</div>
 </section>
 
-<section id="projects">
+<!-- ═══ 01 — FLUX7 ECOSYSTEM ═══ -->
+<section id="flux7" style="padding:120px 40px 80px;max-width:1200px;margin:0 auto;">
   <div class="section-header">
     <span class="section-num">01 //</span>
-    <h2 class="section-title" data-en="Projects" data-fr="Projets">Projects</h2>
+    <h2 class="section-title">flux7</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div style="background:var(--bg2);border:1px solid var(--border);border-radius:4px;overflow:hidden;position:relative;">
+    <div style="height:2px;background:linear-gradient(90deg,var(--green),var(--cyan),var(--green));"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;">
+      <div style="padding:36px 40px;border-right:1px solid var(--border);">
+        <div style="font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--text2);margin-bottom:12px;">// <span style="color:var(--green);">Governance infrastructure for AI agents</span></div>
+        <div style="font-size:32px;font-weight:700;color:#fff;letter-spacing:-1px;margin-bottom:16px;" data-en="Policy. Memory. Judgment. Oversight." data-fr="Politique. Memoire. Jugement. Supervision.">Policy. Memory. Judgment. Oversight.</div>
+        <p style="font-size:12px;color:var(--text);line-height:1.7;margin-bottom:24px;" data-en="Four projects that govern what AI agents can do, remember what happened, evaluate what's ambiguous, and let humans intervene when it matters." data-fr="Quatre projets qui gouvernent ce que les agents AI peuvent faire, retiennent ce qui s'est passe, evaluent ce qui est ambigu, et permettent aux humains d'intervenir quand ca compte.">Four projects that govern what AI agents can do, remember what happened, evaluate what's ambiguous, and let humans intervene when it matters.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px;">
+          <span class="stack-tag" style="border-color:var(--green);color:var(--green);">flux7-mesh</span>
+          <span class="stack-tag" style="border-color:var(--gold);color:var(--gold);">flux7-memory</span>
+          <span class="stack-tag" style="border-color:var(--pink);color:var(--pink);">flux7-supervisor</span>
+          <span class="stack-tag" style="border-color:var(--cyan);color:var(--cyan);">flux7-console</span>
+        </div>
+        <a href="https://docs.flux7.art" target="_blank" class="card-btn" style="border-color:var(--green);color:var(--green);background:rgba(0,255,136,0.05);font-size:11px;padding:8px 20px;">docs.flux7.art &rarr;</a>
+      </div>
+      <div style="padding:36px 40px;display:flex;align-items:center;">
+        <pre style="font-family:var(--font);font-size:10px;line-height:1.6;color:var(--text);margin:0;white-space:pre;">L0  <span style="color:var(--green);">flux7-mesh</span>        policy engine          &lt;1ms
+     |
+L1  <span style="color:var(--gold);">flux7-memory</span>      3+ past approvals      ~100ms
+     |
+L1+ <span style="color:var(--pink);">flux7-supervisor</span>  rules + LLM            ~2-20s
+     |
+L2  <span style="color:var(--cyan);">flux7-console</span>     human UI               minutes
+     |
+    <span style="color:var(--text2);">decisions stored as facts in memory</span></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 02 — PRODUCTS ═══ -->
+<section id="projects" style="padding:80px 40px;max-width:1200px;margin:0 auto;">
+  <div class="section-header">
+    <span class="section-num">02 //</span>
+    <h2 class="section-title" data-en="Products" data-fr="Produits">Products</h2>
     <div class="section-line"></div>
   </div>
 
@@ -534,7 +580,7 @@ footer span { color: var(--green); }
             <div class="flip-logo-text e7-logo"><span class="e-event">event</span><span class="e-seven">7</span></div>
           </div>
           <div class="flip-tagline">Schema Registry Governance Platform</div>
-          <p class="flip-desc" data-en="Universal governance layer for Schema Registries. Tags, ownership, classification, diff viewer, AsyncAPI, references graph and AI agent — provider-agnostic." data-fr="Couche de gouvernance universelle pour Schema Registries. Tags, ownership, classification, diff viewer, AsyncAPI, graphe de références et agent IA.">Universal governance layer for Schema Registries. <b>Tags</b>, <b>ownership</b>, <b>diff viewer</b>, <b>AsyncAPI</b>, <b>references graph</b> and <b>AI agent</b> — provider-agnostic.</p>
+          <p class="flip-desc" data-en="Universal governance layer for Schema Registries. Tags, ownership, classification, diff viewer, AsyncAPI, references graph and AI agent — provider-agnostic." data-fr="Couche de gouvernance universelle pour Schema Registries. Tags, ownership, classification, diff viewer, AsyncAPI, graphe de references et agent IA.">Universal governance layer for Schema Registries. <b>Tags</b>, <b>ownership</b>, <b>diff viewer</b>, <b>AsyncAPI</b>, <b>references graph</b> and <b>AI agent</b> — provider-agnostic.</p>
           <div class="flip-stack">
             <span class="stack-tag">Next.js</span><span class="stack-tag">FastAPI</span><span class="stack-tag">Supabase</span><span class="stack-tag">Confluent</span><span class="stack-tag">Apicurio</span>
           </div>
@@ -542,7 +588,7 @@ footer span { color: var(--green); }
             <a href="https://github.com/KTCrisis/event7" target="_blank" class="card-btn" style="border-color:var(--teal-light);color:var(--teal-light);background:rgba(13,148,136,0.05);" onclick="event.stopPropagation()"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.385-1.335-1.755-1.335-1.755-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12z"/></svg> GitHub</a>
             <a href="https://github.com/KTCrisis/event7/blob/main/ARCHITECTURE.md" target="_blank" class="card-btn card-btn-github" style="border-color:var(--teal-light);color:var(--teal-light);" onclick="event.stopPropagation()">Docs</a>
           </div>
-          <div class="flip-hint">tap to flip →</div>
+          <div class="flip-hint">tap to flip &rarr;</div>
         </div>
         <div class="flip-back">
           <div class="flip-back-img"><img src="/img/event7.jpg" alt="event7 screenshot"></div>
@@ -552,237 +598,7 @@ footer span { color: var(--green); }
             <div class="flip-back-metric"><div class="flip-back-metric-val">SaaS</div><div class="flip-back-metric-label">+ On-Prem</div></div>
             <div class="flip-back-metric"><div class="flip-back-metric-val">OSS</div><div class="flip-back-metric-label">Apache 2.0</div></div>
           </div>
-          <div class="flip-back-hint">← tap to flip</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ═══ FLUX7-MESH ═══ -->
-    <div class="flip-container flip-accent-purple" onclick="this.classList.toggle('flipped')">
-      <div class="flip-inner">
-        <div class="flip-front">
-          <div class="flip-cat">// <span>OSS · AI Governance · MCP · Proxy</span></div>
-          <span class="flip-status status-live">● live</span>
-          <div class="flip-logo-area">
-            <div class="flip-logo-text am-logo"><span class="am-agent">flux7</span><span class="am-mesh">-mesh</span></div>
-          </div>
-          <div class="flip-tagline">Guardrails for AI Agents</div>
-          <p class="flip-desc" data-en="Lightweight policy and tracing layer for AI agent tool calls. Controls what agents can do with MCP servers, REST APIs, and tools — without changing agent code. One binary, one YAML." data-fr="Couche de gouvernance et de trace pour les appels d'outils des agents AI. Controle ce que les agents peuvent faire avec les MCP servers, APIs REST et outils — sans changer le code agent.">Lightweight policy and tracing layer for AI agent tool calls. Controls what agents can do with <b>MCP servers</b>, <b>REST APIs</b>, and <b>tools</b> — without changing agent code.</p>
-          <div class="flip-stack">
-            <span class="stack-tag">Go</span><span class="stack-tag">MCP</span><span class="stack-tag">OpenAPI</span><span class="stack-tag">YAML Policy</span><span class="stack-tag">JSONL Traces</span>
-          </div>
-          <div class="flip-actions">
-            <a href="https://github.com/KTCrisis/flux7-mesh" target="_blank" class="card-btn" style="border-color:var(--purple);color:var(--purple);background:rgba(168,85,247,0.05);" onclick="event.stopPropagation()"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.385-1.335-1.755-1.335-1.755-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12z"/></svg> GitHub</a>
-            <a href="https://github.com/KTCrisis/flux7-mesh/blob/main/README.md" target="_blank" class="card-btn card-btn-github" style="border-color:var(--purple);color:var(--purple);" onclick="event.stopPropagation()">Docs</a>
-          </div>
-          <div class="flip-hint">tap to flip →</div>
-        </div>
-        <div class="flip-back">
-          <div class="flip-back-metrics">
-            <div class="flip-back-metric"><div class="flip-back-metric-val">MCP</div><div class="flip-back-metric-label">Import + Export</div></div>
-            <div class="flip-back-metric"><div class="flip-back-metric-val">REST</div><div class="flip-back-metric-label">OpenAPI Import</div></div>
-            <div class="flip-back-metric"><div class="flip-back-metric-val">57</div><div class="flip-back-metric-label">Tests</div></div>
-            <div class="flip-back-metric"><div class="flip-back-metric-val">OSS</div><div class="flip-back-metric-label">Apache 2.0</div></div>
-          </div>
-          <div class="flip-back-hint">← tap to flip</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ═══ FLUX7-CONSOLE ═══ -->
-    <div class="flip-container flip-accent-cyan" onclick="this.classList.toggle('flipped')">
-      <div class="flip-inner">
-        <div class="flip-front">
-          <div class="flip-cat">// <span>OSS · Management Plane · Observability</span></div>
-          <span class="flip-status status-wip">● wip</span>
-          <div class="flip-logo-area">
-            <div class="flip-logo-text a7-logo"><span class="a-agent">flux7</span><span class="a-seven">-console</span></div>
-          </div>
-          <div class="flip-tagline">AI Agent Governance Platform</div>
-          <p class="flip-desc" data-en="Management plane for flux7-mesh. Live dashboard for tool catalogs, policies, traces and agents. Turns JSONL traces and YAML policies into a real-time governance UI." data-fr="Plan de management pour flux7-mesh. Dashboard temps réel des catalogues de tools, policies, traces et agents. Transforme les traces JSONL et policies YAML en UI de gouvernance.">Management plane for <b>flux7-mesh</b>. Live dashboard for <b>tool catalogs</b>, <b>policies</b>, <b>traces</b> and <b>agents</b> — JSONL + YAML become a real-time governance UI.</p>
-          <div class="flip-stack">
-            <span class="stack-tag">Next.js</span><span class="stack-tag">TanStack Query</span><span class="stack-tag">Go</span><span class="stack-tag">OTEL</span><span class="stack-tag">MCP</span>
-          </div>
-          <div class="flip-actions">
-            <a href="https://github.com/KTCrisis/flux7-console" target="_blank" class="card-btn" style="border-color:var(--cyan);color:var(--cyan);background:rgba(0,229,255,0.05);" onclick="event.stopPropagation()"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.385-1.335-1.755-1.335-1.755-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12z"/></svg> GitHub</a>
-          </div>
-          <div class="flip-hint">tap to flip →</div>
-        </div>
-        <div class="flip-back">
-          <div class="flip-back-metrics">
-            <div class="flip-back-metric"><div class="flip-back-metric-val">Live</div><div class="flip-back-metric-label">Mesh Dashboard</div></div>
-            <div class="flip-back-metric"><div class="flip-back-metric-val">OTEL</div><div class="flip-back-metric-label">Trace Viewer</div></div>
-            <div class="flip-back-metric"><div class="flip-back-metric-val">YAML</div><div class="flip-back-metric-label">Policy Editor</div></div>
-            <div class="flip-back-metric"><div class="flip-back-metric-val">OSS</div><div class="flip-back-metric-label">Apache 2.0</div></div>
-          </div>
-          <div class="flip-back-hint">← tap to flip</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ═══ FLUX7-MEMORY ═══ -->
-    <div class="flip-container flip-accent-gold" onclick="this.classList.toggle('flipped')">
-      <div class="flip-inner">
-        <div class="flip-front">
-          <div class="flip-cat">// <span>OSS · Memory · MCP · Governance</span></div>
-          <span class="flip-status status-live">● live</span>
-          <div class="flip-logo-area">
-            <div class="flip-logo-text m7-logo"><span class="m-mem">flux7</span><span class="m-seven">-memory</span></div>
-          </div>
-          <div class="flip-tagline">Governed Shared Memory for AI Agents</div>
-          <p class="flip-desc" data-en="MCP server exposing a shared memory store for AI agents. Recall, store, list and forget over JSON and markdown. Built as a foundation for governed, temporal, multi-agent memory." data-fr="Serveur MCP exposant une mémoire partagée pour agents AI. Recall, store, list, forget sur JSON et markdown. Fondation pour une mémoire multi-agents gouvernée et temporelle.">MCP server exposing a shared memory store for AI agents. <b>Recall</b>, <b>store</b>, <b>list</b> and <b>forget</b> over JSON and markdown — foundation for governed, temporal, multi-agent memory.</p>
-          <div class="flip-stack">
-            <span class="stack-tag">Go</span><span class="stack-tag">MCP</span><span class="stack-tag">JSON</span><span class="stack-tag">Markdown</span>
-          </div>
-          <div class="flip-actions">
-            <a href="https://github.com/KTCrisis/flux7-memory" target="_blank" class="card-btn" style="border-color:var(--gold);color:var(--gold);background:rgba(255,209,102,0.05);" onclick="event.stopPropagation()"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.385-1.335-1.755-1.335-1.755-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12z"/></svg> GitHub</a>
-          </div>
-          <div class="flip-hint">tap to flip →</div>
-        </div>
-        <div class="flip-back">
-          <div class="flip-back-metrics">
-            <div class="flip-back-metric"><div class="flip-back-metric-val">4</div><div class="flip-back-metric-label">MCP Tools</div></div>
-            <div class="flip-back-metric"><div class="flip-back-metric-val">v1</div><div class="flip-back-metric-label">Shipped</div></div>
-            <div class="flip-back-metric"><div class="flip-back-metric-val">Go</div><div class="flip-back-metric-label">Single Binary</div></div>
-            <div class="flip-back-metric"><div class="flip-back-metric-val">OSS</div><div class="flip-back-metric-label">Apache 2.0</div></div>
-          </div>
-          <div class="flip-back-hint">← tap to flip</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ═══ SCOUT7 ═══ -->
-    <div class="flip-container flip-accent-emerald" onclick="this.classList.toggle('flipped')">
-      <div class="flip-inner">
-        <div class="flip-front">
-          <div class="flip-cat">// <span>OSS · Autonomous Agent · Web Research · Go</span></div>
-          <span class="flip-status status-live">● live</span>
-          <div class="flip-logo-area">
-            <div class="flip-logo-text sc7-logo"><span class="sc-scout">scout</span><span class="sc-seven">7</span></div>
-          </div>
-          <div class="flip-tagline">Autonomous Web Research Agent</div>
-          <p class="flip-desc" data-en="Autonomous agent that searches the web, extracts structured architectures, and produces output via any MCP tool. Pluggable output — Excalidraw diagrams, markdown reports, JSON, or memory. Runs on flux7-mesh with full policy, tracing, and approval." data-fr="Agent autonome qui recherche sur le web, extrait des architectures structurées, et produit un output via n'importe quel outil MCP. Sortie pluggable — diagrammes Excalidraw, rapports markdown, JSON, ou mémoire. Tourne sur flux7-mesh avec policies, traces et approbation.">Autonomous agent that <b>searches the web</b>, extracts structured architectures, and produces output via any <b>MCP tool</b>. Pluggable output — <b>Excalidraw diagrams</b>, markdown, JSON, or memory. First autonomous agent on the <b>flux7-mesh</b> stack.</p>
-          <div class="flip-stack">
-            <span class="stack-tag">Go</span><span class="stack-tag">flux7-mesh</span><span class="stack-tag">searxng</span><span class="stack-tag">Ollama</span><span class="stack-tag">arch7</span><span class="stack-tag">flux7-memory</span>
-          </div>
-          <div class="flip-actions">
-            <a href="https://github.com/KTCrisis/scout7" target="_blank" class="card-btn" style="border-color:var(--emerald);color:var(--emerald);background:rgba(52,211,153,0.05);" onclick="event.stopPropagation()"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.385-1.335-1.755-1.335-1.755-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12z"/></svg> GitHub</a>
-          </div>
-          <div class="flip-hint">tap to flip →</div>
-        </div>
-        <div class="flip-back">
-          <div class="flip-back-metrics">
-            <div class="flip-back-metric"><div class="flip-back-metric-val">4</div><div class="flip-back-metric-label">Output Formats</div></div>
-            <div class="flip-back-metric"><div class="flip-back-metric-val">24h</div><div class="flip-back-metric-label">Cycle Interval</div></div>
-            <div class="flip-back-metric"><div class="flip-back-metric-val">Go</div><div class="flip-back-metric-label">Single Binary</div></div>
-            <div class="flip-back-metric"><div class="flip-back-metric-val">Apache</div><div class="flip-back-metric-label">License</div></div>
-          </div>
-          <div class="flip-back-hint">← tap to flip</div>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<section id="lab">
-  <div class="section-header">
-    <span class="section-num">02 //</span>
-    <h2 class="section-title">Lab</h2>
-    <div class="section-line"></div>
-  </div>
-
-  <div class="flip-grid">
-
-    <!-- ═══ ARCH7 ═══ -->
-    <div class="flip-container flip-accent-indigo" onclick="this.classList.toggle('flipped')">
-      <div class="flip-inner">
-        <div class="flip-front">
-          <div class="flip-cat">// <span>OSS · MCP · Architecture · Diagrams</span></div>
-          <span class="flip-status status-live">● live</span>
-          <div class="flip-logo-area">
-            <div class="flip-logo-text ar7-logo"><span class="ar-arch">arch</span><span class="ar-seven">7</span></div>
-          </div>
-          <div class="flip-tagline">Architecture Diagrams as MCP</div>
-          <p class="flip-desc" data-en="MCP server that turns structured node and connection data into Excalidraw architecture diagrams. Auto-layout, auto-styling for GCP, Kong, Confluent, Dynatrace and 80+ components. Iterative editing without redraw." data-fr="Serveur MCP qui transforme des nodes et connexions structurés en diagrammes d'architecture Excalidraw. Auto-layout, auto-styling pour GCP, Kong, Confluent, Dynatrace et 80+ composants. Édition itérative sans redraw.">MCP server that turns structured node and connection data into <b>Excalidraw architecture diagrams</b>. Auto-layout, auto-styling for <b>GCP</b>, <b>Kong</b>, <b>Confluent</b>, <b>Dynatrace</b> — iterative editing without redraw.</p>
-          <div class="flip-stack">
-            <span class="stack-tag">Python</span><span class="stack-tag">FastMCP</span><span class="stack-tag">Excalidraw</span><span class="stack-tag">Mermaid</span>
-          </div>
-          <div class="flip-actions">
-            <a href="https://github.com/KTCrisis/arch7" target="_blank" class="card-btn" style="border-color:var(--indigo);color:var(--indigo);background:rgba(99,102,241,0.05);" onclick="event.stopPropagation()"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.385-1.335-1.755-1.335-1.755-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12z"/></svg> GitHub</a>
-          </div>
-          <div class="flip-hint">tap to flip →</div>
-        </div>
-        <div class="flip-back">
-          <div class="flip-back-metrics">
-            <div class="flip-back-metric"><div class="flip-back-metric-val">80+</div><div class="flip-back-metric-label">Components</div></div>
-            <div class="flip-back-metric"><div class="flip-back-metric-val">Auto</div><div class="flip-back-metric-label">Layout + Style</div></div>
-            <div class="flip-back-metric"><div class="flip-back-metric-val">MCP</div><div class="flip-back-metric-label">Iterative Edit</div></div>
-            <div class="flip-back-metric"><div class="flip-back-metric-val">OSS</div><div class="flip-back-metric-label">Apache 2.0</div></div>
-          </div>
-          <div class="flip-back-hint">← tap to flip</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ═══ OLLAMA-MCP-GO ═══ -->
-    <div class="flip-container flip-accent-orange" onclick="this.classList.toggle('flipped')">
-      <div class="flip-inner">
-        <div class="flip-front">
-          <div class="flip-cat">// <span>OSS · MCP · Local AI · Go</span></div>
-          <span class="flip-status status-live">● live</span>
-          <div class="flip-logo-area">
-            <div class="flip-logo-text om-logo"><span class="om-ollama">ollama</span><span class="om-mcp">-mcp</span></div>
-          </div>
-          <div class="flip-tagline">Ollama as MCP</div>
-          <p class="flip-desc" data-en="MCP server that lets Claude Code, Cursor, or any MCP client talk to local Ollama models. Agent-oriented tool surface — generate with system prompts, multi-turn chat, embeddings. Single Go binary, zero dependencies." data-fr="Serveur MCP qui permet à Claude Code, Cursor ou n'importe quel client MCP de dialoguer avec les modèles Ollama locaux. Surface orientée agent — generate avec system prompts, chat multi-turn, embeddings. Binaire Go unique, zéro dépendance.">MCP server that lets Claude Code, Cursor, or any MCP client talk to local <b>Ollama</b> models. Agent-oriented tool surface — <b>generate</b>, <b>chat</b>, <b>embed</b>. Designed as an upstream for <b>flux7-mesh</b>.</p>
-          <div class="flip-stack">
-            <span class="stack-tag">Go</span><span class="stack-tag">MCP stdio</span><span class="stack-tag">JSON-RPC 2.0</span><span class="stack-tag">Ollama</span>
-          </div>
-          <div class="flip-actions">
-            <a href="https://github.com/KTCrisis/ollama-mcp-go" target="_blank" class="card-btn" style="border-color:var(--orange);color:var(--orange);background:rgba(255,140,66,0.05);" onclick="event.stopPropagation()"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.385-1.335-1.755-1.335-1.755-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12z"/></svg> GitHub</a>
-          </div>
-          <div class="flip-hint">tap to flip →</div>
-        </div>
-        <div class="flip-back">
-          <div class="flip-back-metrics">
-            <div class="flip-back-metric"><div class="flip-back-metric-val">4</div><div class="flip-back-metric-label">MCP Tools</div></div>
-            <div class="flip-back-metric"><div class="flip-back-metric-val">0</div><div class="flip-back-metric-label">Dependencies</div></div>
-            <div class="flip-back-metric"><div class="flip-back-metric-val">Go</div><div class="flip-back-metric-label">Single Binary</div></div>
-            <div class="flip-back-metric"><div class="flip-back-metric-val">MIT</div><div class="flip-back-metric-label">License</div></div>
-          </div>
-          <div class="flip-back-hint">← tap to flip</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ═══ CHROMECAST-MCP ═══ -->
-    <div class="flip-container flip-accent-orange" onclick="this.classList.toggle('flipped')">
-      <div class="flip-inner">
-        <div class="flip-front">
-          <div class="flip-cat">// <span>OSS · MCP · IoT · Python</span></div>
-          <span class="flip-status status-live">● live</span>
-          <div class="flip-logo-area">
-            <div class="flip-logo-text" style="font-size:1.6rem;letter-spacing:0.04em;"><span style="color:#ff8c42;">chromecast</span><span style="color:#aaa;">-mcp</span></div>
-          </div>
-          <div class="flip-tagline">Cast from your AI agent</div>
-          <p class="flip-desc" data-en="MCP server to control Google Chromecast from Claude Code, Cursor, or any MCP client. Discover devices, cast YouTube, local files, or any URL. Chain with SearXNG for natural-language media search and cast." data-fr="Serveur MCP pour contrôler un Google Chromecast depuis Claude Code, Cursor ou tout client MCP. Découverte réseau, cast YouTube, fichiers locaux ou URL. Chaînable avec SearXNG pour recherche et cast en langage naturel.">MCP server to control <b>Google Chromecast</b> from any MCP client. Discover devices, cast <b>YouTube</b>, <b>local files</b>, or any URL. Chain with <b>SearXNG</b> for natural-language media search and cast.</p>
-          <div class="flip-stack">
-            <span class="stack-tag">Python</span><span class="stack-tag">FastMCP</span><span class="stack-tag">pychromecast</span><span class="stack-tag">MCP stdio</span>
-          </div>
-          <div class="flip-actions">
-            <a href="https://github.com/KTCrisis/chromecast-mcp" target="_blank" class="card-btn" style="border-color:var(--orange);color:var(--orange);background:rgba(255,140,66,0.05);" onclick="event.stopPropagation()"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.385-1.335-1.755-1.335-1.755-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12z"/></svg> GitHub</a>
-          </div>
-          <div class="flip-hint">tap to flip →</div>
-        </div>
-        <div class="flip-back">
-          <div class="flip-back-metrics">
-            <div class="flip-back-metric"><div class="flip-back-metric-val">7</div><div class="flip-back-metric-label">MCP Tools</div></div>
-            <div class="flip-back-metric"><div class="flip-back-metric-val">2</div><div class="flip-back-metric-label">Dependencies</div></div>
-            <div class="flip-back-metric"><div class="flip-back-metric-val">Python</div><div class="flip-back-metric-label">FastMCP</div></div>
-            <div class="flip-back-metric"><div class="flip-back-metric-val">MIT</div><div class="flip-back-metric-label">License</div></div>
-          </div>
-          <div class="flip-back-hint">← tap to flip</div>
+          <div class="flip-back-hint">&larr; tap to flip</div>
         </div>
       </div>
     </div>
@@ -797,7 +613,7 @@ footer span { color: var(--green); }
             <div class="flip-logo-text s7-logo"><span class="s-staff">staff</span><span class="s-seven">7</span></div>
           </div>
           <div class="flip-tagline">AI-Native Professional Services Platform</div>
-          <p class="flip-desc" data-en="Staffing, capacity and margin platform for consulting firms. Connects skills, assignments, timesheets and financials — with an AI copilot. Multi-tenant · RLS · Edge-deployed." data-fr="Plateforme staffing, capacité et marge pour ESN. Relie compétences, affectations, timesheets et financials — avec copilote IA. Multi-tenant · RLS · Edge.">Staffing, capacity and margin platform for consulting firms. Connects <b>skills</b>, <b>assignments</b>, <b>timesheets</b> and <b>financials</b> — with an AI copilot. Multi-tenant · RLS · Edge.</p>
+          <p class="flip-desc" data-en="Staffing, capacity and margin platform for consulting firms. Connects skills, assignments, timesheets and financials — with an AI copilot. Multi-tenant · RLS · Edge-deployed." data-fr="Plateforme staffing, capacite et marge pour ESN. Relie competences, affectations, timesheets et financials — avec copilote IA. Multi-tenant · RLS · Edge.">Staffing, capacity and margin platform for consulting firms. Connects <b>skills</b>, <b>assignments</b>, <b>timesheets</b> and <b>financials</b> — with an AI copilot. Multi-tenant · RLS · Edge.</p>
           <div class="flip-stack">
             <span class="stack-tag">Next.js</span><span class="stack-tag">Supabase</span><span class="stack-tag">Cloudflare</span><span class="stack-tag">Ollama</span><span class="stack-tag">MCP</span>
           </div>
@@ -805,7 +621,7 @@ footer span { color: var(--green); }
             <a href="https://staffd.pages.dev/" target="_blank" class="card-btn" style="border-color:var(--green);color:var(--green);background:rgba(0,255,136,0.05);" onclick="event.stopPropagation()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg> Live</a>
             <a href="https://github.com/KTCrisis/staffd" target="_blank" class="card-btn card-btn-github" onclick="event.stopPropagation()"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.385-1.335-1.755-1.335-1.755-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12z"/></svg> GitHub</a>
           </div>
-          <div class="flip-hint">tap to flip →</div>
+          <div class="flip-hint">tap to flip &rarr;</div>
         </div>
         <div class="flip-back">
           <div class="flip-back-img"><img src="/img/staff7.jpg" alt="staff7 screenshot"></div>
@@ -815,49 +631,83 @@ footer span { color: var(--green); }
             <div class="flip-back-metric"><div class="flip-back-metric-val">Edge</div><div class="flip-back-metric-label">Cloudflare</div></div>
             <div class="flip-back-metric"><div class="flip-back-metric-val">EN/FR</div><div class="flip-back-metric-label">i18n</div></div>
           </div>
-          <div class="flip-back-hint">← tap to flip</div>
+          <div class="flip-back-hint">&larr; tap to flip</div>
         </div>
       </div>
     </div>
 
-    <!-- ═══ ASTROGENAI ═══ -->
-    <div class="flip-container flip-accent-pink" onclick="this.classList.toggle('flipped')">
-      <div class="flip-inner">
-        <div class="flip-front">
-          <div class="flip-cat">// <span>AI · Astrology · Video</span></div>
-          <span class="flip-status status-live">● live</span>
-          <div class="flip-logo-area">
-            <div class="astro-logo-wrap-v2">
-              <img class="astro-logo-img-v2" src="/img/astrogenai_logo.jpg" alt="astroGenAI">
-              <div class="flip-logo-text astro-title">astroGenAI</div>
-            </div>
-          </div>
-          <div class="flip-tagline">AI Astrological Content Pipeline</div>
-          <p class="flip-desc" data-en="Full astrological content generation pipeline. Horoscopes from real astronomical calculations (Skyfield), sky charts, voice synthesis and automated video production." data-fr="Pipeline complet de contenu astrologique. Horoscopes basés sur des calculs astronomiques réels (Skyfield), cartes du ciel, synthèse vocale et production vidéo automatisée.">Full astrological content generation. Horoscopes from real astronomical calculations (<b>Skyfield</b>), sky charts, voice synthesis and automated video production.</p>
-          <div class="flip-stack">
-            <span class="stack-tag">Python</span><span class="stack-tag">Flask</span><span class="stack-tag">Ollama</span><span class="stack-tag">ComfyUI</span><span class="stack-tag">Skyfield</span><span class="stack-tag">FFmpeg</span>
-          </div>
-          <div class="flip-actions">
-            <a href="https://github.com/KTCrisis/astrogenai" target="_blank" class="card-btn" style="border-color:var(--pink);color:var(--pink);background:rgba(255,45,107,0.05);" onclick="event.stopPropagation()"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.385-1.335-1.755-1.335-1.755-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12z"/></svg> GitHub</a>
-            <a href="https://www.youtube.com/@AstroGenAI-c9m/shorts" target="_blank" class="card-btn card-btn-yt" onclick="event.stopPropagation()"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg> YouTube</a>
-          </div>
-          <div class="flip-hint">tap to flip →</div>
-        </div>
-        <div class="flip-back">
-          <div class="flip-back-duo">
-            <img src="/img/astro_zodiac.jpg" alt="astroGenAI zodiac">
-            <img src="/img/astro_chart.jpg" alt="astroGenAI sky chart">
-          </div>
-          <div class="flip-back-metrics">
-            <div class="flip-back-metric"><div class="flip-back-metric-val">12</div><div class="flip-back-metric-label">Signs</div></div>
-            <div class="flip-back-metric"><div class="flip-back-metric-val">AI</div><div class="flip-back-metric-label">ComfyUI</div></div>
-            <div class="flip-back-metric"><div class="flip-back-metric-val">YT</div><div class="flip-back-metric-label">Auto Upload</div></div>
-            <div class="flip-back-metric"><div class="flip-back-metric-val">MCP</div><div class="flip-back-metric-label">Orchestrator</div></div>
-          </div>
-          <div class="flip-back-hint">← tap to flip</div>
-        </div>
+  </div>
+</section>
+
+<!-- ═══ 03 — LAB ═══ -->
+<section id="lab" style="padding:80px 40px 120px;max-width:1200px;margin:0 auto;">
+  <div class="section-header">
+    <span class="section-num">03 //</span>
+    <h2 class="section-title">Lab</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;">
+
+    <a href="https://github.com/KTCrisis/scout7" target="_blank" style="background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:20px;text-decoration:none;transition:border-color 0.2s;display:flex;flex-direction:column;gap:8px;position:relative;overflow:hidden;">
+      <div style="position:absolute;top:0;left:0;right:0;height:2px;background:var(--emerald);"></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <span style="font-family:var(--font);font-size:14px;font-weight:700;color:#fff;">scout7</span>
+        <span class="stack-tag">Go</span>
       </div>
-    </div>
+      <div style="font-size:10px;letter-spacing:1px;color:var(--emerald);" data-en="Autonomous web research agent" data-fr="Agent autonome de recherche web">Autonomous web research agent</div>
+      <p style="font-size:11px;color:var(--text2);line-height:1.6;margin:0;" data-en="Searches, extracts architectures, outputs Excalidraw diagrams. First autonomous agent on flux7-mesh." data-fr="Recherche, extrait des architectures, produit des diagrammes Excalidraw. Premier agent autonome sur flux7-mesh.">Searches, extracts architectures, outputs Excalidraw diagrams. First autonomous agent on flux7-mesh.</p>
+    </a>
+
+    <a href="https://github.com/KTCrisis/arch7" target="_blank" style="background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:20px;text-decoration:none;transition:border-color 0.2s;display:flex;flex-direction:column;gap:8px;position:relative;overflow:hidden;">
+      <div style="position:absolute;top:0;left:0;right:0;height:2px;background:var(--indigo);"></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <span style="font-family:var(--font);font-size:14px;font-weight:700;color:#fff;">arch7</span>
+        <span class="stack-tag">Python</span>
+      </div>
+      <div style="font-size:10px;letter-spacing:1px;color:var(--indigo);" data-en="Architecture diagrams as MCP" data-fr="Diagrammes d'architecture en MCP">Architecture diagrams as MCP</div>
+      <p style="font-size:11px;color:var(--text2);line-height:1.6;margin:0;" data-en="Turns nodes + connections into Excalidraw. Auto-styling for 80+ components (GCP, Kong, Confluent)." data-fr="Transforme nodes + connexions en Excalidraw. Auto-styling pour 80+ composants (GCP, Kong, Confluent).">Turns nodes + connections into Excalidraw. Auto-styling for 80+ components (GCP, Kong, Confluent).</p>
+    </a>
+
+    <a href="https://github.com/KTCrisis/ollama-mcp-go" target="_blank" style="background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:20px;text-decoration:none;transition:border-color 0.2s;display:flex;flex-direction:column;gap:8px;position:relative;overflow:hidden;">
+      <div style="position:absolute;top:0;left:0;right:0;height:2px;background:var(--orange);"></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <span style="font-family:var(--font);font-size:14px;font-weight:700;color:#fff;">ollama-mcp</span>
+        <span class="stack-tag">Go</span>
+      </div>
+      <div style="font-size:10px;letter-spacing:1px;color:var(--orange);" data-en="Ollama as MCP server" data-fr="Ollama en serveur MCP">Ollama as MCP server</div>
+      <p style="font-size:11px;color:var(--text2);line-height:1.6;margin:0;" data-en="Generate, chat, embed — any MCP client to local Ollama models. Single binary, zero deps." data-fr="Generate, chat, embed — tout client MCP vers les modeles Ollama locaux. Binaire unique, zero deps.">Generate, chat, embed — any MCP client to local Ollama models. Single binary, zero deps.</p>
+    </a>
+
+    <a href="https://github.com/KTCrisis/chromecast-mcp" target="_blank" style="background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:20px;text-decoration:none;transition:border-color 0.2s;display:flex;flex-direction:column;gap:8px;position:relative;overflow:hidden;">
+      <div style="position:absolute;top:0;left:0;right:0;height:2px;background:var(--orange);"></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <span style="font-family:var(--font);font-size:14px;font-weight:700;color:#fff;">chromecast-mcp</span>
+        <span class="stack-tag">Python</span>
+      </div>
+      <div style="font-size:10px;letter-spacing:1px;color:var(--orange);" data-en="Cast from your AI agent" data-fr="Cast depuis votre agent AI">Cast from your AI agent</div>
+      <p style="font-size:11px;color:var(--text2);line-height:1.6;margin:0;" data-en="Control Google Chromecast from any MCP client. YouTube, local files, URLs." data-fr="Controle Google Chromecast depuis tout client MCP. YouTube, fichiers locaux, URLs.">Control Google Chromecast from any MCP client. YouTube, local files, URLs.</p>
+    </a>
+
+    <a href="https://github.com/KTCrisis/astrogenai" target="_blank" style="background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:20px;text-decoration:none;transition:border-color 0.2s;display:flex;flex-direction:column;gap:8px;position:relative;overflow:hidden;">
+      <div style="position:absolute;top:0;left:0;right:0;height:2px;background:var(--pink);"></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <span style="font-family:var(--font);font-size:14px;font-weight:700;color:#fff;">astroGenAI</span>
+        <span class="stack-tag">Python</span>
+      </div>
+      <div style="font-size:10px;letter-spacing:1px;color:var(--pink);" data-en="AI astrological content pipeline" data-fr="Pipeline de contenu astrologique IA">AI astrological content pipeline</div>
+      <p style="font-size:11px;color:var(--text2);line-height:1.6;margin:0;" data-en="Horoscopes from Skyfield calculations, sky charts, voice synthesis, automated video." data-fr="Horoscopes depuis calculs Skyfield, cartes du ciel, synthese vocale, video automatisee.">Horoscopes from Skyfield calculations, sky charts, voice synthesis, automated video.</p>
+    </a>
+
+    <a href="https://github.com/KTCrisis/audit7" target="_blank" style="background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:20px;text-decoration:none;transition:border-color 0.2s;display:flex;flex-direction:column;gap:8px;position:relative;overflow:hidden;">
+      <div style="position:absolute;top:0;left:0;right:0;height:2px;background:var(--gold);"></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <span style="font-family:var(--font);font-size:14px;font-weight:700;color:#fff;">audit7</span>
+        <span class="stack-tag">Python</span>
+      </div>
+      <div style="font-size:10px;letter-spacing:1px;color:var(--gold);" data-en="RAG audit agent" data-fr="Agent d'audit RAG">RAG audit agent</div>
+      <p style="font-size:11px;color:var(--text2);line-height:1.6;margin:0;" data-en="Audits codebase via Claude API + flux7-mesh + LanceDB vector store." data-fr="Audite le code via Claude API + flux7-mesh + LanceDB vector store.">Audits codebase via Claude API + flux7-mesh + LanceDB vector store.</p>
+    </a>
 
   </div>
 </section>
@@ -922,12 +772,12 @@ footer span { color: var(--green); }
           <div><div class="link-label" style="color:var(--green);">staff<span style="color:var(--green);text-shadow:0 0 8px rgba(0,255,136,0.8);">7</span></div><div class="link-sub">AI-Native Professional Services Automation · <span style="color:rgba(0,255,136,0.6);">● live</span></div></div>
           <span class="link-arrow" style="color:var(--green);">→</span>
         </a>
-        <a href="https://github.com/KTCrisis/flux7-mesh" target="_blank" class="about-link" style="border-bottom:1px solid rgba(168,85,247,0.15);background:rgba(168,85,247,0.02);padding:14px 8px;border-radius:3px;margin:-2px 0;">
-          <div><div class="link-label" style="color:var(--purple);">flux7-mesh</div><div class="link-sub">Guardrails for AI Agents · <span style="color:rgba(168,85,247,0.6);">● live</span></div></div>
-          <span class="link-arrow" style="color:var(--purple);">→</span>
+        <a href="https://docs.flux7.art" target="_blank" class="about-link" style="border-bottom:1px solid rgba(0,255,136,0.15);background:rgba(0,255,136,0.02);padding:14px 8px;border-radius:3px;margin:-2px 0;">
+          <div><div class="link-label" style="color:var(--green);">flux7</div><div class="link-sub">AI Agent Governance · <span style="color:rgba(0,255,136,0.6);">docs.flux7.art</span></div></div>
+          <span class="link-arrow" style="color:var(--green);">→</span>
         </a>
-        <a href="mailto:flux7art@gmail.com" class="about-link">
-          <div><div class="link-label">Contact</div><div class="link-sub">flux7art@gmail.com</div></div>
+        <a href="mailto:marc@flux7.art" class="about-link">
+          <div><div class="link-label">Contact</div><div class="link-sub">marc@flux7.art</div></div>
           <span class="link-arrow">→</span>
         </a>
       </div>

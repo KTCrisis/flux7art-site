@@ -391,37 +391,6 @@ section { position: relative; z-index: 1; }
   50% { opacity: 1; transform: scaleX(1); }
 }
 
-/* ── MUSIC SECTION ── */
-#music { padding: 120px 40px; background: var(--bg); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); position: relative; z-index: 1; }
-.music-inner { max-width: 1200px; margin: 0 auto; }
-.music-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; margin-top: 60px; }
-.music-visual { position: relative; }
-#waveform-canvas { width: 100%; height: 160px; border: 1px solid var(--border); border-radius: 4px; background: var(--bg); }
-.music-label { font-size: 10px; color: var(--text2); letter-spacing: 2px; text-transform: uppercase; margin-top: 12px; text-align: center; }
-.music-content h3 { font-size: 28px; color: #fff; font-weight: 700; letter-spacing: -1px; margin-bottom: 16px; line-height: 1.2; }
-.music-content h3 span { color: var(--pink); }
-.music-content p { font-size: 12px; color: var(--text2); line-height: 1.8; margin-bottom: 24px; }
-.music-tools { display: flex; flex-direction: column; gap: 12px; }
-.music-tool { display: flex; align-items: center; gap: 14px; padding: 14px 16px; background: var(--bg); border: 1px solid var(--border); border-radius: 4px; transition: all 0.2s; }
-.music-tool:hover { border-color: var(--pink); background: rgba(255,45,107,0.03); }
-.tool-icon { font-size: 18px; width: 36px; text-align: center; }
-.tool-info .tool-name { font-size: 13px; color: #fff; font-weight: 600; margin-bottom: 2px; }
-.tool-info .tool-desc { font-size: 10px; color: var(--text2); letter-spacing: 0.5px; }
-
-/* ── ABOUT / FOOTER ── */
-#about { padding: 120px 40px 60px; background: var(--bg2); border-top: 1px solid var(--border); }
-.about-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
-.about-left h2 { font-size: 48px; font-weight: 700; color: #fff; letter-spacing: -2px; line-height: 1; margin-bottom: 24px; }
-.about-left h2 span { color: var(--green); }
-.about-left p { font-size: 12px; color: var(--text2); line-height: 1.8; margin-bottom: 16px; }
-.about-links { display: flex; flex-direction: column; gap: 12px; padding: 32px; background: var(--bg); border: 1px solid var(--border); border-radius: 4px; }
-.about-link { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; border-bottom: 1px solid var(--border); text-decoration: none; transition: all 0.2s; }
-.about-link:last-child { border-bottom: none; }
-.about-link:hover .link-label { color: var(--green); }
-.about-link:hover .link-arrow { color: var(--green); transform: translateX(4px); }
-.link-label { font-size: 13px; color: #fff; font-weight: 600; transition: color 0.2s; }
-.link-sub { font-size: 10px; color: var(--text2); letter-spacing: 1px; }
-.link-arrow { color: var(--text2); font-size: 18px; transition: all 0.2s; }
 footer { text-align: center; padding: 40px; border-top: 1px solid var(--border); font-size: 10px; color: var(--text2); letter-spacing: 2px; }
 footer span { color: var(--green); }
 
@@ -446,9 +415,7 @@ footer span { color: var(--green); }
 @media (max-width: 768px) {
   nav { padding: 16px 20px; }
   .nav-links { gap: 20px; }
-  #hero, #projects, #lab, #music, #stack, #about { padding-left: 20px; padding-right: 20px; }
-  .music-grid { grid-template-columns: 1fr; }
-  .about-inner { grid-template-columns: 1fr; gap: 40px; }
+  #hero, #projects, #lab { padding-left: 20px; padding-right: 20px; }
   .hero-title { letter-spacing: -2px; }
   .flip-grid { grid-template-columns: 1fr; }
   .flip-container { height: 440px; }
@@ -476,7 +443,8 @@ footer span { color: var(--green); }
       <li><a href="#projects">Products</a></li>
       <li><a href="#lab">Lab</a></li>
       <li><a href="/blog/">log_</a></li>
-      <li><a href="/perso/">Perso</a></li>
+      <li><a href="https://docs.flux7.art">Docs</a></li>
+      <li><a href="/about/">About</a></li>
     </ul>
     <div class="lang-switch">
       <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
@@ -711,7 +679,7 @@ L2  <span style="color:var(--cyan);">flux7-console</span>     human UI          
 
 <footer>
   <div style="display:flex;justify-content:center;gap:32px;margin-bottom:16px;">
-    <a href="/perso/" style="color:var(--text2);text-decoration:none;font-size:10px;letter-spacing:2px;text-transform:uppercase;transition:color 0.2s;" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--text2)'">Perso</a>
+    <a href="/about/" style="color:var(--text2);text-decoration:none;font-size:10px;letter-spacing:2px;text-transform:uppercase;transition:color 0.2s;" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--text2)'">About</a>
     <a href="/blog/" style="color:var(--text2);text-decoration:none;font-size:10px;letter-spacing:2px;text-transform:uppercase;transition:color 0.2s;" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--text2)'">Log</a>
     <a href="https://docs.flux7.art" style="color:var(--text2);text-decoration:none;font-size:10px;letter-spacing:2px;text-transform:uppercase;transition:color 0.2s;" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--text2)'">Docs</a>
     <a href="https://github.com/KTCrisis" style="color:var(--text2);text-decoration:none;font-size:10px;letter-spacing:2px;text-transform:uppercase;transition:color 0.2s;" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--text2)'">GitHub</a>

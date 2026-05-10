@@ -342,12 +342,12 @@ footer span { color: var(--green); }
   <h1 class="article-title">Schema governance without <em>vendor lock-in</em></h1>
 
   <p class="article-subtitle">
-    Schema registries store schemas. They don't govern them. event7 adds a provider-agnostic governance layer above Confluent, Apicurio, Karapace, and Redpanda &mdash; with a Docker-first deployment that works out of the box.
+    Schema registries store schemas. They don't govern them. event7 adds a provider-agnostic governance layer above Confluent, Apicurio, Karapace, and Redpanda, with a Docker-first deployment that works out of the box.
   </p>
 
   <div class="prose">
 
-    <p>Any event-driven system of sufficient age accumulates schemas. Confluent Schema Registry, Apicurio, Karapace, Redpanda &mdash; the registry stores Avro, JSON Schema, or Protobuf definitions, enforces compatibility on version changes, and serves them over HTTP.</p>
+    <p>Any event-driven system of sufficient age accumulates schemas. Confluent Schema Registry, Apicurio, Karapace, Redpanda: the registry stores Avro, JSON Schema, or Protobuf definitions, enforces compatibility on version changes, and serves them over HTTP.</p>
 
     <p>Then someone asks: who owns this schema? Which topics carry it? Does it follow naming conventions? When did it last change, and what broke downstream?</p>
 
@@ -355,7 +355,7 @@ footer span { color: var(--green); }
 
     <h2>The governance gap</h2>
 
-    <p>A schema registry is a storage engine. Ownership, classification, business context, validation rules, documentation, cross-reference tracking &mdash; none of this belongs to it. In practice, that metadata lives in a Confluence page last updated eight months ago, or in someone's head.</p>
+    <p>A schema registry is a storage engine. Ownership, classification, business context, validation rules, documentation, cross-reference tracking: none of this belongs to it. In practice, that metadata lives in a Confluence page last updated eight months ago, or in someone's head.</p>
 
     <p>Confluent addressed this with <strong>Stream Governance</strong>: tags, business metadata, data contracts, validation rules, audit logs. For teams fully committed to Confluent Cloud, the problem is solved.</p>
 
@@ -370,14 +370,14 @@ footer span { color: var(--green); }
     <p>The feature set:</p>
 
     <ul>
-      <li><strong>Schema Explorer</strong> &mdash; browse subjects, versions, and formats across registries. Visual diff with field-level breaking change detection.</li>
-      <li><strong>References Graph</strong> &mdash; interactive dependency graph. See which schemas reference which, spot orphans and hotspots, trace transitive chains (Order &rarr; Customer &rarr; Address).</li>
-      <li><strong>Governance Rules</strong> &mdash; define naming conventions, required fields, documentation rules, compliance checks. Four types: conditions, transforms, validations, policies. Built-in templates, or import your Confluent Data Contract rules.</li>
-      <li><strong>Schema Validator</strong> &mdash; validate before publishing. One report, three checks: registry compatibility, governance rules, visual diff. PASS, WARN, or FAIL.</li>
-      <li><strong>Channel Model</strong> &mdash; map schemas to channels across 22 broker types. Kafka topics, RabbitMQ exchanges, Redis streams, Pulsar, NATS, Google Pub/Sub, AWS SNS/SQS. N:N bindings with strategy, role, and data layer tagging.</li>
-      <li><strong>AsyncAPI</strong> &mdash; bidirectional. Import an existing spec into event7 (creates channels, bindings, enrichments in one click). Or generate AsyncAPI 3.0 specs from your event7 data. Drift detection included &mdash; event7 tracks when a schema changed but the spec wasn't regenerated.</li>
-      <li><strong>Governance Scoring</strong> &mdash; three-axis score (enrichments + rules + schema quality) with a confidence indicator. The catalog shows a governance funnel: how many schemas are fully governed vs. partially vs. not at all.</li>
-      <li><strong>EventCatalog Generator</strong> &mdash; export governance data to <a href="https://www.eventcatalog.dev/">EventCatalog</a>. Scores, rules, channels, teams, AsyncAPI specs. The first governance-aware generator for EventCatalog.</li>
+      <li><strong>Schema Explorer</strong> : browse subjects, versions, and formats across registries. Visual diff with field-level breaking change detection.</li>
+      <li><strong>References Graph</strong> : interactive dependency graph. See which schemas reference which, spot orphans and hotspots, trace transitive chains (Order &rarr; Customer &rarr; Address).</li>
+      <li><strong>Governance Rules</strong> : define naming conventions, required fields, documentation rules, compliance checks. Four types: conditions, transforms, validations, policies. Built-in templates, or import your Confluent Data Contract rules.</li>
+      <li><strong>Schema Validator</strong> : validate before publishing. One report, three checks: registry compatibility, governance rules, visual diff. PASS, WARN, or FAIL.</li>
+      <li><strong>Channel Model</strong> : map schemas to channels across 22 broker types. Kafka topics, RabbitMQ exchanges, Redis streams, Pulsar, NATS, Google Pub/Sub, AWS SNS/SQS. N:N bindings with strategy, role, and data layer tagging.</li>
+      <li><strong>AsyncAPI</strong> : bidirectional. Import an existing spec into event7 (creates channels, bindings, enrichments in one click). Or generate AsyncAPI 3.0 specs from your event7 data. Drift detection included: event7 tracks when a schema changed but the spec wasn't regenerated.</li>
+      <li><strong>Governance Scoring</strong> : three-axis score (enrichments + rules + schema quality) with a confidence indicator. The catalog shows a governance funnel: how many schemas are fully governed vs. partially vs. not at all.</li>
+      <li><strong>EventCatalog Generator</strong> : export governance data to <a href="https://www.eventcatalog.dev/">EventCatalog</a>. Scores, rules, channels, teams, AsyncAPI specs. The first governance-aware generator for EventCatalog.</li>
     </ul>
 
     <h2>The Docker-first approach</h2>
@@ -395,8 +395,8 @@ docker compose -f docker-compose.local.yml up -d --build</code></pre>
         <tr><th>Service</th><th>Port</th><th>What it does</th></tr>
       </thead>
       <tbody>
-        <tr><td>Frontend (Next.js)</td><td>3000</td><td>UI &mdash; Explorer, Catalog, Validator, Graph</td></tr>
-        <tr><td>Backend (FastAPI)</td><td>8000</td><td>API &mdash; 56+ endpoints, Swagger at /docs</td></tr>
+        <tr><td>Frontend (Next.js)</td><td>3000</td><td>UI : Explorer, Catalog, Validator, Graph</td></tr>
+        <tr><td>Backend (FastAPI)</td><td>8000</td><td>API : 56+ endpoints, Swagger at /docs</td></tr>
         <tr><td>Apicurio Registry</td><td>8081</td><td>Schema Registry (empty, ready to use)</td></tr>
         <tr><td>PostgreSQL</td><td>5432</td><td>Governance data (auto-migrated)</td></tr>
         <tr><td>Redis</td><td>6379</td><td>Cache (5-min TTL on registry calls)</td></tr>
@@ -409,7 +409,7 @@ docker compose -f docker-compose.local.yml up -d --build</code></pre>
 
     <h2>Two starting points</h2>
 
-    <p><strong>Starting from zero.</strong> Events flow through the broker, but no schema registry exists. The Docker stack provides Apicurio as a free, open-source registry (Apache 2.0). Schemas can be registered manually or by importing an AsyncAPI spec. Governance is immediate &mdash; no separate setup, no additional infrastructure.</p>
+    <p><strong>Starting from zero.</strong> Events flow through the broker, but no schema registry exists. The Docker stack provides Apicurio as a free, open-source registry (Apache 2.0). Schemas can be registered manually or by importing an AsyncAPI spec. Governance is immediate, no separate setup, no additional infrastructure.</p>
 
     <p><strong>Starting from Confluent.</strong> Hundreds of schemas already live in Confluent Schema Registry. Connect event7, and within seconds the subjects appear with visual diffs, dependency graphs, and governance scoring. Schemas stay in Confluent. event7 reads them through the Confluent API and stores governance data separately. Existing Data Contract rules (ruleSet + metadata) can be imported into event7's rule engine.</p>
 
@@ -425,13 +425,13 @@ docker compose -f docker-compose.local.yml up -d --build</code></pre>
 4  Spec / Contract        AsyncAPI, CloudEvents
 5  Documentation          EventCatalog, Backstage</code></pre>
 
-    <p>Layer 3 is absent in most organizations. Teams jump from registry to documentation &mdash; when they document at all. Governance and contract specs are manual, vendor-locked, or missing.</p>
+    <p>Layer 3 is absent in most organizations. Teams jump from registry to documentation, when they document at all. Governance and contract specs are manual, vendor-locked, or missing.</p>
 
     <p>event7 fills layer 3 and bridges to layers 4 and 5. It generates AsyncAPI specs and exports to EventCatalog. Governance data flows downstream automatically.</p>
 
     <h2>Provider-agnostic by design</h2>
 
-    <p>Adding a registry provider means implementing one Python interface. No changes to services, routes, or frontend. The Apicurio provider was added this way &mdash; one file, one factory entry.</p>
+    <p>Adding a registry provider means implementing one Python interface. No changes to services, routes, or frontend. The Apicurio provider was added this way: one file, one factory entry.</p>
 
     <p>Supported registries: Confluent Schema Registry (Cloud and Platform), Apicurio Registry v3, and any Confluent-compatible registry (Karapace, Redpanda, Red Hat Service Registry). AWS Glue and Azure Schema Registry are on the roadmap.</p>
 
@@ -443,18 +443,18 @@ docker compose -f docker-compose.local.yml up -d --build</code></pre>
 
     <ol>
       <li>Open the <strong>Schema Explorer</strong>. Browse your subjects, check recent version changes.</li>
-      <li>Click a subject &mdash; see the schema, its evolution timeline, which channels use it, its governance score.</li>
+      <li>Click a subject. See the schema, its evolution timeline, which channels use it, its governance score.</li>
       <li>Before pushing a new version, paste it in the <strong>Validator</strong>. Get a report: registry compatibility check + governance rules + visual diff. One screen, three signals.</li>
       <li>Check the <strong>Catalog</strong> for coverage gaps. Filter by "no enrichments" or "low governance score" to find schemas that need attention.</li>
       <li>Open the <strong>References Graph</strong> to understand impact before a breaking change. If <code>Address</code> is referenced by <code>Customer</code> which is referenced by <code>Order</code>, you see the full chain.</li>
-      <li>Generate or refresh <strong>AsyncAPI specs</strong>. event7 detects drift &mdash; if a schema changed but the spec is stale, you see it immediately.</li>
+      <li>Generate or refresh <strong>AsyncAPI specs</strong>. event7 detects drift: if a schema changed but the spec is stale, you see it immediately.</li>
     </ol>
 
     <p>The entire workflow runs in event7, regardless of the underlying registry.</p>
 
     <h2>Open source</h2>
 
-    <p>event7 is Apache 2.0. The core platform &mdash; Explorer, Catalog, Validator, Rules, Channels, AsyncAPI, EventCatalog Generator &mdash; is open source. Commercial tiers add managed deployment, provider sync, and enterprise controls.</p>
+    <p>event7 is Apache 2.0. The core platform (Explorer, Catalog, Validator, Rules, Channels, AsyncAPI, EventCatalog Generator) is open source. Commercial tiers add managed deployment, provider sync, and enterprise controls.</p>
 
     <p>The Docker stack with seed data provides a realistic evaluation environment in under five minutes. Connect a production registry to govern actual schemas.</p>
 

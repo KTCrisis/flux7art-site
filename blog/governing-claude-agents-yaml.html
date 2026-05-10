@@ -370,9 +370,9 @@ footer span { color: var(--green); }
 
   <div class="prose">
 
-    <p>You've built an agent with the <a href="https://docs.anthropic.com/en/docs/agents-and-tools/agent-sdk">Anthropic Agent SDK</a>. It calls tools. It works. Then someone asks: "which tools can it call? who approved that? where's the audit trail?"</p>
+    <p>I run about a dozen agents across my projects. Claude Code, custom bots, research pipelines. At some point I stopped being able to answer a simple question: which agent is allowed to do what? Each one had its own ad-hoc permission logic, or none at all. So I built <a href="https://github.com/KTCrisis/flux7-mesh">flux7-mesh</a> to centralize that into YAML policies.</p>
 
-    <p>You could add permission checks to every tool function. Or you could write a YAML file and let a proxy handle it.</p>
+    <p>Recently Anthropic shipped the <a href="https://docs.anthropic.com/en/docs/agents-and-tools/agent-sdk">Agent SDK</a> with a proper hooks system. I wrote a small integration layer called MeshHooks that connects the two. This tutorial shows how to set it up.</p>
 
     <p>By the end of this tutorial, your agent's tool calls are governed by a policy you can read, version, and hot-reload. No changes to your agent code.</p>
 
@@ -413,7 +413,7 @@ def delete_file(path: str) -&gt; str:
 
     <h2><span class="step-num">3</span> Write the mesh7 config</h2>
 
-    <p>mesh7 needs to know which tools exist and how to reach them. In Agent SDK mode, mesh7 doesn't proxy the tools directly. It acts as a <em>policy engine</em> that the hooks consult via <code>POST /decide</code>.</p>
+    <p>In Agent SDK mode, mesh7 doesn't proxy the tool calls. It doesn't need to know your tools or how to reach them. It acts purely as a <em>policy engine</em>: the hooks send a tool name and parameters, mesh7 evaluates them against the rules, and returns a decision via <code>POST /decide</code>.</p>
 
     <span class="filename">config.yaml</span>
     <pre><code>listen: ":9090"
@@ -451,8 +451,7 @@ policy:
     <p>This is where MeshHooks comes in. Three lines to connect your Agent SDK agent to the policy engine.</p>
 
     <span class="filename">agent.py</span>
-    <pre><code>import anthropic
-from anthropic.agent import Agent, ToolDefinition
+    <pre><code>from anthropic.agent import Agent, ToolDefinition
 from mesh7 import MeshHooks
 from tools import read_file, write_file, delete_file
 

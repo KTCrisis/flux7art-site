@@ -370,9 +370,7 @@ footer span { color: var(--green); }
 
   <div class="prose">
 
-    <p>I run about a dozen agents across my projects. Claude Code, custom bots, research pipelines. At some point I stopped being able to answer a simple question: which agent is allowed to do what? Each one had its own ad-hoc permission logic, or none at all. So I built <a href="https://github.com/KTCrisis/flux7-mesh">flux7-mesh</a> to centralize that into YAML policies.</p>
-
-    <p>Recently Anthropic shipped the <a href="https://docs.anthropic.com/en/docs/agents-and-tools/agent-sdk">Agent SDK</a> with a proper hooks system. I wrote a small integration layer called MeshHooks that connects the two. This tutorial shows how to set it up.</p>
+    <p>While building <a href="https://github.com/KTCrisis/flux7-mesh">flux7-mesh</a> (a governance proxy for agent tool calls) and learning the <a href="https://docs.anthropic.com/en/docs/agents-and-tools/agent-sdk">Anthropic Agent SDK</a>, I wanted to make mesh7 a native part of the Claude ecosystem. The Agent SDK ships with a hooks system that intercepts tool calls before execution. I wrote a small integration layer called MeshHooks that plugs mesh7's policy engine into those hooks. This tutorial shows how to set it up.</p>
 
     <p>By the end of this tutorial, your agent's tool calls are governed by a policy you can read, version, and hot-reload. No changes to your agent code.</p>
 

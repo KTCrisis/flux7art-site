@@ -588,6 +588,23 @@ INFO  tool_call agent=file-agent tool=delete_file decision=deny    latency=0ms</
 
     <p>One design choice worth noting: if mesh7 is unreachable, MeshHooks defaults to <code>deny</code>. Fail closed, not open. The idea is that if the governance layer is down, the agent shouldn't keep running ungoverned. You can change this with <code>fail_action="allow"</code> if you prefer leniency in development, but for production agents, closed is the safer default.</p>
 
+    <h2>What about human_approval?</h2>
+
+    <p>We've used <code>allow</code> and <code>deny</code> so far, which are immediate decisions. But <code>human_approval</code> is the more interesting case: the agent wants to do something, and mesh7 decides a human should validate it first.</p>
+
+    <p>When a tool call hits a <code>human_approval</code> rule, mesh7 queues the request. The hook blocks, and the agent waits. On the other side, a human can resolve the pending approval through several channels:</p>
+
+    <ul>
+      <li>The CLI: <code>mesh7 approval list</code> to see pending requests, <code>mesh7 approval resolve &lt;id&gt; --approve</code> or <code>--deny</code></li>
+      <li>The HTTP API: <code>POST /approvals/{id}/approve</code></li>
+      <li>The <a href="https://github.com/KTCrisis/flux7-console">flux7-console</a> dashboard, which shows pending approvals in a dedicated view</li>
+      <li>A supervisor agent (another Claude instance, or a rules engine) that polls pending approvals and resolves them programmatically</li>
+    </ul>
+
+    <p>Once resolved, mesh7 unblocks the hook and returns the decision to the agent. If the human approved, the tool executes normally. If denied, the agent gets a denial reason and adapts.</p>
+
+    <p>The interesting part is what happens over time: if you connect <a href="https://github.com/KTCrisis/flux7-memory">flux7-memory</a>, mesh7 records every approval as a queryable fact. After 3 consistent approvals for the same agent+tool pattern with 0 rejections, mesh7 starts auto-approving that pattern. The governance becomes less intrusive over time without becoming less safe.</p>
+
     <h2>Going further</h2>
 
     <p>This tutorial covers the simplest case. Everything below can be added without touching agent code. Only YAML and config:</p>

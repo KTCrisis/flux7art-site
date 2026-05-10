@@ -409,7 +409,7 @@ def delete_file(path: str) -&gt; str:
     os.remove(path)
     return f"Deleted {path}"</code></pre>
 
-    <p>Nothing special. These are plain Python functions.</p>
+    <p>Nothing special here. Plain Python functions, no framework dependency, no decorator. mesh7 doesn't care how you implement your tools. It only sees their names and parameters when they're called.</p>
 
     <h2><span class="step-num">3</span> Write the mesh7 config</h2>
 
@@ -437,14 +437,14 @@ policy:
       tool: "delete_file"
       action: deny</code></pre>
 
-    <p>That's the 10 lines that matter. Three rules:</p>
+    <p>That's the 10 lines that matter. Three rules, each binding an agent identity to a tool with an action:</p>
     <ul>
-      <li><code>read_file</code> : always allowed</li>
-      <li><code>write_file</code> : allowed, but only under <code>/tmp/*</code></li>
-      <li><code>delete_file</code> : always denied</li>
+      <li><code>read_file</code> : always allowed. Reading is safe, let the agent work.</li>
+      <li><code>write_file</code> : allowed, but only under <code>/tmp/*</code>. The <code>conditions</code> block lets you restrict based on parameter values, not just tool names. Here we're saying "write wherever you want, as long as it's in /tmp."</li>
+      <li><code>delete_file</code> : always denied. No condition, no exception. The agent can't delete files, period.</li>
     </ul>
 
-    <p>Anything not matched falls back to <code>human_approval</code>. The agent will never surprise you with an unplanned action.</p>
+    <p>Anything not matched by a rule falls back to <code>human_approval</code>, which means the call is queued and waits for a human to approve or deny it. This is the safety net: if the agent discovers a new tool or calls something you didn't anticipate, it won't execute silently.</p>
 
     <h2><span class="step-num">4</span> Wire MeshHooks into your agent</h2>
 
@@ -505,9 +505,9 @@ agent = Agent(
 
 result = agent.run("Read /tmp/notes.txt, then write a summary to /tmp/summary.txt")</code></pre>
 
-    <p>The key is line 6: <code>MeshHooks(agent="file-agent")</code>. This creates a hook that intercepts every tool call and checks it against your YAML policy via mesh7's <code>/decide</code> endpoint. The agent ID <code>"file-agent"</code> matches the rules in your config.</p>
+    <p>The key is line 6: <code>MeshHooks(agent="file-agent")</code>. This creates a set of hooks that the Agent SDK will call before every tool execution. Under the hood, MeshHooks sends the tool name and its parameters to mesh7's <code>POST /decide</code> endpoint, which evaluates the YAML policy and returns allow, deny, or ask. The agent ID <code>"file-agent"</code> is what links this agent instance to the rules you wrote in the config.</p>
 
-    <p>The rest is standard Agent SDK code.</p>
+    <p>The <code>hooks.agent_sdk_hooks()</code> call returns a dict that the Agent SDK understands natively. It registers a <code>PreToolUse</code> hook on all tools (you can narrow the scope with a regex via <code>tool_matcher</code> if needed). The tool definitions and the agent creation are standard Agent SDK patterns, nothing mesh7-specific.</p>
 
     <h2><span class="step-num">5</span> Run it</h2>
 
@@ -525,7 +525,7 @@ python agent.py</code></pre>
 INFO  tool_call agent=file-agent tool=write_file decision=allow    latency=0ms  path=/tmp/summary.txt
 INFO  tool_call agent=file-agent tool=delete_file decision=deny    latency=0ms</code></pre>
 
-    <p>If Claude tries to delete a file, the hook returns <code>deny</code> before the function is ever called. The agent gets a denial, adapts, moves on. No prompt. No human in the loop for routine calls.</p>
+    <p>If Claude tries to delete a file, the hook returns <code>deny</code> before the function is ever called. The agent receives a denial reason in the hook response, understands the action was blocked, and adapts its plan. No permission prompt for the user, no human in the loop for routine calls. The policy made the decision, not a popup.</p>
 
     <h2>What happens under the hood</h2>
 
@@ -590,7 +590,7 @@ INFO  tool_call agent=file-agent tool=delete_file decision=deny    latency=0ms</
       <li>The tool function executes. mesh7 logs a structured trace</li>
     </ol>
 
-    <p>If mesh7 is down, MeshHooks defaults to <code>deny</code>. Fail closed, not open. You can change this with <code>fail_action="allow"</code> if you prefer leniency, but for production agents, closed is the right default.</p>
+    <p>One design choice worth noting: if mesh7 is unreachable, MeshHooks defaults to <code>deny</code>. Fail closed, not open. The idea is that if the governance layer is down, the agent shouldn't keep running ungoverned. You can change this with <code>fail_action="allow"</code> if you prefer leniency in development, but for production agents, closed is the safer default.</p>
 
     <h2>Going further</h2>
 
@@ -610,9 +610,7 @@ INFO  tool_call agent=file-agent tool=delete_file decision=deny    latency=0ms</
       </tbody>
     </table>
 
-    <p>All of this is policy and configuration. Your Python agent code stays exactly the same. The governance layer evolves independently: different repo, different team, different deploy cycle.</p>
-
-    <blockquote><p>The developer builds the agent. The platform team writes the policy. Neither touches the other's code.</p></blockquote>
+    <p>All of this is policy and configuration. Your Python agent code stays exactly the same. That's the separation that matters: the governance layer evolves independently from the agent code. Different repo, different team, different deploy cycle. A platform engineer can tighten a policy or add rate limiting without redeploying the agent, and a developer can add new tools without waiting for a policy review.</p>
 
     <hr>
 

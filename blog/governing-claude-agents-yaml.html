@@ -372,8 +372,6 @@ footer span { color: var(--green); }
 
     <p>While building <a href="https://github.com/KTCrisis/flux7-mesh">flux7-mesh</a> (a governance proxy for agent tool calls) and learning the <a href="https://docs.anthropic.com/en/docs/agents-and-tools/agent-sdk">Anthropic Agent SDK</a>, I wanted to make mesh7 a native part of the Claude ecosystem. The Agent SDK ships with a hooks system that intercepts tool calls before execution. I wrote a small integration layer called MeshHooks that plugs mesh7's policy engine into those hooks. This tutorial shows how to set it up.</p>
 
-    <p>By the end of this tutorial, your agent's tool calls are governed by a policy you can read, version, and hot-reload. No changes to your agent code.</p>
-
     <h2><span class="step-num">1</span> Install</h2>
 
     <p>You need two things: the mesh7 binary (Go) and the Python SDK.</p>
@@ -386,7 +384,7 @@ pip install flux7-mesh[anthropic]</code></pre>
 
     <h2><span class="step-num">2</span> Define your tools</h2>
 
-    <p>Let's say your agent has three tools: reading files, writing files, and deleting files. Standard stuff.</p>
+    <p>For this example, the agent has three tools: reading files, writing files, and deleting files.</p>
 
     <span class="filename">tools.py</span>
     <pre><code>import os
@@ -437,9 +435,9 @@ policy:
 
     <p>That's the 10 lines that matter. Three rules, each binding an agent identity to a tool with an action:</p>
     <ul>
-      <li><code>read_file</code> : always allowed. Reading is safe, let the agent work.</li>
+      <li><code>read_file</code> : always allowed.</li>
       <li><code>write_file</code> : allowed, but only under <code>/tmp/*</code>. The <code>conditions</code> block lets you restrict based on parameter values, not just tool names. Here we're saying "write wherever you want, as long as it's in /tmp."</li>
-      <li><code>delete_file</code> : always denied. No condition, no exception. The agent can't delete files, period.</li>
+      <li><code>delete_file</code> : always denied. No condition, no exception.</li>
     </ul>
 
     <p>Anything not matched by a rule falls back to <code>human_approval</code>, which means the call is queued and waits for a human to approve or deny it. This is the safety net: if the agent discovers a new tool or calls something you didn't anticipate, it won't execute silently.</p>
@@ -502,7 +500,7 @@ agent = Agent(
 
 result = agent.run("Read /tmp/notes.txt, then write a summary to /tmp/summary.txt")</code></pre>
 
-    <p>The key is line 6: <code>MeshHooks(agent="file-agent")</code>. This creates a set of hooks that the Agent SDK will call before every tool execution. Under the hood, MeshHooks sends the tool name and its parameters to mesh7's <code>POST /decide</code> endpoint, which evaluates the YAML policy and returns allow, deny, or ask. The agent ID <code>"file-agent"</code> is what links this agent instance to the rules you wrote in the config.</p>
+    <p>The <code>MeshHooks(agent="file-agent")</code> constructor creates a set of hooks that the Agent SDK will call before every tool execution. Under the hood, MeshHooks sends the tool name and its parameters to mesh7's <code>POST /decide</code> endpoint, which evaluates the YAML policy and returns allow, deny, or ask. The agent ID <code>"file-agent"</code> is what links this agent instance to the rules you wrote in the config.</p>
 
     <p>The <code>hooks.agent_sdk_hooks()</code> call returns a dict that the Agent SDK understands natively. It registers a <code>PreToolUse</code> hook on all tools (you can narrow the scope with a regex via <code>tool_matcher</code> if needed). The tool definitions and the agent creation are standard Agent SDK patterns, nothing mesh7-specific.</p>
 
@@ -522,7 +520,7 @@ python agent.py</code></pre>
 INFO  tool_call agent=file-agent tool=write_file decision=allow    latency=0ms  path=/tmp/summary.txt
 INFO  tool_call agent=file-agent tool=delete_file decision=deny    latency=0ms</code></pre>
 
-    <p>If Claude tries to delete a file, the hook returns <code>deny</code> before the function is ever called. The agent receives a denial reason in the hook response, understands the action was blocked, and adapts its plan. No permission prompt for the user, no human in the loop for routine calls. The policy made the decision, not a popup.</p>
+    <p>If Claude tries to delete a file, the hook returns <code>deny</code> before the function is ever called. The agent receives a denial reason in the hook response, understands the action was blocked, and adapts its plan accordingly.</p>
 
     <h2>What happens under the hood</h2>
 

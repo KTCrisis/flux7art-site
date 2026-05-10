@@ -341,28 +341,28 @@ footer span { color: var(--green); }
   <h1 class="article-title">Middleware vs Sidecar: two ways to govern <em>AI agents</em></h1>
 
   <p class="article-subtitle">
-    Comparing Microsoft's Agent Governance Toolkit and flux7-mesh &mdash; two open-source architectures for the same problem, mapped against the OWASP Agentic Top 10.
+    Comparing Microsoft's Agent Governance Toolkit and flux7-mesh, two open-source architectures for the same problem, mapped against the OWASP Agentic Top 10.
   </p>
 
   <div class="prose">
 
-    <p>I've spent the last decade building governance layers &mdash; schema registries for Kafka, policies for Kong, contract validation for event-driven systems. Always the same job: sit between components, enforce rules, keep a trace.</p>
+    <p>My background is in event streaming governance: schema registries, contract validation, compliance layers for Kafka-based architectures. Always the same job: sit between components, enforce rules, keep a trace.</p>
 
-    <p>When I started running multiple AI agents (Claude Code, Cursor, custom LangChain bots), I noticed the same gap I'd seen before. Every agent has some permission model. None of them talk to each other. No shared policy. No unified trace. Sound familiar? It's 2018 microservices all over again, before service meshes became a thing.</p>
+    <p>When I started using Claude Code and Cursor side by side, I noticed the same gap I'd seen before. Every agent has some permission model. None of them talk to each other. No shared policy. No unified trace. It felt like 2018 microservices all over again, before service meshes became a thing.</p>
 
-    <p>So I built <a href="https://github.com/KTCrisis/flux7-mesh">flux7-mesh</a> &mdash; a sidecar proxy for agent tool calls. YAML policy, centralized traces, per-agent identity. One Go binary, works with anything that speaks MCP or HTTP.</p>
+    <p>So I built <a href="https://github.com/KTCrisis/flux7-mesh">flux7-mesh</a>, a sidecar proxy for agent tool calls. YAML policy, centralized traces, per-agent identity. One Go binary, works with anything that speaks MCP or HTTP.</p>
 
     <p>Four days ago, Microsoft dropped the <a href="https://github.com/microsoft/agent-governance-toolkit">Agent Governance Toolkit</a>. Open-source, MIT. Same problem space. Different architecture.</p>
 
-    <p>Worth comparing honestly &mdash; especially now that OWASP gave us a shared vocabulary for what "agent security" actually means.</p>
+    <p>Worth comparing honestly, especially now that OWASP gave us a shared vocabulary for what "agent security" actually means.</p>
 
-    <blockquote><p>Full disclosure: Microsoft AGT dropped while I was already building flux7-mesh. I hadn't mapped against OWASP until I saw their claim of covering all 10. That comparison forced me to think harder about what a sidecar actually covers &mdash; and what it doesn't.</p></blockquote>
+    <blockquote><p>Full disclosure: Microsoft AGT dropped while I was already building flux7-mesh. I hadn't mapped against OWASP until I saw their claim of covering all 10. That comparison forced me to think harder about what a sidecar actually covers, and what it doesn't.</p></blockquote>
 
     <h2>The two approaches</h2>
 
-    <p><strong>Microsoft AGT</strong> is a middleware. It runs <em>inside</em> your agent's process &mdash; Python callbacks for LangChain, decorators for CrewAI, plugins for ADK. Sub-millisecond policy checks. Deep integration. You add a few lines of code and your agent is governed.</p>
+    <p><strong>Microsoft AGT</strong> is a middleware. It runs <em>inside</em> your agent's process: Python callbacks for LangChain, decorators for CrewAI, plugins for ADK. Sub-millisecond policy checks. Deep integration. You add a few lines of code and your agent is governed.</p>
 
-    <p><strong>flux7-mesh</strong> is a sidecar proxy. It runs <em>next to</em> your agents &mdash; intercepts tool calls at the MCP/HTTP level. No code changes. Your agent points to flux7-mesh instead of the real backend. flux7-mesh checks the policy, logs the trace, forwards or denies.</p>
+    <p><strong>flux7-mesh</strong> is a sidecar proxy. It runs <em>next to</em> your agents and intercepts tool calls at the MCP/HTTP level. No code changes. Your agent points to flux7-mesh instead of the real backend. flux7-mesh checks the policy, logs the trace, forwards or denies.</p>
 
     <p>If you've worked with API gateways, you already know this pattern. Microsoft AGT is Express middleware. flux7-mesh is Envoy.</p>
 
@@ -454,19 +454,19 @@ footer span { color: var(--green); }
       <li>Your agents are Claude Code, Cursor, Gemini CLI, or anything MCP-native</li>
     </ul>
 
-    <p>That last point matters. Claude Code, Cursor, Gemini CLI, Cline, OpenCode &mdash; none of these expose Python callback hooks. Microsoft AGT can't govern them. A sidecar proxy can, because it operates at the protocol level.</p>
+    <p>That last point matters. Claude Code, Cursor, Gemini CLI, Cline, OpenCode: none of these expose Python callback hooks. Microsoft AGT can't govern them. A sidecar proxy can, because it operates at the protocol level.</p>
 
     <h2>What about LangChain and CrewAI?</h2>
 
-    <p>LangChain has LangSmith Fleet &mdash; agent identity, permissions, sandboxes. Real features. But scoped to LangChain. If you also run Claude Code and a custom HTTP agent, LangSmith doesn't see them.</p>
+    <p>LangChain has LangSmith Fleet with agent identity, permissions, sandboxes. Real features. But scoped to LangChain. If you also run Claude Code and a custom HTTP agent, LangSmith doesn't see them.</p>
 
-    <p>CrewAI has task guardrails &mdash; validation after the agent produces output. That's quality control, not governance. You can't block a dangerous action before it happens.</p>
+    <p>CrewAI has task guardrails, which validate after the agent produces output. That's quality control, not governance. You can't block a dangerous action before it happens.</p>
 
     <p>Neither provides cross-agent policy-as-code.</p>
 
     <h2>What about Kong, Gravitee, Apigee?</h2>
 
-    <p>Different layer entirely. These are AI gateways &mdash; they govern north-south traffic between your apps and LLMs. Rate limiting, PII redaction, semantic routing, model abstraction. Important stuff, but not the same problem.</p>
+    <p>Different layer entirely. These are AI gateways that govern north-south traffic between your apps and LLMs. Rate limiting, PII redaction, semantic routing, model abstraction. Important stuff, but not the same problem.</p>
 
     <p>They don't know which <em>agent</em> made the call, don't enforce <em>action-level</em> policy (allow <code>create_issue</code>, deny <code>delete_repo</code>), and don't differentiate permissions per agent identity.</p>
 
@@ -482,7 +482,7 @@ footer span { color: var(--green); }
 
     <h2>Mapping to OWASP Agentic Top 10</h2>
 
-    <p>OWASP published the <a href="https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/">Top 10 for Agentic Applications</a> &mdash; the first serious attempt at cataloging what can go wrong when AI agents act in the real world. It's peer-reviewed by 100+ security researchers. If you build or run agents, you should read it.</p>
+    <p>OWASP published the <a href="https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/">Top 10 for Agentic Applications</a>, the first serious attempt at cataloging what can go wrong when AI agents act in the real world. Peer-reviewed by 100+ security researchers. If you build or run agents, worth reading.</p>
 
     <p>Here's how the landscape maps against it:</p>
 
@@ -506,22 +506,22 @@ footer span { color: var(--green); }
 
     <p>A few things stand out:</p>
 
-    <p><strong>No single tool covers everything.</strong> ASI01 (goal hijacking) is a prompt-level problem &mdash; no governance proxy or middleware can fix it. ASI06 (memory poisoning) needs runtime isolation, not policy.</p>
+    <p><strong>No single tool covers everything.</strong> ASI01 (goal hijacking) is a prompt-level problem. No governance proxy or middleware can fix it. ASI06 (memory poisoning) needs runtime isolation, not policy.</p>
 
     <p><strong>The middleware vs sidecar split shows up clearly.</strong> Microsoft AGT and flux7-mesh cover roughly the same risks (ASI02-05, ASI07-08, ASI10), but from different positions in the stack. Microsoft intercepts inside the process. flux7-mesh intercepts at the protocol boundary. Same coverage, different blast radius if the governance layer itself is compromised.</p>
 
-    <p><strong>Gateways (Kong, Gravitee, Apigee) cover almost none of this.</strong> They weren't designed for it. They govern LLM traffic, not agent behavior. That's fine &mdash; it's a different layer. But if someone tells you their AI gateway handles agentic security, check which ASIs it actually addresses.</p>
+    <p><strong>Gateways (Kong, Gravitee, Apigee) cover almost none of this.</strong> They weren't designed for it. They govern LLM traffic, not agent behavior. That's fine, it's a different layer. But if someone tells you their AI gateway handles agentic security, check which ASIs it actually addresses.</p>
 
     <h2>The real question</h2>
 
     <p>The agentic ecosystem is splitting into two governance models:</p>
 
     <ol>
-      <li><strong>Framework-level</strong> &mdash; deep, fast, but locked to one stack</li>
-      <li><strong>Protocol-level</strong> &mdash; universal, zero code change, but adds a hop</li>
+      <li><strong>Framework-level</strong> : deep, fast, but locked to one stack</li>
+      <li><strong>Protocol-level</strong> : universal, zero code change, but adds a hop</li>
     </ol>
 
-    <p>My bet is that protocol-level wins long-term. The same way Envoy won over framework-specific circuit breakers &mdash; because in practice, nobody runs just one framework. You'll have Claude Code for coding, a LangChain pipeline for data, a custom agent for ops. You need one policy layer that sees all of them.</p>
+    <p>My bet is that protocol-level wins long-term, the same way Envoy won over framework-specific circuit breakers. In practice, nobody runs just one framework. You'll have Claude Code for coding, a pipeline for data, a custom agent for ops. You need one policy layer that sees all of them.</p>
 
     <p>But I'm biased. I built the sidecar.</p>
 

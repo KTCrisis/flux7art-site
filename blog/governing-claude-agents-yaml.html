@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Governing Claude agents with 10 lines of YAML — flux7.art</title>
+<meta name="description" content="A 5-minute tutorial: connect the Anthropic Agent SDK to flux7-mesh via MeshHooks. Write a YAML policy, run an agent, get governed tool calls with zero permission prompts.">
+<meta name="author" content="Marc Verchiani">
+<meta name="keywords" content="Anthropic Agent SDK, flux7-mesh, MeshHooks, MCP, YAML policy, Claude, AI agent governance, tutorial">
+<link rel="canonical" href="https://flux7.art/blog/governing-claude-agents-yaml.html">
+
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="flux7.art">
+<meta property="og:title" content="Governing Claude agents with 10 lines of YAML">
+<meta property="og:description" content="A 5-minute tutorial: connect the Anthropic Agent SDK to flux7-mesh via MeshHooks. YAML policy, governed tool calls, zero permission prompts.">
+<meta property="og:url" content="https://flux7.art/blog/governing-claude-agents-yaml.html">
+<meta property="og:image" content="https://flux7.art/img/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="article:author" content="Marc Verchiani">
+<meta property="article:published_time" content="2026-05-10">
+<meta property="article:section" content="AI Agent Governance">
+<meta property="article:tag" content="flux7-mesh">
+<meta property="article:tag" content="Anthropic Agent SDK">
+<meta property="article:tag" content="tutorial">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Governing Claude agents with 10 lines of YAML">
+<meta name="twitter:description" content="5-minute tutorial: Agent SDK + MeshHooks + YAML policy = governed Claude agents.">
+<meta name="twitter:image" content="https://flux7.art/img/og.png">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Governing Claude agents with 10 lines of YAML",
+  "description": "A 5-minute tutorial: connect the Anthropic Agent SDK to flux7-mesh via MeshHooks. YAML policy, governed tool calls, zero permission prompts.",
+  "author": {
+    "@type": "Person",
+    "name": "Marc Verchiani",
+    "url": "https://flux7.art/"
+  },
+  "datePublished": "2026-05-10",
+  "image": "https://flux7.art/img/og.png",
+  "mainEntityOfPage": "https://flux7.art/blog/governing-claude-agents-yaml.html"
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<style>
+:root {
+  --bg:      #060a06;
+  --bg2:     #0c120c;
+  --bg3:     #111811;
+  --green:   #00ff88;
+  --pink:    #ff2d6b;
+  --cyan:    #00e5ff;
+  --gold:    #ffd166;
+  --purple:  #a855f7;
+  --teal:    #0d9488;
+  --dim:     #2a3a2a;
+  --text:    #b8ccb8;
+  --text2:   #5a7a5a;
+  --border:  #1a2a1a;
+  --font:    'JetBrains Mono', monospace;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+body::after {
+  content: ''; position: fixed; inset: 0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.07) 2px, rgba(0,0,0,0.07) 4px);
+  pointer-events: none; z-index: 9999;
+}
+
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 40px;
+  background: linear-gradient(to bottom, rgba(6,10,6,0.95), transparent);
+  backdrop-filter: blur(2px);
+}
+.nav-logo { font-size: 18px; font-weight: 700; color: var(--green); text-decoration: none; letter-spacing: -0.5px; }
+.nav-logo span { color: var(--pink); }
+.nav-links { display: flex; gap: 32px; list-style: none; }
+.nav-links a {
+  color: var(--text2); text-decoration: none; font-size: 12px;
+  letter-spacing: 2px; text-transform: uppercase; transition: color 0.2s; position: relative;
+}
+.nav-links a::after {
+  content: ''; position: absolute; bottom: -4px; left: 0;
+  width: 0; height: 1px; background: var(--green); transition: width 0.2s;
+}
+.nav-links a:hover { color: var(--green); }
+.nav-links a:hover::after { width: 100%; }
+.nav-links a.active { color: var(--green); }
+.nav-links a.active::after { width: 100%; }
+
+.article-wrapper {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 120px 40px 80px;
+  position: relative;
+  z-index: 1;
+}
+
+.article-meta {
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--text2);
+  margin-bottom: 12px;
+}
+.article-meta .tag {
+  color: var(--purple);
+  border: 1px solid rgba(168,85,247,0.3);
+  padding: 2px 8px;
+  border-radius: 2px;
+  margin-right: 12px;
+}
+.article-meta .date { color: var(--text2); }
+
+.article-title {
+  font-size: clamp(28px, 5vw, 42px);
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -1.5px;
+  line-height: 1.15;
+  margin-bottom: 24px;
+}
+.article-title em { font-style: normal; color: var(--purple); }
+
+.article-subtitle {
+  font-size: 13px;
+  color: var(--text2);
+  line-height: 1.8;
+  margin-bottom: 48px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--border);
+}
+
+.prose h2 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.5px;
+  margin: 48px 0 20px;
+  padding-top: 16px;
+}
+.prose h2::before {
+  content: '// ';
+  color: var(--purple);
+  font-weight: 400;
+}
+
+.prose h3 {
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+  letter-spacing: -0.3px;
+  margin: 32px 0 12px;
+}
+
+.prose p {
+  font-size: 13px;
+  line-height: 1.9;
+  color: var(--text);
+  margin-bottom: 18px;
+}
+
+.prose strong { color: #fff; font-weight: 600; }
+.prose em { color: var(--cyan); font-style: normal; }
+
+.prose a {
+  color: var(--purple);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(168,85,247,0.3);
+  transition: border-color 0.2s;
+}
+.prose a:hover { border-color: var(--purple); }
+
+.prose ul, .prose ol {
+  margin: 0 0 18px 20px;
+  font-size: 13px;
+  line-height: 1.9;
+}
+.prose li { margin-bottom: 6px; }
+.prose li::marker { color: var(--purple); }
+
+.prose blockquote {
+  border-left: 2px solid var(--purple);
+  padding: 12px 20px;
+  margin: 24px 0;
+  background: rgba(168,85,247,0.03);
+  border-radius: 0 4px 4px 0;
+}
+.prose blockquote p { color: var(--text2); margin-bottom: 0; font-style: italic; }
+
+.prose code {
+  font-family: var(--font);
+  font-size: 12px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  padding: 1px 6px;
+  border-radius: 2px;
+  color: var(--green);
+}
+
+.prose pre {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 20px;
+  margin: 24px 0;
+  overflow-x: auto;
+  font-size: 12px;
+  line-height: 1.7;
+}
+.prose pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--text);
+}
+
+.prose .filename {
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--purple);
+  margin-bottom: -16px;
+  display: block;
+}
+
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 24px 0;
+  font-size: 11px;
+}
+.prose th {
+  text-align: left;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--purple);
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg2);
+}
+.prose td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  line-height: 1.6;
+  vertical-align: top;
+}
+.prose tr:hover td { background: rgba(168,85,247,0.02); }
+
+.prose hr {
+  border: none;
+  height: 1px;
+  background: var(--border);
+  margin: 48px 0;
+}
+
+.article-footer {
+  margin-top: 48px;
+  padding-top: 32px;
+  border-top: 1px solid var(--border);
+  font-size: 12px;
+  color: var(--text2);
+  line-height: 1.8;
+}
+.article-footer a { color: var(--purple); text-decoration: none; border-bottom: 1px solid rgba(168,85,247,0.3); }
+.article-footer a:hover { border-color: var(--purple); }
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 32px;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text2);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.back-link:hover { color: var(--green); }
+
+.step-num {
+  display: inline-block;
+  width: 28px;
+  height: 28px;
+  line-height: 28px;
+  text-align: center;
+  background: rgba(168,85,247,0.1);
+  border: 1px solid rgba(168,85,247,0.3);
+  border-radius: 4px;
+  color: var(--purple);
+  font-size: 13px;
+  font-weight: 700;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+
+footer {
+  text-align: center;
+  padding: 40px;
+  border-top: 1px solid var(--border);
+  font-size: 10px;
+  color: var(--text2);
+  letter-spacing: 2px;
+  position: relative;
+  z-index: 1;
+}
+footer span { color: var(--green); }
+
+@media (max-width: 768px) {
+  nav { padding: 16px 20px; }
+  .nav-links { gap: 20px; }
+  .article-wrapper { padding: 100px 20px 60px; }
+  .prose table { font-size: 10px; }
+  .prose th, .prose td { padding: 8px 6px; }
+}
+@media (max-width: 500px) {
+  .nav-links { display: none; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">flux<span>7</span>.art</a>
+  <div style="display:flex;align-items:center;">
+    <ul class="nav-links">
+      <li><a href="/#flux7">flux7</a></li>
+      <li><a href="/#projects">Products</a></li>
+      <li><a href="/#lab">Lab</a></li>
+      <li><a href="/blog/" class="active">log_</a></li>
+      <li><a href="https://docs.flux7.art">Docs</a></li>
+      <li><a href="/about/">About</a></li>
+    </ul>
+  </div>
+</nav>
+
+<article class="article-wrapper">
+  <div class="article-meta">
+    <span class="tag">tutorial</span>
+    <span class="date">May 10, 2026</span>
+  </div>
+
+  <h1 class="article-title">Governing Claude agents with <em>10 lines of YAML</em></h1>
+
+  <p class="article-subtitle">
+    The Anthropic Agent SDK lets you build Claude-powered agents in Python. flux7-mesh lets you govern them with YAML policies. MeshHooks connects the two in 3 lines of code. Here's the full walkthrough.
+  </p>
+
+  <div class="prose">
+
+    <p>You've built an agent with the <a href="https://docs.anthropic.com/en/docs/agents-and-tools/agent-sdk">Anthropic Agent SDK</a>. It calls tools. It works. Now someone asks: "which tools can it call? who approved that? where's the audit trail?"</p>
+
+    <p>You could add permission checks to every tool function. Or you could write a YAML file and let a proxy handle it.</p>
+
+    <p>This tutorial takes about 5 minutes. By the end, your agent's tool calls are governed by a policy you can read, version, and hot-reload &mdash; without changing your agent code.</p>
+
+    <h2><span class="step-num">1</span> Install</h2>
+
+    <p>You need two things: the mesh7 binary (Go) and the Python SDK.</p>
+
+    <pre><code># mesh7 binary
+go install github.com/KTCrisis/flux7-mesh/cmd/mesh7@latest
+
+# Python SDK with Agent SDK support
+pip install flux7-mesh[anthropic]</code></pre>
+
+    <h2><span class="step-num">2</span> Define your tools</h2>
+
+    <p>Let's say your agent has three tools: reading files, writing files, and deleting files. Standard stuff.</p>
+
+    <span class="filename">tools.py</span>
+    <pre><code>import os
+
+def read_file(path: str) -&gt; str:
+    """Read a file and return its contents."""
+    with open(path) as f:
+        return f.read()
+
+def write_file(path: str, content: str) -&gt; str:
+    """Write content to a file."""
+    with open(path, "w") as f:
+        f.write(content)
+    return f"Written to {path}"
+
+def delete_file(path: str) -&gt; str:
+    """Delete a file."""
+    os.remove(path)
+    return f"Deleted {path}"</code></pre>
+
+    <p>Nothing special. These are plain Python functions.</p>
+
+    <h2><span class="step-num">3</span> Write the mesh7 config</h2>
+
+    <p>mesh7 needs to know which tools exist and how to reach them. For Agent SDK integration, mesh7 doesn't proxy the tools directly &mdash; it acts as a <em>policy engine</em> that the hooks consult via <code>POST /decide</code>.</p>
+
+    <span class="filename">config.yaml</span>
+    <pre><code>listen: ":9090"
+
+policy:
+  default_action: human_approval
+
+  rules:
+    - agent: "file-agent"
+      tool: "read_file"
+      action: allow
+
+    - agent: "file-agent"
+      tool: "write_file"
+      action: allow
+      conditions:
+        - param: path
+          pattern: "/tmp/*"
+
+    - agent: "file-agent"
+      tool: "delete_file"
+      action: deny</code></pre>
+
+    <p>That's the 10 lines that matter. Three rules:</p>
+    <ul>
+      <li><code>read_file</code> &mdash; always allowed</li>
+      <li><code>write_file</code> &mdash; allowed, but only to <code>/tmp/*</code></li>
+      <li><code>delete_file</code> &mdash; always denied</li>
+    </ul>
+
+    <p>Anything not matched falls back to <code>human_approval</code>. The agent will never surprise you with an unplanned action.</p>
+
+    <h2><span class="step-num">4</span> Wire MeshHooks into your agent</h2>
+
+    <p>Here's where MeshHooks comes in. Three lines connect your Agent SDK agent to the policy engine.</p>
+
+    <span class="filename">agent.py</span>
+    <pre><code>import anthropic
+from anthropic.agent import Agent, ToolDefinition
+from mesh7 import MeshHooks
+from tools import read_file, write_file, delete_file
+
+# Connect to mesh7
+hooks = MeshHooks(agent="file-agent")
+
+# Define tools for the Agent SDK
+tools = [
+    ToolDefinition(
+        name="read_file",
+        description="Read a file and return its contents",
+        input_schema={
+            "type": "object",
+            "properties": {"path": {"type": "string"}},
+            "required": ["path"],
+        },
+        function=read_file,
+    ),
+    ToolDefinition(
+        name="write_file",
+        description="Write content to a file",
+        input_schema={
+            "type": "object",
+            "properties": {
+                "path": {"type": "string"},
+                "content": {"type": "string"},
+            },
+            "required": ["path", "content"],
+        },
+        function=write_file,
+    ),
+    ToolDefinition(
+        name="delete_file",
+        description="Delete a file",
+        input_schema={
+            "type": "object",
+            "properties": {"path": {"type": "string"}},
+            "required": ["path"],
+        },
+        function=delete_file,
+    ),
+]
+
+# Create the agent with governance hooks
+agent = Agent(
+    model="claude-sonnet-4-6",
+    tools=tools,
+    hooks=hooks.agent_sdk_hooks(),
+)
+
+result = agent.run("Read /tmp/notes.txt, then write a summary to /tmp/summary.txt")</code></pre>
+
+    <p>The key is line 6: <code>MeshHooks(agent="file-agent")</code>. This creates a hook that intercepts every tool call and checks it against your YAML policy via mesh7's <code>/decide</code> endpoint. The agent ID <code>"file-agent"</code> matches the rules in your config.</p>
+
+    <p>The rest is standard Agent SDK code.</p>
+
+    <h2><span class="step-num">5</span> Run it</h2>
+
+    <p>Two terminals:</p>
+
+    <pre><code># Terminal 1 — start mesh7
+mesh7 --config config.yaml</code></pre>
+
+    <pre><code># Terminal 2 — run the agent
+python agent.py</code></pre>
+
+    <p>Watch the mesh7 logs. You'll see every tool call evaluated against your policy:</p>
+
+    <pre><code>INFO  tool_call agent=file-agent tool=read_file decision=allow     latency=0ms
+INFO  tool_call agent=file-agent tool=write_file decision=allow    latency=0ms  path=/tmp/summary.txt
+INFO  tool_call agent=file-agent tool=delete_file decision=deny    latency=0ms</code></pre>
+
+    <p>If Claude tries to delete a file, the hook returns <code>deny</code> before the function is called. The agent receives a denial message and adapts. No permission prompt. No human in the loop for routine decisions. No surprises.</p>
+
+    <h2>What happens under the hood</h2>
+
+    <div style="margin:32px 0;text-align:center;">
+      <svg viewBox="0 0 700 260" xmlns="http://www.w3.org/2000/svg" style="max-width:700px;width:100%;">
+        <!-- Agent process -->
+        <rect x="20" y="20" width="420" height="220" rx="8" fill="none" stroke="#2a3a2a" stroke-width="1.5" stroke-dasharray="6,4"/>
+        <text x="36" y="44" font-family="'JetBrains Mono',monospace" font-size="9" fill="#5a7a5a" letter-spacing="2">PYTHON PROCESS</text>
+
+        <!-- Claude -->
+        <rect x="50" y="70" width="100" height="50" rx="4" fill="#111811" stroke="#a855f7" stroke-width="1.5"/>
+        <text x="100" y="100" font-family="'JetBrains Mono',monospace" font-size="11" fill="#fff" text-anchor="middle">Claude</text>
+
+        <!-- MeshHooks -->
+        <rect x="210" y="60" width="110" height="70" rx="4" fill="rgba(0,229,255,0.06)" stroke="#00e5ff" stroke-width="1.5"/>
+        <text x="265" y="86" font-family="'JetBrains Mono',monospace" font-size="10" fill="#00e5ff" text-anchor="middle" font-weight="600">MeshHooks</text>
+        <text x="265" y="104" font-family="'JetBrains Mono',monospace" font-size="8" fill="#5a7a5a" text-anchor="middle">PreToolUse</text>
+        <text x="265" y="118" font-family="'JetBrains Mono',monospace" font-size="8" fill="#5a7a5a" text-anchor="middle">hook</text>
+
+        <!-- Tool function -->
+        <rect x="210" y="170" width="110" height="50" rx="4" fill="#111811" stroke="#00ff88" stroke-width="1.5"/>
+        <text x="265" y="200" font-family="'JetBrains Mono',monospace" font-size="10" fill="#fff" text-anchor="middle">Tool fn()</text>
+
+        <!-- Arrow Claude -> MeshHooks -->
+        <line x1="150" y1="90" x2="206" y2="90" stroke="#a855f7" stroke-width="1.5"/>
+        <polygon points="206,86 214,90 206,94" fill="#a855f7"/>
+        <text x="178" y="82" font-family="'JetBrains Mono',monospace" font-size="7" fill="#a855f7" text-anchor="middle">tool call</text>
+
+        <!-- Arrow MeshHooks -> tool (allowed) -->
+        <line x1="265" y1="130" x2="265" y2="166" stroke="#00ff88" stroke-width="1.5"/>
+        <polygon points="261,166 265,174 269,166" fill="#00ff88"/>
+        <text x="290" y="152" font-family="'JetBrains Mono',monospace" font-size="7" fill="#00ff88">allow</text>
+
+        <!-- mesh7 sidecar -->
+        <rect x="500" y="40" width="160" height="120" rx="6" fill="rgba(168,85,247,0.05)" stroke="#a855f7" stroke-width="1.5"/>
+        <text x="580" y="66" font-family="'JetBrains Mono',monospace" font-size="10" fill="#a855f7" text-anchor="middle" font-weight="600">mesh7</text>
+        <text x="580" y="90" font-family="'JetBrains Mono',monospace" font-size="8" fill="#5a7a5a" text-anchor="middle">POST /decide</text>
+        <text x="580" y="106" font-family="'JetBrains Mono',monospace" font-size="8" fill="#5a7a5a" text-anchor="middle">policy engine</text>
+        <text x="580" y="122" font-family="'JetBrains Mono',monospace" font-size="8" fill="#5a7a5a" text-anchor="middle">trace store</text>
+        <text x="580" y="148" font-family="'JetBrains Mono',monospace" font-size="8" fill="#a855f7" text-anchor="middle">config.yaml</text>
+
+        <!-- Arrow MeshHooks -> mesh7 -->
+        <line x1="320" y1="95" x2="496" y2="95" stroke="#00e5ff" stroke-width="1.5"/>
+        <polygon points="496,91 504,95 496,99" fill="#00e5ff"/>
+        <text x="408" y="87" font-family="'JetBrains Mono',monospace" font-size="7" fill="#00e5ff" text-anchor="middle">HTTP /decide</text>
+
+        <!-- Arrow mesh7 -> MeshHooks (response) -->
+        <line x1="496" y1="110" x2="320" y2="110" stroke="#00e5ff" stroke-width="1.5" stroke-dasharray="4,3"/>
+        <polygon points="320,106 312,110 320,114" fill="#00e5ff"/>
+        <text x="408" y="124" font-family="'JetBrains Mono',monospace" font-size="7" fill="#00e5ff" text-anchor="middle">allow / deny / ask</text>
+      </svg>
+      <div style="font-size:10px;color:#5a7a5a;margin-top:8px;letter-spacing:1px;">MeshHooks delegates policy evaluation to mesh7 &mdash; the hook is a thin HTTP call</div>
+    </div>
+
+    <p>The flow, step by step:</p>
+    <ol>
+      <li>Claude decides to call <code>write_file</code> with <code>{"path": "/tmp/summary.txt", ...}</code></li>
+      <li>The Agent SDK fires the <code>PreToolUse</code> hook before execution</li>
+      <li>MeshHooks sends <code>POST /decide</code> to mesh7 with the tool name, params, and agent identity</li>
+      <li>mesh7 evaluates the YAML policy: <code>write_file</code> is allowed for <code>file-agent</code> when <code>path</code> matches <code>/tmp/*</code></li>
+      <li>mesh7 returns <code>allow</code>. MeshHooks translates to the Agent SDK format</li>
+      <li>The tool function executes. mesh7 logs a structured trace</li>
+    </ol>
+
+    <p>If mesh7 is down, MeshHooks defaults to <code>deny</code> &mdash; fail closed, not open. You can change this with <code>fail_action="allow"</code> if you prefer leniency, but for production agents, closed is the right default.</p>
+
+    <h2>Going further</h2>
+
+    <p>This tutorial covers the simplest case. A few things you can add without changing agent code &mdash; only YAML:</p>
+
+    <table>
+      <thead>
+        <tr><th>Feature</th><th>Config change</th><th>Effect</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Human approval</strong></td><td><code>action: human_approval</code></td><td>Tool call queued, agent waits, human approves/denies in console</td></tr>
+        <tr><td><strong>Rate limiting</strong></td><td><code>rate_limit: {max: 10, window: 60s}</code></td><td>Max 10 calls per minute per tool</td></tr>
+        <tr><td><strong>Temporal grants</strong></td><td><code>mesh7 grant create ...</code></td><td>Temporary override &mdash; "allow delete_file for the next 30 minutes"</td></tr>
+        <tr><td><strong>Auto-approve</strong></td><td>Connect flux7-memory</td><td>After 3 human approvals for the same pattern, auto-approve future calls</td></tr>
+        <tr><td><strong>Multi-agent</strong></td><td>Different <code>agent:</code> per rule</td><td>Each agent gets its own permissions, same mesh7 instance</td></tr>
+        <tr><td><strong>JWT auth</strong></td><td><code>auth.jwt</code> in config</td><td>Agent identity from IdP tokens instead of strings</td></tr>
+      </tbody>
+    </table>
+
+    <p>All of this is policy and configuration. Your Python agent code stays exactly the same. The governance layer evolves independently from the agent code &mdash; different repo, different team, different deploy cycle.</p>
+
+    <blockquote><p>That's the point. The developer builds the agent. The platform team writes the policy. Neither touches the other's code.</p></blockquote>
+
+    <hr>
+
+    <div class="article-footer">
+      <p><a href="https://github.com/KTCrisis/flux7-mesh">flux7-mesh</a> is open-source, MIT licensed. The Python SDK is <code>pip install flux7-mesh</code>. The full policy reference is in the <a href="https://docs.flux7.art/mesh7/writing-policies/">docs</a>.</p>
+
+      <a href="/blog/" class="back-link">&larr; back to log_</a>
+    </div>
+
+  </div>
+</article>
+
+<footer>
+  <span>flux7.art</span> &mdash; built and deployed on cloudflare &middot; 2026
+</footer>
+
+</body>
+</html>

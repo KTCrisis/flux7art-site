@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>flux7.art - log_</title>
+    <link>https://flux7.art/blog/</link>
+    <description>Essays on AI agent governance, event streaming, and MCP tooling by Marc Verchiani.</description>
+    <language>en</language>
+    <lastBuildDate>Sat, 10 May 2026 12:00:00 +0200</lastBuildDate>
+    <atom:link href="https://flux7.art/feed.xml" rel="self" type="application/rss+xml"/>
+
+    <item>
+      <title>Governing Claude agents with 10 lines of YAML</title>
+      <link>https://flux7.art/blog/governing-claude-agents-yaml.html</link>
+      <guid>https://flux7.art/blog/governing-claude-agents-yaml.html</guid>
+      <pubDate>Sat, 10 May 2026 12:00:00 +0200</pubDate>
+      <description>The Anthropic Agent SDK builds agents. flux7-mesh governs them. MeshHooks connects the two in 3 lines of code. Full walkthrough, from install to governed tool calls.</description>
+    </item>
+
+    <item>
+      <title>Go for AI agents: a field report</title>
+      <link>https://flux7.art/blog/go-for-agents.html</link>
+      <guid>https://flux7.art/blog/go-for-agents.html</guid>
+      <pubDate>Sun, 13 Apr 2026 12:00:00 +0200</pubDate>
+      <description>Five Go projects for agent infrastructure. One external dependency across four of them. What worked, what didn't, and why I keep choosing Go over Python for this layer.</description>
+    </item>
+
+    <item>
+      <title>Schema governance without vendor lock-in</title>
+      <link>https://flux7.art/blog/schema-governance-without-lockin.html</link>
+      <guid>https://flux7.art/blog/schema-governance-without-lockin.html</guid>
+      <pubDate>Sat, 12 Apr 2026 12:00:00 +0200</pubDate>
+      <description>Schema registries store schemas. They don't govern them. event7 adds a provider-agnostic governance layer above Confluent, Apicurio, Karapace, and Redpanda, with a Docker-first deployment that works out of the box.</description>
+    </item>
+
+    <item>
+      <title>Middleware vs Sidecar: two ways to govern AI agents</title>
+      <link>https://flux7.art/blog/middleware-vs-sidecar.html</link>
+      <guid>https://flux7.art/blog/middleware-vs-sidecar.html</guid>
+      <pubDate>Sun, 06 Apr 2026 12:00:00 +0200</pubDate>
+      <description>Comparing Microsoft's Agent Governance Toolkit and flux7-mesh, two open-source architectures for the same problem, mapped against the OWASP Agentic Top 10.</description>
+    </item>
+
+  </channel>
+</rss>

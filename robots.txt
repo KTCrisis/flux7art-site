@@ -2,3 +2,4 @@ User-agent: *
 Allow: /
 
 Sitemap: https://flux7.art/sitemap.xml
+Feed: https://flux7.art/feed.xml

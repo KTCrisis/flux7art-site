@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Governing Claude agents with 10 lines of YAML — flux7.art</title>
-<meta name="description" content="A 5-minute tutorial: connect the Anthropic Agent SDK to flux7-mesh via MeshHooks. Write a YAML policy, run an agent, get governed tool calls with zero permission prompts.">
+<meta name="description" content="5-minute tutorial: connect the Anthropic Agent SDK to flux7-mesh via MeshHooks. YAML policy, governed tool calls, zero permission prompts.">
 <meta name="author" content="Marc Verchiani">
 <meta name="keywords" content="Anthropic Agent SDK, flux7-mesh, MeshHooks, MCP, YAML policy, Claude, AI agent governance, tutorial">
 <link rel="canonical" href="https://flux7.art/blog/governing-claude-agents-yaml.html">
@@ -365,16 +365,16 @@ footer span { color: var(--green); }
   <h1 class="article-title">Governing Claude agents with <em>10 lines of YAML</em></h1>
 
   <p class="article-subtitle">
-    The Anthropic Agent SDK lets you build Claude-powered agents in Python. flux7-mesh lets you govern them with YAML policies. MeshHooks connects the two in 3 lines of code. Here's the full walkthrough.
+    The Anthropic Agent SDK builds Claude-powered agents in Python. flux7-mesh governs them with YAML policies. MeshHooks connects the two in 3 lines of code. Full walkthrough, 5 minutes.
   </p>
 
   <div class="prose">
 
-    <p>You've built an agent with the <a href="https://docs.anthropic.com/en/docs/agents-and-tools/agent-sdk">Anthropic Agent SDK</a>. It calls tools. It works. Now someone asks: "which tools can it call? who approved that? where's the audit trail?"</p>
+    <p>You've built an agent with the <a href="https://docs.anthropic.com/en/docs/agents-and-tools/agent-sdk">Anthropic Agent SDK</a>. It calls tools. It works. Then someone asks: "which tools can it call? who approved that? where's the audit trail?"</p>
 
     <p>You could add permission checks to every tool function. Or you could write a YAML file and let a proxy handle it.</p>
 
-    <p>This tutorial takes about 5 minutes. By the end, your agent's tool calls are governed by a policy you can read, version, and hot-reload &mdash; without changing your agent code.</p>
+    <p>By the end of this tutorial, your agent's tool calls are governed by a policy you can read, version, and hot-reload. No changes to your agent code.</p>
 
     <h2><span class="step-num">1</span> Install</h2>
 
@@ -413,7 +413,7 @@ def delete_file(path: str) -&gt; str:
 
     <h2><span class="step-num">3</span> Write the mesh7 config</h2>
 
-    <p>mesh7 needs to know which tools exist and how to reach them. For Agent SDK integration, mesh7 doesn't proxy the tools directly &mdash; it acts as a <em>policy engine</em> that the hooks consult via <code>POST /decide</code>.</p>
+    <p>mesh7 needs to know which tools exist and how to reach them. In Agent SDK mode, mesh7 doesn't proxy the tools directly. It acts as a <em>policy engine</em> that the hooks consult via <code>POST /decide</code>.</p>
 
     <span class="filename">config.yaml</span>
     <pre><code>listen: ":9090"
@@ -439,16 +439,16 @@ policy:
 
     <p>That's the 10 lines that matter. Three rules:</p>
     <ul>
-      <li><code>read_file</code> &mdash; always allowed</li>
-      <li><code>write_file</code> &mdash; allowed, but only to <code>/tmp/*</code></li>
-      <li><code>delete_file</code> &mdash; always denied</li>
+      <li><code>read_file</code> : always allowed</li>
+      <li><code>write_file</code> : allowed, but only under <code>/tmp/*</code></li>
+      <li><code>delete_file</code> : always denied</li>
     </ul>
 
     <p>Anything not matched falls back to <code>human_approval</code>. The agent will never surprise you with an unplanned action.</p>
 
     <h2><span class="step-num">4</span> Wire MeshHooks into your agent</h2>
 
-    <p>Here's where MeshHooks comes in. Three lines connect your Agent SDK agent to the policy engine.</p>
+    <p>This is where MeshHooks comes in. Three lines to connect your Agent SDK agent to the policy engine.</p>
 
     <span class="filename">agent.py</span>
     <pre><code>import anthropic
@@ -525,7 +525,7 @@ python agent.py</code></pre>
 INFO  tool_call agent=file-agent tool=write_file decision=allow    latency=0ms  path=/tmp/summary.txt
 INFO  tool_call agent=file-agent tool=delete_file decision=deny    latency=0ms</code></pre>
 
-    <p>If Claude tries to delete a file, the hook returns <code>deny</code> before the function is called. The agent receives a denial message and adapts. No permission prompt. No human in the loop for routine decisions. No surprises.</p>
+    <p>If Claude tries to delete a file, the hook returns <code>deny</code> before the function is ever called. The agent gets a denial, adapts, moves on. No prompt. No human in the loop for routine calls.</p>
 
     <h2>What happens under the hood</h2>
 
@@ -577,7 +577,7 @@ INFO  tool_call agent=file-agent tool=delete_file decision=deny    latency=0ms</
         <polygon points="320,106 312,110 320,114" fill="#00e5ff"/>
         <text x="408" y="124" font-family="'JetBrains Mono',monospace" font-size="7" fill="#00e5ff" text-anchor="middle">allow / deny / ask</text>
       </svg>
-      <div style="font-size:10px;color:#5a7a5a;margin-top:8px;letter-spacing:1px;">MeshHooks delegates policy evaluation to mesh7 &mdash; the hook is a thin HTTP call</div>
+      <div style="font-size:10px;color:#5a7a5a;margin-top:8px;letter-spacing:1px;">MeshHooks delegates policy evaluation to mesh7. The hook is a thin HTTP call.</div>
     </div>
 
     <p>The flow, step by step:</p>
@@ -590,11 +590,11 @@ INFO  tool_call agent=file-agent tool=delete_file decision=deny    latency=0ms</
       <li>The tool function executes. mesh7 logs a structured trace</li>
     </ol>
 
-    <p>If mesh7 is down, MeshHooks defaults to <code>deny</code> &mdash; fail closed, not open. You can change this with <code>fail_action="allow"</code> if you prefer leniency, but for production agents, closed is the right default.</p>
+    <p>If mesh7 is down, MeshHooks defaults to <code>deny</code>. Fail closed, not open. You can change this with <code>fail_action="allow"</code> if you prefer leniency, but for production agents, closed is the right default.</p>
 
     <h2>Going further</h2>
 
-    <p>This tutorial covers the simplest case. A few things you can add without changing agent code &mdash; only YAML:</p>
+    <p>This tutorial covers the simplest case. Everything below can be added without touching agent code. Only YAML and config:</p>
 
     <table>
       <thead>
@@ -603,16 +603,16 @@ INFO  tool_call agent=file-agent tool=delete_file decision=deny    latency=0ms</
       <tbody>
         <tr><td><strong>Human approval</strong></td><td><code>action: human_approval</code></td><td>Tool call queued, agent waits, human approves/denies in console</td></tr>
         <tr><td><strong>Rate limiting</strong></td><td><code>rate_limit: {max: 10, window: 60s}</code></td><td>Max 10 calls per minute per tool</td></tr>
-        <tr><td><strong>Temporal grants</strong></td><td><code>mesh7 grant create ...</code></td><td>Temporary override &mdash; "allow delete_file for the next 30 minutes"</td></tr>
+        <tr><td><strong>Temporal grants</strong></td><td><code>mesh7 grant create ...</code></td><td>Temporary override: allow delete_file for the next 30 minutes</td></tr>
         <tr><td><strong>Auto-approve</strong></td><td>Connect flux7-memory</td><td>After 3 human approvals for the same pattern, auto-approve future calls</td></tr>
         <tr><td><strong>Multi-agent</strong></td><td>Different <code>agent:</code> per rule</td><td>Each agent gets its own permissions, same mesh7 instance</td></tr>
         <tr><td><strong>JWT auth</strong></td><td><code>auth.jwt</code> in config</td><td>Agent identity from IdP tokens instead of strings</td></tr>
       </tbody>
     </table>
 
-    <p>All of this is policy and configuration. Your Python agent code stays exactly the same. The governance layer evolves independently from the agent code &mdash; different repo, different team, different deploy cycle.</p>
+    <p>All of this is policy and configuration. Your Python agent code stays exactly the same. The governance layer evolves independently: different repo, different team, different deploy cycle.</p>
 
-    <blockquote><p>That's the point. The developer builds the agent. The platform team writes the policy. Neither touches the other's code.</p></blockquote>
+    <blockquote><p>The developer builds the agent. The platform team writes the policy. Neither touches the other's code.</p></blockquote>
 
     <hr>
 

@@ -5,8 +5,16 @@
     <link>https://flux7.art/blog/</link>
     <description>Essays on AI agent governance, event streaming, and MCP tooling by Marc Verchiani.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 10 May 2026 12:00:00 +0200</lastBuildDate>
+    <lastBuildDate>Sun, 07 Jun 2026 12:00:00 +0200</lastBuildDate>
     <atom:link href="https://flux7.art/feed.xml" rel="self" type="application/rss+xml"/>
+
+    <item>
+      <title>We pointed our audit agent at our own governance mesh</title>
+      <link>https://flux7.art/blog/auditing-the-guard.html</link>
+      <guid>https://flux7.art/blog/auditing-the-guard.html</guid>
+      <pubDate>Sun, 07 Jun 2026 12:00:00 +0200</pubDate>
+      <description>We aimed our RAG-powered audit agent at flux7-mesh's own source and asked how an agent would escape governance. It found eight ways. The twin-bug lesson, the SSRF traps, and the one pattern under every fix.</description>
+    </item>
 
     <item>
       <title>Governing Claude agents with 10 lines of YAML</title>

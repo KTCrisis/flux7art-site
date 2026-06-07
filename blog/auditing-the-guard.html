@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>We pointed our audit agent at our own governance mesh — flux7.art</title>
+<meta name="description" content="We aimed our RAG-powered audit agent at flux7-mesh's own source. It found eight ways an agent could escape governance. What self-auditing a governance tool teaches about AI agent security.">
+<meta name="author" content="Marc Verchiani">
+<meta name="keywords" content="AI agent security, flux7-mesh, OWASP Agentic Top 10, OWASP LLM Top 10, prompt injection, SSRF, agent governance, MCP, audit">
+<link rel="canonical" href="https://flux7.art/blog/auditing-the-guard.html">
+
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="flux7.art">
+<meta property="og:title" content="We pointed our audit agent at our own governance mesh">
+<meta property="og:description" content="We aimed our audit agent at flux7-mesh's own source. Eight ways an agent could escape governance, and how we closed them.">
+<meta property="og:url" content="https://flux7.art/blog/auditing-the-guard.html">
+<meta property="og:image" content="https://flux7.art/img/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="article:author" content="Marc Verchiani">
+<meta property="article:published_time" content="2026-06-07">
+<meta property="article:section" content="AI Agent Governance">
+<meta property="article:tag" content="flux7-mesh">
+<meta property="article:tag" content="OWASP Agentic Top 10">
+<meta property="article:tag" content="MCP">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="We pointed our audit agent at our own governance mesh">
+<meta name="twitter:description" content="Microsoft Agent Governance Toolkit vs flux7-mesh — mapped against the OWASP Agentic Top 10.">
+<meta name="twitter:image" content="https://flux7.art/img/og.png">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "We pointed our audit agent at our own governance mesh",
+  "description": "We aimed our audit agent at flux7-mesh's own source. Eight ways an agent could escape governance, and how we closed them.",
+  "author": {
+    "@type": "Person",
+    "name": "Marc Verchiani",
+    "url": "https://flux7.art/"
+  },
+  "datePublished": "2026-06-07",
+  "image": "https://flux7.art/img/og.png",
+  "mainEntityOfPage": "https://flux7.art/blog/auditing-the-guard.html"
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<style>
+:root {
+  --bg:      #060a06;
+  --bg2:     #0c120c;
+  --bg3:     #111811;
+  --green:   #00ff88;
+  --pink:    #ff2d6b;
+  --cyan:    #00e5ff;
+  --gold:    #ffd166;
+  --purple:  #a855f7;
+  --teal:    #0d9488;
+  --dim:     #2a3a2a;
+  --text:    #b8ccb8;
+  --text2:   #5a7a5a;
+  --border:  #1a2a1a;
+  --font:    'JetBrains Mono', monospace;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── SCANLINES ── */
+body::after {
+  content: ''; position: fixed; inset: 0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.07) 2px, rgba(0,0,0,0.07) 4px);
+  pointer-events: none; z-index: 9999;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 40px;
+  background: linear-gradient(to bottom, rgba(6,10,6,0.95), transparent);
+  backdrop-filter: blur(2px);
+}
+.nav-logo { font-size: 18px; font-weight: 700; color: var(--green); text-decoration: none; letter-spacing: -0.5px; }
+.nav-logo span { color: var(--pink); }
+.nav-links { display: flex; gap: 32px; list-style: none; }
+.nav-links a {
+  color: var(--text2); text-decoration: none; font-size: 12px;
+  letter-spacing: 2px; text-transform: uppercase; transition: color 0.2s; position: relative;
+}
+.nav-links a::after {
+  content: ''; position: absolute; bottom: -4px; left: 0;
+  width: 0; height: 1px; background: var(--green); transition: width 0.2s;
+}
+.nav-links a:hover { color: var(--green); }
+.nav-links a:hover::after { width: 100%; }
+.nav-links a.active { color: var(--green); }
+.nav-links a.active::after { width: 100%; }
+
+/* ── ARTICLE ── */
+.article-wrapper {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 120px 40px 80px;
+  position: relative;
+  z-index: 1;
+}
+
+.article-meta {
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--text2);
+  margin-bottom: 12px;
+}
+.article-meta .tag {
+  color: var(--purple);
+  border: 1px solid rgba(168,85,247,0.3);
+  padding: 2px 8px;
+  border-radius: 2px;
+  margin-right: 12px;
+}
+.article-meta .date { color: var(--text2); }
+
+.article-title {
+  font-size: clamp(28px, 5vw, 42px);
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -1.5px;
+  line-height: 1.15;
+  margin-bottom: 24px;
+}
+.article-title em { font-style: normal; color: var(--purple); }
+
+.article-subtitle {
+  font-size: 13px;
+  color: var(--text2);
+  line-height: 1.8;
+  margin-bottom: 48px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--border);
+}
+
+/* ── PROSE ── */
+.prose h2 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.5px;
+  margin: 48px 0 20px;
+  padding-top: 16px;
+}
+.prose h2::before {
+  content: '// ';
+  color: var(--purple);
+  font-weight: 400;
+}
+
+.prose p {
+  font-size: 13px;
+  line-height: 1.9;
+  color: var(--text);
+  margin-bottom: 18px;
+}
+
+.prose strong { color: #fff; font-weight: 600; }
+.prose em { color: var(--cyan); font-style: normal; }
+
+.prose a {
+  color: var(--purple);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(168,85,247,0.3);
+  transition: border-color 0.2s;
+}
+.prose a:hover { border-color: var(--purple); }
+
+.prose ul, .prose ol {
+  margin: 0 0 18px 20px;
+  font-size: 13px;
+  line-height: 1.9;
+}
+.prose li { margin-bottom: 6px; }
+.prose li::marker { color: var(--purple); }
+
+.prose blockquote {
+  border-left: 2px solid var(--purple);
+  padding: 12px 20px;
+  margin: 24px 0;
+  background: rgba(168,85,247,0.03);
+  border-radius: 0 4px 4px 0;
+}
+.prose blockquote p { color: var(--text2); margin-bottom: 0; font-style: italic; }
+
+.prose code {
+  font-family: var(--font);
+  font-size: 12px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  padding: 1px 6px;
+  border-radius: 2px;
+  color: var(--green);
+}
+
+.prose pre {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 20px;
+  margin: 24px 0;
+  overflow-x: auto;
+  font-size: 12px;
+  line-height: 1.7;
+}
+.prose pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--text);
+}
+
+/* ── TABLES ── */
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 24px 0;
+  font-size: 11px;
+}
+.prose th {
+  text-align: left;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--purple);
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg2);
+}
+.prose td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  line-height: 1.6;
+  vertical-align: top;
+}
+.prose tr:hover td { background: rgba(168,85,247,0.02); }
+
+/* ── DIVIDER ── */
+.prose hr {
+  border: none;
+  height: 1px;
+  background: var(--border);
+  margin: 48px 0;
+}
+
+/* ── FOOTER NOTE ── */
+.article-footer {
+  margin-top: 48px;
+  padding-top: 32px;
+  border-top: 1px solid var(--border);
+  font-size: 12px;
+  color: var(--text2);
+  line-height: 1.8;
+}
+.article-footer a { color: var(--purple); text-decoration: none; border-bottom: 1px solid rgba(168,85,247,0.3); }
+.article-footer a:hover { border-color: var(--purple); }
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 32px;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text2);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.back-link:hover { color: var(--green); }
+
+/* ── FOOTER ── */
+footer {
+  text-align: center;
+  padding: 40px;
+  border-top: 1px solid var(--border);
+  font-size: 10px;
+  color: var(--text2);
+  letter-spacing: 2px;
+  position: relative;
+  z-index: 1;
+}
+footer span { color: var(--green); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  nav { padding: 16px 20px; }
+  .nav-links { gap: 20px; }
+  .article-wrapper { padding: 100px 20px 60px; }
+  .prose table { font-size: 10px; }
+  .prose th, .prose td { padding: 8px 6px; }
+}
+@media (max-width: 500px) {
+  .nav-links { display: none; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">flux<span>7</span>.art</a>
+  <div style="display:flex;align-items:center;">
+    <ul class="nav-links">
+      <li><a href="/#flux7">flux7</a></li>
+      <li><a href="/#projects">Products</a></li>
+      <li><a href="/#lab">Lab</a></li>
+      <li><a href="/blog/" class="active">log_</a></li>
+      <li><a href="https://docs.flux7.art">Docs</a></li>
+      <li><a href="/about/">About</a></li>
+    </ul>
+  </div>
+</nav>
+
+<article class="article-wrapper">
+  <div class="article-meta">
+    <span class="tag">agent security</span>
+    <span class="date">June 7, 2026</span>
+  </div>
+
+  <h1 class="article-title">We pointed our audit agent at our own <em>governance mesh</em></h1>
+
+  <p class="article-subtitle">
+    flux7-mesh governs what AI agents are allowed to do. So we aimed our RAG-powered audit agent at the mesh's own source code and asked it the uncomfortable question: how would an agent escape this? It found eight ways. Here is what self-auditing a governance tool teaches about agent security.
+  </p>
+
+  <div class="prose">
+
+    <p>A governance tool that can be bypassed is theatre. You can write the cleanest policy engine in the world, but if an agent can quietly hand itself the keys, the policy is decoration. So before claiming flux7-mesh governs anything, the honest move was to attack it.</p>
+
+    <p>We had the right adversary already in the stack. <em>audit7</em> is a RAG-powered audit agent: it reads source code, queries a knowledge base (here, the OWASP LLM and Agentic corpora), and writes findings. Crucially, audit7 runs <strong>through the mesh</strong> and stores its findings in our governed memory. So the setup was a small ouroboros: the agent that audits, governed by the thing it audits, remembering across sessions.</p>
+
+    <p>We aimed it at flux7-mesh's own Go source, scope: security. It found eight issues. Two were critical. The interesting part was not the count, it was their shape.</p>
+
+    <h2>The guard that forgot to guard itself</h2>
+
+    <p>The mesh's whole premise is that some actions require a human to approve them. You write a policy that says <code>filesystem.write_file → human_approval</code>, and the agent's write blocks until a person says yes.</p>
+
+    <p>The first critical finding: a virtual tool called <code>grant.create</code> let an agent mint itself a temporary grant — a sudo token that bypasses <code>human_approval</code>. And <code>grant.create</code> was dispatched <em>before</em> the policy engine ran. So a constrained agent could, in two calls, grant itself everything and then do the thing it was never allowed to do. The lock was fine. The keyring was sitting on the counter.</p>
+
+    <p>We fixed it: minting a grant is now an operator action, reserved to declared supervisor agents. Felt complete. It wasn't.</p>
+
+    <h2>Look for the twin</h2>
+
+    <p>We ran audit7 a second time, on the patched code. The first eight findings were gone. But the deeper pass surfaced something we had missed the first time, and it is the single most useful lesson of the whole exercise.</p>
+
+    <p>There is a second door into the same room. Where <code>grant.create</code> lets an agent <em>avoid</em> the approval, <code>approval.resolve</code> lets it <em>satisfy</em> the approval — by approving its own pending request. Same outcome, the human-in-the-loop defeated, reached from the other side. In the default mode, any agent could call it.</p>
+
+    <p>We had hardened one privileged primitive and left its mirror image wide open, because we fixed the bug we were shown instead of the <em>class</em> of bug. The takeaway: <strong>when you guard a privileged operation, immediately look for its twin.</strong> Anything that can reach a protected state has siblings that reach the same state differently. Both grant and approval mutation are now gated identically, through one shared check.</p>
+
+    <blockquote><p>This is why a second audit pass matters more than a thorough first one. The first pass finds bugs. The second pass, run on your own fixes, finds the assumptions your fixes encoded.</p></blockquote>
+
+    <h2>The other six</h2>
+
+    <p>The rest mapped cleanly onto the OWASP agentic threat model, and each is worth naming because they recur in any agent system that touches a network:</p>
+
+    <p><strong>Identity spoofing past authentication.</strong> A legacy <code>Bearer agent:&lt;name&gt;</code> header was checked before JWT validation, so it worked even with JWT configured — making the cryptographic identity check decorative. An agent could simply claim to be a more privileged one. Now, with JWT on, plaintext identity claims are rejected by default.</p>
+
+    <p><strong>Injection slipping through the busy door.</strong> The check that blocks auto-approval when a tool call's parameters smell of prompt injection lived only on the HTTP path. The MCP path — the one Claude Code and Cursor actually use — had none. The highest-traffic, most-exposed codepath was the unguarded one. The guard now lives in a single function both paths call, so they cannot drift apart again.</p>
+
+    <p><strong>SSRF, twice.</strong> Agent-supplied callback URLs and operator-supplied OpenAPI spec URLs were fetched without protection. That is a server-side request forgery primitive: make the mesh fetch <code>169.254.169.254</code> and it hands back cloud credentials. The naive defenses (resolve, check the first IP, then fetch) are bypassable by DNS rebinding. The fix checks every resolved address at <em>dial time</em>, so the IP that passed the check is the IP actually contacted.</p>
+
+    <p><strong>Resource exhaustion.</strong> The rate limiter's per-agent map grew forever — and agent IDs are self-declared, so an attacker could enumerate millions of them until the process died, taking governance down for everyone. Now the map evicts idle agents and has a hard cap.</p>
+
+    <p>One finding turned out to be a false positive — the audit claimed CLI subcommands escaped per-command policy, but reading the code showed the policy is evaluated on the real command name on both paths. Worth stating plainly: an LLM audit produces leads, not verdicts. You verify each against the code before you believe it. That discipline is part of the method, not an afterthought.</p>
+
+    <h2>The pattern under every fix</h2>
+
+    <p>Seven of the eight were real, and every single fix took the same shape. It is the most portable thing we learned, so it deserves to be stated as a rule:</p>
+
+    <blockquote><p>A safe, explicit default, plus an opt-in escape hatch.</p></blockquote>
+
+    <p>The control plane is loopback-only until you set an admin token. Identity is JWT-strict until you explicitly allow the legacy form. Transport is plaintext <em>with a startup warning</em> until you point it at a certificate. The data plane is anonymous-but-policy-governed until you require authentication. In every case the default never silently exposes anything, and the capability is there for the deployment that genuinely needs it.</p>
+
+    <p>The opposite failure mode — a permissive default with a "remember to lock this down" note in the docs — is how most agent systems leak. The note is never read. The default is what ships.</p>
+
+    <h2>Why this is the demo that matters</h2>
+
+    <p>"Agent governance" is easy to claim and hard to show. A slide that says "policy enforcement, human approval, full audit trail" proves nothing. What proves something is pointing an adversarial agent at your own enforcement layer, on stage, and showing both the holes it finds <em>and</em> that the enforcement still failed closed while it probed.</p>
+
+    <p>When audit7's first run hit the mesh before its policy was loaded correctly, every tool call came back denied — and the agent refused to fabricate findings, reporting the lockdown instead. That is the system working: fail closed, and an agent that cannot act simply cannot act. The most convincing security demo is not the absence of holes. It is watching the guard hold while something actively tries the doors.</p>
+
+    <p>The mechanisms, the threat model, and a production hardening checklist live in the <a href="https://docs.flux7.art/mesh7/security/">Agent Security</a> docs. flux7-mesh is open source: <a href="https://github.com/KTCrisis/flux7-mesh">github.com/KTCrisis/flux7-mesh</a>.</p>
+
+    <p style="color:var(--text2);font-size:12px;margin-top:32px;">Disclosure: the security review was performed by audit7, an AI audit agent; every finding was verified against the source before being fixed, and one was rejected as a false positive.</p>
+
+  </div>
+</article>
+
+<footer>
+  <span>flux7.art</span> &mdash; built and deployed on cloudflare &middot; 2026
+</footer>
+
+</body>
+</html>

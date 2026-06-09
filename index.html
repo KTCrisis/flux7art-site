@@ -70,23 +70,33 @@
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <style>
 :root {
-  --bg:      #060a06;
-  --bg2:     #0c120c;
-  --bg3:     #111811;
-  --green:   #00ff88;
-  --pink:    #ff2d6b;
-  --cyan:    #00e5ff;
-  --gold:    #ffd166;
-  --purple:  #a855f7;
-  --teal:    #0d9488;
-  --teal-light: #14b8a6;
-  --indigo:  #6366f1;
-  --orange:  #ff8c42;
-  --emerald: #34d399;
-  --dim:     #2a3a2a;
-  --text:    #b8ccb8;
-  --text2:   #5a7a5a;
-  --border:  #1a2a1a;
+  /* ── darksynth · espace · pro — fond violet-noir ── */
+  --bg:      #070611;
+  --bg2:     #0d0b1a;
+  --bg3:     #15122a;
+
+  /* ── triptyque synthwave : une couleur = un axe ── */
+  --ax1:     #2ee6ff;   /* cyan    — 01 agentic governance */
+  --ax2:     #8b7bff;   /* violet  — 02 eda · api · conseil */
+  --ax3:     #ff5cc8;   /* magenta — 03 ai-native tools */
+
+  /* primaire = cyan (ex-lime green retiré) ; les noms legacy
+     sont repointés sur le triptyque pour recolorer tout le site */
+  --green:   #2ee6ff;
+  --cyan:    #2ee6ff;
+  --emerald: #2ee6ff;
+  --purple:  #8b7bff;
+  --indigo:  #8b7bff;
+  --teal:    #8b7bff;
+  --teal-light: #a99bff;
+  --gold:    #b9a7ff;
+  --pink:    #ff5cc8;
+  --orange:  #ff5cc8;
+
+  --dim:     #3a3460;
+  --text:    #c7c4dc;
+  --text2:   #6f6b95;
+  --border:  #221d3d;
   --font:    'JetBrains Mono', monospace;
 }
 
@@ -105,7 +115,7 @@ body {
 /* ── CANVAS BG ── */
 #bg-canvas {
   position: fixed; inset: 0; z-index: 0;
-  pointer-events: none; opacity: 0.35;
+  pointer-events: none; opacity: 0.5;
 }
 
 /* ── SCANLINES ── */
@@ -120,7 +130,7 @@ nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
   display: flex; align-items: center; justify-content: space-between;
   padding: 18px 40px;
-  background: linear-gradient(to bottom, rgba(6,10,6,0.95), transparent);
+  background: linear-gradient(to bottom, rgba(7,6,17,0.95), transparent);
   backdrop-filter: blur(2px);
 }
 .nav-logo { font-size: 18px; font-weight: 700; color: var(--green); text-decoration: none; letter-spacing: -0.5px; }
@@ -141,7 +151,7 @@ nav {
 .lang-switch { display: flex; align-items: center; border: 1px solid var(--border); border-radius: 3px; overflow: hidden; margin-left: 24px; }
 .lang-btn { font-family: var(--font); font-size: 10px; letter-spacing: 2px; text-transform: uppercase; padding: 5px 10px; background: transparent; border: none; color: var(--text2); cursor: pointer; transition: all 0.2s; }
 .lang-btn.active { background: var(--green); color: var(--bg); font-weight: 700; }
-.lang-btn:not(.active):hover { color: var(--green); background: rgba(0,255,136,0.05); }
+.lang-btn:not(.active):hover { color: var(--green); background: rgba(46,230,255,0.05); }
 
 /* ── SECTIONS ── */
 section { position: relative; z-index: 1; }
@@ -161,10 +171,10 @@ section { position: relative; z-index: 1; }
 .hero-sub b { color: var(--cyan); font-weight: 400; }
 .hero-tags { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 36px; opacity: 0; animation: fadeUp 0.6s ease 0.8s forwards; }
 .htag { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; padding: 5px 14px; border: 1px solid var(--border); border-radius: 2px; color: var(--text2); transition: all 0.2s; }
-.htag:hover { border-color: var(--green); color: var(--green); background: rgba(0,255,136,0.05); }
+.htag:hover { border-color: var(--green); color: var(--green); background: rgba(46,230,255,0.05); }
 .scroll-hint { position: absolute; bottom: 36px; left: 0; right: 0; text-align: center; font-size: 10px; letter-spacing: 3px; color: var(--text2); text-transform: uppercase; opacity: 0; animation: fadeUp 0.6s ease 1.2s forwards; }
 @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-.log-cursor { animation: blink 1s step-end infinite; color: var(--cyan); text-shadow: 0 0 8px rgba(0,229,255,0.6); }
+.log-cursor { animation: blink 1s step-end infinite; color: var(--cyan); text-shadow: 0 0 8px rgba(46,230,255,0.6); }
 
 /* ── TICKER ── */
 .ticker-wrap {
@@ -217,8 +227,8 @@ section { position: relative; z-index: 1; }
 .card-btn-yt { color: #ff4444; border-color: rgba(255,68,68,0.3); background: rgba(255,68,68,0.05); }
 .card-btn-yt:hover { color: #fff; border-color: #ff4444; background: rgba(255,68,68,0.15); }
 .stack-tag { font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; padding: 3px 8px; border: 1px solid var(--border); color: var(--text2); border-radius: 2px; }
-.status-live { background: rgba(0,255,136,0.1); color: var(--green); border: 1px solid rgba(0,255,136,0.3); }
-.status-wip { background: rgba(255,209,102,0.1); color: var(--gold); border: 1px solid rgba(255,209,102,0.3); }
+.status-live { background: rgba(46,230,255,0.1); color: var(--green); border: 1px solid rgba(46,230,255,0.3); }
+.status-wip { background: rgba(185,167,255,0.1); color: var(--gold); border: 1px solid rgba(185,167,255,0.3); }
 
 /* ── LAB COMPACT CARDS ── */
 #lab a:hover { border-color: var(--dim) !important; }
@@ -227,8 +237,8 @@ section { position: relative; z-index: 1; }
 .sub-header { display: flex; align-items: center; gap: 14px; margin-bottom: 28px; margin-top: 48px; }
 .sub-header:first-child { margin-top: 0; }
 .sub-header-label { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; padding: 3px 12px; border-radius: 2px; font-weight: 700; }
-.sub-header-label-pro { color: var(--teal-light); border: 1px solid rgba(13,148,136,0.4); background: rgba(13,148,136,0.08); }
-.sub-header-label-lab { color: var(--pink); border: 1px solid rgba(255,45,107,0.4); background: rgba(255,45,107,0.08); }
+.sub-header-label-pro { color: var(--teal-light); border: 1px solid rgba(139,123,255,0.4); background: rgba(139,123,255,0.08); }
+.sub-header-label-lab { color: var(--pink); border: 1px solid rgba(255,92,200,0.4); background: rgba(255,92,200,0.08); }
 .sub-header-line { flex: 1; height: 1px; background: var(--border); }
 
 .flip-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
@@ -245,16 +255,16 @@ section { position: relative; z-index: 1; }
 .flip-front::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: transparent; transition: background 0.3s; }
 .flip-container:hover .flip-front { border-color: var(--dim); }
 
-.flip-accent-teal .flip-front { border-color: rgba(13,148,136,0.35); }
-.flip-accent-teal:hover .flip-front { border-color: rgba(13,148,136,0.7); }
+.flip-accent-teal .flip-front { border-color: rgba(139,123,255,0.35); }
+.flip-accent-teal:hover .flip-front { border-color: rgba(139,123,255,0.7); }
 .flip-accent-teal .flip-front::before { background: linear-gradient(90deg, transparent, var(--teal), var(--cyan), transparent); animation: featuredLine 3s ease infinite; }
 
-.flip-accent-green .flip-front { border-color: rgba(0,255,136,0.25); }
-.flip-accent-green:hover .flip-front { border-color: rgba(0,255,136,0.6); }
+.flip-accent-green .flip-front { border-color: rgba(46,230,255,0.25); }
+.flip-accent-green:hover .flip-front { border-color: rgba(46,230,255,0.6); }
 .flip-accent-green .flip-front::before { background: linear-gradient(90deg, transparent, var(--green), var(--cyan), transparent); animation: featuredLine 3s ease infinite; }
 
-.flip-accent-pink .flip-front { border-color: rgba(255,45,107,0.2); }
-.flip-accent-pink:hover .flip-front { border-color: rgba(255,45,107,0.5); }
+.flip-accent-pink .flip-front { border-color: rgba(255,92,200,0.2); }
+.flip-accent-pink:hover .flip-front { border-color: rgba(255,92,200,0.5); }
 .flip-accent-pink .flip-front::before { background: linear-gradient(90deg, transparent, var(--pink), var(--gold), transparent); animation: featuredLine 3s ease infinite; }
 
 .flip-cat { font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--text2); margin-bottom: 14px; }
@@ -285,101 +295,101 @@ section { position: relative; z-index: 1; }
 .flip-back-metric-label { font-size: 8px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text2); }
 .flip-back-hint { position: absolute; bottom: 10px; right: 14px; font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--text2); opacity: 0.5; z-index: 2; }
 
-.flip-accent-teal .flip-back { border-color: rgba(13,148,136,0.35); }
+.flip-accent-teal .flip-back { border-color: rgba(139,123,255,0.35); }
 .flip-accent-teal .flip-back-metric-val { color: var(--teal-light); }
-.flip-accent-green .flip-back { border-color: rgba(0,255,136,0.25); }
+.flip-accent-green .flip-back { border-color: rgba(46,230,255,0.25); }
 .flip-accent-green .flip-back-metric-val { color: var(--green); }
-.flip-accent-pink .flip-back { border-color: rgba(255,45,107,0.2); }
+.flip-accent-pink .flip-back { border-color: rgba(255,92,200,0.2); }
 .flip-accent-pink .flip-back-metric-val { color: var(--pink); }
-.flip-accent-purple .flip-front { border-color: rgba(168,85,247,0.25); }
-.flip-accent-purple:hover .flip-front { border-color: rgba(168,85,247,0.6); }
+.flip-accent-purple .flip-front { border-color: rgba(139,123,255,0.25); }
+.flip-accent-purple:hover .flip-front { border-color: rgba(139,123,255,0.6); }
 .flip-accent-purple .flip-front::before { background: linear-gradient(90deg, transparent, var(--purple), var(--gold), transparent); animation: featuredLine 3s ease infinite; }
-.flip-accent-purple .flip-back { border-color: rgba(168,85,247,0.25); }
+.flip-accent-purple .flip-back { border-color: rgba(139,123,255,0.25); }
 .flip-accent-purple .flip-back-metric-val { color: var(--purple); }
 
-.flip-accent-cyan .flip-front { border-color: rgba(0,229,255,0.22); }
-.flip-accent-cyan:hover .flip-front { border-color: rgba(0,229,255,0.55); }
+.flip-accent-cyan .flip-front { border-color: rgba(46,230,255,0.22); }
+.flip-accent-cyan:hover .flip-front { border-color: rgba(46,230,255,0.55); }
 .flip-accent-cyan .flip-front::before { background: linear-gradient(90deg, transparent, var(--cyan), var(--purple), transparent); animation: featuredLine 3s ease infinite; }
-.flip-accent-cyan .flip-back { border-color: rgba(0,229,255,0.22); }
+.flip-accent-cyan .flip-back { border-color: rgba(46,230,255,0.22); }
 .flip-accent-cyan .flip-back-metric-val { color: var(--cyan); }
 
-.flip-accent-gold .flip-front { border-color: rgba(255,209,102,0.25); }
-.flip-accent-gold:hover .flip-front { border-color: rgba(255,209,102,0.6); }
+.flip-accent-gold .flip-front { border-color: rgba(185,167,255,0.25); }
+.flip-accent-gold:hover .flip-front { border-color: rgba(185,167,255,0.6); }
 .flip-accent-gold .flip-front::before { background: linear-gradient(90deg, transparent, var(--gold), var(--pink), transparent); animation: featuredLine 3s ease infinite; }
-.flip-accent-gold .flip-back { border-color: rgba(255,209,102,0.25); }
+.flip-accent-gold .flip-back { border-color: rgba(185,167,255,0.25); }
 .flip-accent-gold .flip-back-metric-val { color: var(--gold); }
 
-.flip-accent-indigo .flip-front { border-color: rgba(99,102,241,0.25); }
-.flip-accent-indigo:hover .flip-front { border-color: rgba(99,102,241,0.6); }
+.flip-accent-indigo .flip-front { border-color: rgba(139,123,255,0.25); }
+.flip-accent-indigo:hover .flip-front { border-color: rgba(139,123,255,0.6); }
 .flip-accent-indigo .flip-front::before { background: linear-gradient(90deg, transparent, var(--indigo), var(--cyan), transparent); animation: featuredLine 3s ease infinite; }
-.flip-accent-indigo .flip-back { border-color: rgba(99,102,241,0.25); }
+.flip-accent-indigo .flip-back { border-color: rgba(139,123,255,0.25); }
 .flip-accent-indigo .flip-back-metric-val { color: var(--indigo); }
 
-.flip-accent-orange .flip-front { border-color: rgba(255,140,66,0.25); }
-.flip-accent-orange:hover .flip-front { border-color: rgba(255,140,66,0.6); }
+.flip-accent-orange .flip-front { border-color: rgba(255,92,200,0.25); }
+.flip-accent-orange:hover .flip-front { border-color: rgba(255,92,200,0.6); }
 .flip-accent-orange .flip-front::before { background: linear-gradient(90deg, transparent, var(--orange), var(--gold), transparent); animation: featuredLine 3s ease infinite; }
-.flip-accent-orange .flip-back { border-color: rgba(255,140,66,0.25); }
+.flip-accent-orange .flip-back { border-color: rgba(255,92,200,0.25); }
 .flip-accent-orange .flip-back-metric-val { color: var(--orange); }
 
-.flip-accent-emerald .flip-front { border-color: rgba(52,211,153,0.25); }
-.flip-accent-emerald:hover .flip-front { border-color: rgba(52,211,153,0.6); }
+.flip-accent-emerald .flip-front { border-color: rgba(46,230,255,0.25); }
+.flip-accent-emerald:hover .flip-front { border-color: rgba(46,230,255,0.6); }
 .flip-accent-emerald .flip-front::before { background: linear-gradient(90deg, transparent, var(--emerald), var(--cyan), transparent); animation: featuredLine 3s ease infinite; }
-.flip-accent-emerald .flip-back { border-color: rgba(52,211,153,0.25); }
+.flip-accent-emerald .flip-back { border-color: rgba(46,230,255,0.25); }
 .flip-accent-emerald .flip-back-metric-val { color: var(--emerald); }
 
 /* Logos */
 .e7-logo .e-event { color: #fff; }
-.e7-logo .e-seven { color: var(--teal-light); text-shadow: 0 0 10px rgba(13,148,136,0.8), 0 0 30px rgba(13,148,136,0.4); animation: event7Pulse 2.5s ease-in-out infinite; }
+.e7-logo .e-seven { color: var(--teal-light); text-shadow: 0 0 10px rgba(139,123,255,0.8), 0 0 30px rgba(139,123,255,0.4); animation: event7Pulse 2.5s ease-in-out infinite; }
 .s7-logo .s-staff { color: #fff; }
-.s7-logo .s-seven { color: var(--green); text-shadow: 0 0 10px rgba(0,255,136,0.8), 0 0 30px rgba(0,255,136,0.4); animation: staff7Pulse 2.5s ease-in-out infinite; }
+.s7-logo .s-seven { color: var(--purple); text-shadow: 0 0 10px rgba(139,123,255,0.8), 0 0 30px rgba(139,123,255,0.4); animation: amPulse 2.5s ease-in-out infinite; }
 .am-logo .am-agent { color: #fff; }
-.am-logo .am-mesh { color: var(--purple); text-shadow: 0 0 10px rgba(168,85,247,0.8), 0 0 30px rgba(168,85,247,0.4); animation: amPulse 2.5s ease-in-out infinite; }
+.am-logo .am-mesh { color: var(--purple); text-shadow: 0 0 10px rgba(139,123,255,0.8), 0 0 30px rgba(139,123,255,0.4); animation: amPulse 2.5s ease-in-out infinite; }
 .a7-logo .a-agent { color: #fff; }
-.a7-logo .a-seven { color: var(--cyan); text-shadow: 0 0 10px rgba(0,229,255,0.8), 0 0 30px rgba(0,229,255,0.4); animation: agent7Pulse 2.5s ease-in-out infinite; }
+.a7-logo .a-seven { color: var(--cyan); text-shadow: 0 0 10px rgba(46,230,255,0.8), 0 0 30px rgba(46,230,255,0.4); animation: agent7Pulse 2.5s ease-in-out infinite; }
 .m7-logo .m-mem { color: #fff; }
-.m7-logo .m-seven { color: var(--gold); text-shadow: 0 0 10px rgba(255,209,102,0.8), 0 0 30px rgba(255,209,102,0.4); animation: mem7Pulse 2.5s ease-in-out infinite; }
+.m7-logo .m-seven { color: var(--gold); text-shadow: 0 0 10px rgba(185,167,255,0.8), 0 0 30px rgba(185,167,255,0.4); animation: mem7Pulse 2.5s ease-in-out infinite; }
 .ar7-logo .ar-arch { color: #fff; }
-.ar7-logo .ar-seven { color: var(--indigo); text-shadow: 0 0 10px rgba(99,102,241,0.8), 0 0 30px rgba(99,102,241,0.4); animation: arch7Pulse 2.5s ease-in-out infinite; }
+.ar7-logo .ar-seven { color: var(--indigo); text-shadow: 0 0 10px rgba(139,123,255,0.8), 0 0 30px rgba(139,123,255,0.4); animation: arch7Pulse 2.5s ease-in-out infinite; }
 .om-logo .om-ollama { color: #fff; }
-.om-logo .om-mcp { color: var(--orange); text-shadow: 0 0 10px rgba(255,140,66,0.8), 0 0 30px rgba(255,140,66,0.4); animation: omPulse 2.5s ease-in-out infinite; }
+.om-logo .om-mcp { color: var(--orange); text-shadow: 0 0 10px rgba(255,92,200,0.8), 0 0 30px rgba(255,92,200,0.4); animation: omPulse 2.5s ease-in-out infinite; }
 .sc7-logo .sc-scout { color: #fff; }
-.sc7-logo .sc-seven { color: var(--emerald); text-shadow: 0 0 10px rgba(52,211,153,0.8), 0 0 30px rgba(52,211,153,0.4); animation: scout7Pulse 2.5s ease-in-out infinite; }
+.sc7-logo .sc-seven { color: var(--emerald); text-shadow: 0 0 10px rgba(46,230,255,0.8), 0 0 30px rgba(46,230,255,0.4); animation: scout7Pulse 2.5s ease-in-out infinite; }
 
 .astro-logo-wrap-v2 { display: flex; align-items: center; gap: 12px; }
-.astro-logo-img-v2 { width: 48px; height: 48px; border-radius: 10px; border: 1px solid rgba(255,45,107,0.3); object-fit: cover; box-shadow: 0 0 16px rgba(255,45,107,0.15); }
+.astro-logo-img-v2 { width: 48px; height: 48px; border-radius: 10px; border: 1px solid rgba(255,92,200,0.3); object-fit: cover; box-shadow: 0 0 16px rgba(255,92,200,0.15); }
 .astro-title { color: var(--pink); font-size: 32px; }
 
 @keyframes event7Pulse {
-  0%, 100% { text-shadow: 0 0 10px rgba(13,148,136,0.8), 0 0 30px rgba(13,148,136,0.4), 0 0 60px rgba(13,148,136,0.2); }
-  50% { text-shadow: 0 0 20px rgba(13,148,136,1), 0 0 50px rgba(13,148,136,0.6), 0 0 100px rgba(13,148,136,0.3); }
+  0%, 100% { text-shadow: 0 0 10px rgba(139,123,255,0.8), 0 0 30px rgba(139,123,255,0.4), 0 0 60px rgba(139,123,255,0.2); }
+  50% { text-shadow: 0 0 20px rgba(139,123,255,1), 0 0 50px rgba(139,123,255,0.6), 0 0 100px rgba(139,123,255,0.3); }
 }
 @keyframes staff7Pulse {
-  0%, 100% { text-shadow: 0 0 10px rgba(0,255,136,0.8), 0 0 30px rgba(0,255,136,0.4), 0 0 60px rgba(0,255,136,0.2); }
-  50% { text-shadow: 0 0 20px rgba(0,255,136,1), 0 0 50px rgba(0,255,136,0.6), 0 0 100px rgba(0,255,136,0.3); }
+  0%, 100% { text-shadow: 0 0 10px rgba(46,230,255,0.8), 0 0 30px rgba(46,230,255,0.4), 0 0 60px rgba(46,230,255,0.2); }
+  50% { text-shadow: 0 0 20px rgba(46,230,255,1), 0 0 50px rgba(46,230,255,0.6), 0 0 100px rgba(46,230,255,0.3); }
 }
 @keyframes amPulse {
-  0%, 100% { text-shadow: 0 0 10px rgba(168,85,247,0.8), 0 0 30px rgba(168,85,247,0.4), 0 0 60px rgba(168,85,247,0.2); }
-  50% { text-shadow: 0 0 20px rgba(168,85,247,1), 0 0 50px rgba(168,85,247,0.6), 0 0 100px rgba(168,85,247,0.3); }
+  0%, 100% { text-shadow: 0 0 10px rgba(139,123,255,0.8), 0 0 30px rgba(139,123,255,0.4), 0 0 60px rgba(139,123,255,0.2); }
+  50% { text-shadow: 0 0 20px rgba(139,123,255,1), 0 0 50px rgba(139,123,255,0.6), 0 0 100px rgba(139,123,255,0.3); }
 }
 @keyframes agent7Pulse {
-  0%, 100% { text-shadow: 0 0 10px rgba(0,229,255,0.8), 0 0 30px rgba(0,229,255,0.4), 0 0 60px rgba(0,229,255,0.2); }
-  50% { text-shadow: 0 0 20px rgba(0,229,255,1), 0 0 50px rgba(0,229,255,0.6), 0 0 100px rgba(0,229,255,0.3); }
+  0%, 100% { text-shadow: 0 0 10px rgba(46,230,255,0.8), 0 0 30px rgba(46,230,255,0.4), 0 0 60px rgba(46,230,255,0.2); }
+  50% { text-shadow: 0 0 20px rgba(46,230,255,1), 0 0 50px rgba(46,230,255,0.6), 0 0 100px rgba(46,230,255,0.3); }
 }
 @keyframes mem7Pulse {
-  0%, 100% { text-shadow: 0 0 10px rgba(255,209,102,0.8), 0 0 30px rgba(255,209,102,0.4), 0 0 60px rgba(255,209,102,0.2); }
-  50% { text-shadow: 0 0 20px rgba(255,209,102,1), 0 0 50px rgba(255,209,102,0.6), 0 0 100px rgba(255,209,102,0.3); }
+  0%, 100% { text-shadow: 0 0 10px rgba(185,167,255,0.8), 0 0 30px rgba(185,167,255,0.4), 0 0 60px rgba(185,167,255,0.2); }
+  50% { text-shadow: 0 0 20px rgba(185,167,255,1), 0 0 50px rgba(185,167,255,0.6), 0 0 100px rgba(185,167,255,0.3); }
 }
 @keyframes arch7Pulse {
-  0%, 100% { text-shadow: 0 0 10px rgba(99,102,241,0.8), 0 0 30px rgba(99,102,241,0.4), 0 0 60px rgba(99,102,241,0.2); }
-  50% { text-shadow: 0 0 20px rgba(99,102,241,1), 0 0 50px rgba(99,102,241,0.6), 0 0 100px rgba(99,102,241,0.3); }
+  0%, 100% { text-shadow: 0 0 10px rgba(139,123,255,0.8), 0 0 30px rgba(139,123,255,0.4), 0 0 60px rgba(139,123,255,0.2); }
+  50% { text-shadow: 0 0 20px rgba(139,123,255,1), 0 0 50px rgba(139,123,255,0.6), 0 0 100px rgba(139,123,255,0.3); }
 }
 @keyframes omPulse {
-  0%, 100% { text-shadow: 0 0 10px rgba(255,140,66,0.8), 0 0 30px rgba(255,140,66,0.4), 0 0 60px rgba(255,140,66,0.2); }
-  50% { text-shadow: 0 0 20px rgba(255,140,66,1), 0 0 50px rgba(255,140,66,0.6), 0 0 100px rgba(255,140,66,0.3); }
+  0%, 100% { text-shadow: 0 0 10px rgba(255,92,200,0.8), 0 0 30px rgba(255,92,200,0.4), 0 0 60px rgba(255,92,200,0.2); }
+  50% { text-shadow: 0 0 20px rgba(255,92,200,1), 0 0 50px rgba(255,92,200,0.6), 0 0 100px rgba(255,92,200,0.3); }
 }
 @keyframes scout7Pulse {
-  0%, 100% { text-shadow: 0 0 10px rgba(52,211,153,0.8), 0 0 30px rgba(52,211,153,0.4), 0 0 60px rgba(52,211,153,0.2); }
-  50% { text-shadow: 0 0 20px rgba(52,211,153,1), 0 0 50px rgba(52,211,153,0.6), 0 0 100px rgba(52,211,153,0.3); }
+  0%, 100% { text-shadow: 0 0 10px rgba(46,230,255,0.8), 0 0 30px rgba(46,230,255,0.4), 0 0 60px rgba(46,230,255,0.2); }
+  50% { text-shadow: 0 0 20px rgba(46,230,255,1), 0 0 50px rgba(46,230,255,0.6), 0 0 100px rgba(46,230,255,0.3); }
 }
 @keyframes featuredLine {
   0%, 100% { opacity: 0.4; transform: scaleX(0.8); }
@@ -404,10 +414,53 @@ footer span { color: var(--green); }
   50.001% { transform: scaleY(1); transform-origin: bottom; }
   100% { transform: scaleY(0); transform-origin: bottom; }
 }
-.cursor-glow { width: 300px; height: 300px; background: radial-gradient(circle, rgba(0,255,136,0.04) 0%, transparent 70%); border-radius: 50%; position: fixed; pointer-events: none; z-index: 2; transform: translate(-50%, -50%); transition: transform 0.1s; }
+.cursor-glow { width: 300px; height: 300px; background: radial-gradient(circle, rgba(46,230,255,0.04) 0%, transparent 70%); border-radius: 50%; position: fixed; pointer-events: none; z-index: 2; transform: translate(-50%, -50%); transition: transform 0.1s; }
+
+/* ── HERO HORIZON (soleil synthwave) ── */
+.hero-horizon {
+  width: min(440px, 72vw); height: 2px; margin: 10px auto 0;
+  background: linear-gradient(90deg, transparent, var(--ax1) 25%, var(--ax2) 50%, var(--ax3) 75%, transparent);
+  box-shadow: 0 0 26px rgba(139,123,255,0.55), 0 0 60px rgba(255,92,200,0.25);
+  opacity: 0; animation: fadeUp 0.6s ease 0.5s forwards;
+}
+
+/* ── AXIS SECTIONS ── */
+.axis { padding: 110px 40px 20px; max-width: 1200px; margin: 0 auto; }
+.axis-head { display: flex; align-items: baseline; gap: 18px; margin-bottom: 16px; }
+.axis-num { font-size: 11px; letter-spacing: 3px; font-weight: 700; }
+.axis-title { font-size: clamp(24px,4vw,34px); font-weight: 700; color: #fff; letter-spacing: -1px; }
+.axis-line { flex: 1; height: 1px; }
+.axis-thesis { font-size: 12.5px; line-height: 1.75; color: var(--text2); max-width: 740px; margin-bottom: 44px; }
+.axis-thesis b { font-weight: 400; }
+.axis-1 .axis-num, .axis-1 .axis-thesis b { color: var(--ax1); }
+.axis-2 .axis-num, .axis-2 .axis-thesis b { color: var(--ax2); }
+.axis-3 .axis-num, .axis-3 .axis-thesis b { color: var(--ax3); }
+.axis-1 .axis-line { background: linear-gradient(90deg, var(--ax1), transparent); }
+.axis-2 .axis-line { background: linear-gradient(90deg, var(--ax2), transparent); }
+.axis-3 .axis-line { background: linear-gradient(90deg, var(--ax3), transparent); }
+
+/* ── MINI CARDS (couleur héritée de l'axe) ── */
+.lab-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+.mini-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 4px; padding: 20px; text-decoration: none; display: flex; flex-direction: column; gap: 8px; position: relative; overflow: hidden; transition: border-color 0.2s, transform 0.2s; }
+.mini-card:hover { border-color: var(--dim); transform: translateY(-2px); }
+.mini-bar { position: absolute; top: 0; left: 0; right: 0; height: 2px; opacity: 0.85; }
+.mini-top { display: flex; align-items: center; justify-content: space-between; }
+.mini-name { font-size: 14px; font-weight: 700; color: #fff; }
+.mini-tagline { font-size: 10px; letter-spacing: 1px; }
+.mini-desc { font-size: 11px; color: var(--text2); line-height: 1.6; margin: 0; }
+.axis-1 .mini-bar { background: var(--ax1); } .axis-1 .mini-tagline { color: var(--ax1); }
+.axis-2 .mini-bar { background: var(--ax2); } .axis-2 .mini-tagline { color: var(--ax2); }
+.axis-3 .mini-bar { background: var(--ax3); } .axis-3 .mini-tagline { color: var(--ax3); }
+
+/* ── CONSEIL block ── */
+.conseil { background: var(--bg2); border: 1px solid var(--border); border-left: 2px solid var(--ax2); border-radius: 4px; padding: 26px 30px; margin-top: 16px; }
+.conseil h3 { font-size: 15px; color:#fff; font-weight:700; margin-bottom:10px; letter-spacing:0.5px; }
+.conseil p { font-size: 12px; color: var(--text2); line-height: 1.7; margin:0; }
+.conseil .tags { display:flex; flex-wrap:wrap; gap:6px; margin-top:16px; }
 
 /* ── RESPONSIVE ── */
 @media (max-width: 768px) {
+  .lab-grid { grid-template-columns: 1fr !important; }
   nav { padding: 16px 20px; }
   .nav-links { gap: 20px; }
   #hero, #projects, #lab { padding-left: 20px; padding-right: 20px; }
@@ -434,9 +487,9 @@ footer span { color: var(--green); }
   <a href="#" class="nav-logo">flux<span>7</span>.art</a>
   <div style="display:flex;align-items:center;">
     <ul class="nav-links">
-      <li><a href="#flux7">flux7</a></li>
-      <li><a href="#projects">Products</a></li>
-      <li><a href="#lab">Lab</a></li>
+      <li><a href="#flux7">Governance</a></li>
+      <li><a href="#projects">EDA·API</a></li>
+      <li><a href="#lab">Tools</a></li>
       <li><a href="/blog/">log_</a></li>
       <li><a href="https://docs.flux7.art">Docs</a></li>
       <li><a href="/about/">About</a></li>
@@ -449,14 +502,15 @@ footer span { color: var(--green); }
 </nav>
 
 <section id="hero">
-  <div class="hero-tag">// open-source governance tooling</div>
+  <div class="hero-tag" data-en="// agentic governance · event-driven · ai-native" data-fr="// gouvernance agentique · event-driven · ai-native">// agentic governance · event-driven · ai-native</div>
   <h1 class="hero-title">
     <span class="t1 glitch">flux</span><span class="t2">7</span><span class="t3">.art</span>
   </h1>
+  <div class="hero-horizon"></div>
   <p class="hero-sub">
-    <span data-en="Tools for API, event, and AI agent governance." data-fr="Outils pour la gouvernance des APIs, evenements et agents AI.">Tools for API, event, and AI agent governance.</span>
+    <span data-en="I build tools that govern what AI agents can do — and explore where governance meets event streaming, APIs, and AI-native creative work." data-fr="Je construis des outils qui gouvernent ce que les agents AI peuvent faire — et j'explore ou la gouvernance rencontre l'event streaming, les APIs et la creation AI-native.">I build tools that govern what AI agents can do — and explore where governance meets event streaming, APIs, and AI-native creative work.</span>
   </p>
-  <a href="/blog/" style="display:inline-flex;align-items:center;gap:8px;margin-top:36px;font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--cyan);text-decoration:none;border:1px solid rgba(0,229,255,0.4);padding:10px 24px;border-radius:2px;transition:all 0.3s;opacity:0;animation:fadeUp 0.6s ease 0.8s forwards;text-shadow:0 0 12px rgba(0,229,255,0.4);" onmouseover="this.style.borderColor='var(--cyan)';this.style.textShadow='0 0 20px rgba(0,229,255,0.7)';this.style.boxShadow='0 0 16px rgba(0,229,255,0.15)'" onmouseout="this.style.borderColor='rgba(0,229,255,0.4)';this.style.textShadow='0 0 12px rgba(0,229,255,0.4)';this.style.boxShadow='none'">
+  <a href="/blog/" style="display:inline-flex;align-items:center;gap:8px;margin-top:36px;font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--cyan);text-decoration:none;border:1px solid rgba(46,230,255,0.4);padding:10px 24px;border-radius:2px;transition:all 0.3s;opacity:0;animation:fadeUp 0.6s ease 0.8s forwards;text-shadow:0 0 12px rgba(46,230,255,0.4);" onmouseover="this.style.borderColor='var(--cyan)';this.style.textShadow='0 0 20px rgba(46,230,255,0.7)';this.style.boxShadow='0 0 16px rgba(46,230,255,0.15)'" onmouseout="this.style.borderColor='rgba(46,230,255,0.4)';this.style.textShadow='0 0 12px rgba(46,230,255,0.4)';this.style.boxShadow='none'">
     <span data-en="// log" data-fr="// log">// log</span><span class="log-cursor">_</span>
   </a>
   <div class="ticker-wrap">
@@ -475,13 +529,14 @@ footer span { color: var(--green); }
   <div class="scroll-hint">scroll</div>
 </section>
 
-<!-- ═══ 01 — FLUX7 ECOSYSTEM ═══ -->
-<section id="flux7" style="padding:120px 40px 80px;max-width:1200px;margin:0 auto;">
-  <div class="section-header">
-    <span class="section-num">01 //</span>
-    <h2 class="section-title">flux7</h2>
-    <div class="section-line"></div>
+<!-- ═══ 01 — AGENTIC AI GOVERNANCE ═══ -->
+<section id="flux7" class="axis axis-1">
+  <div class="axis-head">
+    <span class="axis-num">01 //</span>
+    <h2 class="axis-title" data-en="Agentic AI Governance" data-fr="Gouvernance des agents IA">Agentic AI Governance</h2>
+    <div class="axis-line"></div>
   </div>
+  <p class="axis-thesis" data-en="A decision an AI agent makes shouldn't vanish the moment it's made. flux7 treats decisions as facts — stored, recalled, and used to govern the next call. Four layers, from a sub-millisecond policy engine to human oversight." data-fr="La decision d'un agent ne devrait pas disparaitre une fois prise. flux7 traite les decisions comme des faits — stockees, rappelees, et utilisees pour gouverner l'appel suivant. Quatre niveaux, du moteur de policy sub-milliseconde a la supervision humaine."><b>Decisions as facts.</b> A decision an AI agent makes shouldn't vanish the moment it's made. flux7 stores it, recalls it, and uses it to govern the next call — four layers, from a sub-millisecond policy engine to human oversight.</p>
 
   <div style="background:var(--bg2);border:1px solid var(--border);border-radius:4px;overflow:hidden;position:relative;">
     <div style="height:2px;background:linear-gradient(90deg,var(--green),var(--cyan),var(--green));"></div>
@@ -493,10 +548,10 @@ footer span { color: var(--green); }
         <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px;">
           <span class="stack-tag" style="border-color:var(--green);color:var(--green);">flux7-mesh</span>
           <span class="stack-tag" style="border-color:var(--gold);color:var(--gold);">flux7-memory</span>
-          <span class="stack-tag" style="border-color:var(--pink);color:var(--pink);">flux7-supervisor</span>
+          <span class="stack-tag" style="border-color:var(--cyan);color:var(--cyan);">flux7-supervisor</span>
           <span class="stack-tag" style="border-color:var(--cyan);color:var(--cyan);">flux7-console</span>
         </div>
-        <a href="https://docs.flux7.art" target="_blank" class="card-btn" style="border-color:var(--green);color:var(--green);background:rgba(0,255,136,0.05);font-size:11px;padding:8px 20px;">docs.flux7.art &rarr;</a>
+        <a href="https://docs.flux7.art" target="_blank" class="card-btn" style="border-color:var(--green);color:var(--green);background:rgba(46,230,255,0.05);font-size:11px;padding:8px 20px;">docs.flux7.art &rarr;</a>
       </div>
       <div style="padding:36px 40px;display:flex;align-items:center;">
         <pre style="font-family:var(--font);font-size:10px;line-height:1.6;color:var(--text);margin:0;white-space:pre;">L0  <span style="color:var(--green);">flux7-mesh</span>        policy engine          &lt;1ms
@@ -511,15 +566,30 @@ L2  <span style="color:var(--cyan);">flux7-console</span>     human UI          
       </div>
     </div>
   </div>
+  <div class="lab-grid" style="grid-template-columns:1fr 1fr;margin-top:16px;">
+    <a href="https://github.com/KTCrisis/scout7" target="_blank" class="mini-card">
+      <div class="mini-bar"></div>
+      <div class="mini-top"><span class="mini-name">scout7</span><span class="stack-tag">Go</span></div>
+      <div class="mini-tagline" data-en="Autonomous web research agent" data-fr="Agent autonome de recherche web">Autonomous web research agent</div>
+      <p class="mini-desc" data-en="Searches, extracts architectures, outputs Excalidraw diagrams. First autonomous agent running on flux7-mesh." data-fr="Recherche, extrait des architectures, produit des diagrammes Excalidraw. Premier agent autonome sur flux7-mesh.">Searches, extracts architectures, outputs Excalidraw diagrams. First autonomous agent running on flux7-mesh.</p>
+    </a>
+    <a href="https://github.com/KTCrisis/audit7" target="_blank" class="mini-card">
+      <div class="mini-bar"></div>
+      <div class="mini-top"><span class="mini-name">audit7</span><span class="stack-tag">Python</span></div>
+      <div class="mini-tagline" data-en="RAG audit agent" data-fr="Agent d'audit RAG">RAG audit agent</div>
+      <p class="mini-desc" data-en="Audits a codebase via Claude API + flux7-mesh governance + LanceDB vector store." data-fr="Audite le code via Claude API + gouvernance flux7-mesh + LanceDB.">Audits a codebase via Claude API + flux7-mesh governance + LanceDB vector store.</p>
+    </a>
+  </div>
 </section>
 
-<!-- ═══ 02 — PRODUCTS ═══ -->
-<section id="projects" style="padding:80px 40px;max-width:1200px;margin:0 auto;">
-  <div class="section-header">
-    <span class="section-num">02 //</span>
-    <h2 class="section-title" data-en="Products" data-fr="Produits">Products</h2>
-    <div class="section-line"></div>
+<!-- ═══ 02 — EDA · API · CONSEIL ═══ -->
+<section id="projects" class="axis axis-2">
+  <div class="axis-head">
+    <span class="axis-num">02 //</span>
+    <h2 class="axis-title">EDA · API · Consulting</h2>
+    <div class="axis-line"></div>
   </div>
+  <p class="axis-thesis" data-en="The same idea, one layer down the stack: governance for the data that flows between systems. Schema registries, event-driven contracts, API platforms — plus the consulting that puts them to work in the field." data-fr="La meme idee, un etage plus bas : gouverner la donnee qui circule entre les systemes. Schema registries, contrats event-driven, plateformes API — et le conseil qui les met en oeuvre sur le terrain."><b>Governance for what flows between systems.</b> Schema registries, event-driven contracts, API platforms — plus the consulting that puts them to work in the field.</p>
 
   <div class="flip-grid">
 
@@ -538,7 +608,7 @@ L2  <span style="color:var(--cyan);">flux7-console</span>     human UI          
             <span class="stack-tag">Next.js</span><span class="stack-tag">FastAPI</span><span class="stack-tag">Supabase</span><span class="stack-tag">Confluent</span><span class="stack-tag">Apicurio</span>
           </div>
           <div class="flip-actions">
-            <a href="https://github.com/KTCrisis/event7" target="_blank" class="card-btn" style="border-color:var(--teal-light);color:var(--teal-light);background:rgba(13,148,136,0.05);" onclick="event.stopPropagation()"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.385-1.335-1.755-1.335-1.755-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12z"/></svg> GitHub</a>
+            <a href="https://github.com/KTCrisis/event7" target="_blank" class="card-btn" style="border-color:var(--teal-light);color:var(--teal-light);background:rgba(139,123,255,0.05);" onclick="event.stopPropagation()"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.385-1.335-1.755-1.335-1.755-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12z"/></svg> GitHub</a>
             <a href="https://github.com/KTCrisis/event7/blob/main/ARCHITECTURE.md" target="_blank" class="card-btn card-btn-github" style="border-color:var(--teal-light);color:var(--teal-light);" onclick="event.stopPropagation()">Docs</a>
           </div>
           <div class="flip-hint">tap to flip &rarr;</div>
@@ -557,7 +627,7 @@ L2  <span style="color:var(--cyan);">flux7-console</span>     human UI          
     </div>
 
     <!-- ═══ STAFF7 ═══ -->
-    <div class="flip-container flip-accent-green" onclick="this.classList.toggle('flipped')">
+    <div class="flip-container flip-accent-teal" onclick="this.classList.toggle('flipped')">
       <div class="flip-inner">
         <div class="flip-front">
           <div class="flip-cat">// <span>SaaS · Staffing · Capacity · Margin</span></div>
@@ -571,7 +641,7 @@ L2  <span style="color:var(--cyan);">flux7-console</span>     human UI          
             <span class="stack-tag">Next.js</span><span class="stack-tag">Supabase</span><span class="stack-tag">Cloudflare</span><span class="stack-tag">Ollama</span><span class="stack-tag">MCP</span>
           </div>
           <div class="flip-actions">
-            <a href="https://staffd.pages.dev/" target="_blank" class="card-btn" style="border-color:var(--green);color:var(--green);background:rgba(0,255,136,0.05);" onclick="event.stopPropagation()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg> Live</a>
+            <a href="https://staffd.pages.dev/" target="_blank" class="card-btn" style="border-color:var(--purple);color:var(--purple);background:rgba(139,123,255,0.05);" onclick="event.stopPropagation()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg> Live</a>
             <a href="https://github.com/KTCrisis/staffd" target="_blank" class="card-btn card-btn-github" onclick="event.stopPropagation()"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.385-1.335-1.755-1.335-1.755-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12z"/></svg> GitHub</a>
           </div>
           <div class="flip-hint">tap to flip &rarr;</div>
@@ -590,86 +660,64 @@ L2  <span style="color:var(--cyan);">flux7-console</span>     human UI          
     </div>
 
   </div>
+
+  <div class="conseil">
+    <h3 data-en="Consulting &amp; engineering — Kafka · Event-Driven · API platforms" data-fr="Conseil &amp; ingenierie — Kafka · Event-Driven · plateformes API">Consulting &amp; engineering — Kafka · Event-Driven · API platforms</h3>
+    <p data-en="Schema governance, event-driven architecture and API platform design — from Kafka and Confluent ecosystems to provider-agnostic tooling." data-fr="Gouvernance de schemas, architecture event-driven et conception de plateformes API — des ecosystemes Kafka et Confluent a l'outillage provider-agnostic.">Schema governance, event-driven architecture and API platform design — from Kafka and Confluent ecosystems to provider-agnostic tooling.</p>
+    <div class="tags">
+      <span class="stack-tag" style="border-color:var(--ax2);color:var(--ax2);">Confluent</span>
+      <span class="stack-tag" style="border-color:var(--ax2);color:var(--ax2);">Kafka</span>
+      <span class="stack-tag" style="border-color:var(--ax2);color:var(--ax2);">Schema Registry</span>
+      <span class="stack-tag" style="border-color:var(--ax2);color:var(--ax2);">Event-Driven</span>
+      <span class="stack-tag" style="border-color:var(--ax2);color:var(--ax2);">API / Kong</span>
+    </div>
+  </div>
 </section>
 
-<!-- ═══ 03 — LAB ═══ -->
-<section id="lab" style="padding:80px 40px 120px;max-width:1200px;margin:0 auto;">
-  <div class="section-header">
-    <span class="section-num">03 //</span>
-    <h2 class="section-title">Lab</h2>
-    <div class="section-line"></div>
+<!-- ═══ 03 — AI-NATIVE TOOLS ═══ -->
+<section id="lab" class="axis axis-3" style="padding-bottom:120px;">
+  <div class="axis-head">
+    <span class="axis-num">03 //</span>
+    <h2 class="axis-title" data-en="AI-Native Tools" data-fr="Outils AI-Native">AI-Native Tools</h2>
+    <div class="axis-line"></div>
   </div>
+  <p class="axis-thesis" data-en="The same instinct, turned loose on curiosity: small MCP-compatible tools for whatever I'm working on — diagrams, local models, music, the night sky. Built to plug into any AI agent." data-fr="Le meme reflexe, lache sur la curiosite : de petits outils compatibles MCP pour ce qui m'occupe — diagrammes, modeles locaux, musique, ciel nocturne. Concus pour se brancher sur n'importe quel agent IA."><b>MCP tools for whatever I'm curious about.</b> Diagrams, local models, music, the night sky — small tools built to plug into any AI agent.</p>
 
-  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;">
+  <div class="lab-grid">
 
-    <a href="https://github.com/KTCrisis/scout7" target="_blank" style="background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:20px;text-decoration:none;transition:border-color 0.2s;display:flex;flex-direction:column;gap:8px;position:relative;overflow:hidden;">
-      <div style="position:absolute;top:0;left:0;right:0;height:2px;background:var(--emerald);"></div>
-      <div style="display:flex;align-items:center;justify-content:space-between;">
-        <span style="font-family:var(--font);font-size:14px;font-weight:700;color:#fff;">scout7</span>
-        <span class="stack-tag">Go</span>
-      </div>
-      <div style="font-size:10px;letter-spacing:1px;color:var(--emerald);" data-en="Autonomous web research agent" data-fr="Agent autonome de recherche web">Autonomous web research agent</div>
-      <p style="font-size:11px;color:var(--text2);line-height:1.6;margin:0;" data-en="Searches, extracts architectures, outputs Excalidraw diagrams. First autonomous agent on flux7-mesh." data-fr="Recherche, extrait des architectures, produit des diagrammes Excalidraw. Premier agent autonome sur flux7-mesh.">Searches, extracts architectures, outputs Excalidraw diagrams. First autonomous agent on flux7-mesh.</p>
+    <a href="https://github.com/KTCrisis/arch7" target="_blank" class="mini-card">
+      <div class="mini-bar"></div>
+      <div class="mini-top"><span class="mini-name">arch7</span><span class="stack-tag">Python</span></div>
+      <div class="mini-tagline" data-en="Architecture diagrams as MCP" data-fr="Diagrammes d'architecture en MCP">Architecture diagrams as MCP</div>
+      <p class="mini-desc" data-en="Turns nodes + connections into Excalidraw. Auto-styling for 80+ components (GCP, Kong, Confluent)." data-fr="Transforme nodes + connexions en Excalidraw. Auto-styling pour 80+ composants (GCP, Kong, Confluent).">Turns nodes + connections into Excalidraw. Auto-styling for 80+ components (GCP, Kong, Confluent).</p>
     </a>
 
-    <a href="https://github.com/KTCrisis/arch7" target="_blank" style="background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:20px;text-decoration:none;transition:border-color 0.2s;display:flex;flex-direction:column;gap:8px;position:relative;overflow:hidden;">
-      <div style="position:absolute;top:0;left:0;right:0;height:2px;background:var(--indigo);"></div>
-      <div style="display:flex;align-items:center;justify-content:space-between;">
-        <span style="font-family:var(--font);font-size:14px;font-weight:700;color:#fff;">arch7</span>
-        <span class="stack-tag">Python</span>
-      </div>
-      <div style="font-size:10px;letter-spacing:1px;color:var(--indigo);" data-en="Architecture diagrams as MCP" data-fr="Diagrammes d'architecture en MCP">Architecture diagrams as MCP</div>
-      <p style="font-size:11px;color:var(--text2);line-height:1.6;margin:0;" data-en="Turns nodes + connections into Excalidraw. Auto-styling for 80+ components (GCP, Kong, Confluent)." data-fr="Transforme nodes + connexions en Excalidraw. Auto-styling pour 80+ composants (GCP, Kong, Confluent).">Turns nodes + connections into Excalidraw. Auto-styling for 80+ components (GCP, Kong, Confluent).</p>
+    <a href="https://github.com/KTCrisis/ollama-mcp-go" target="_blank" class="mini-card">
+      <div class="mini-bar"></div>
+      <div class="mini-top"><span class="mini-name">ollama-mcp</span><span class="stack-tag">Go</span></div>
+      <div class="mini-tagline" data-en="Ollama as MCP server" data-fr="Ollama en serveur MCP">Ollama as MCP server</div>
+      <p class="mini-desc" data-en="Generate, chat, embed — any MCP client to local Ollama models. Single binary, zero deps." data-fr="Generate, chat, embed — tout client MCP vers les modeles Ollama locaux. Binaire unique, zero deps.">Generate, chat, embed — any MCP client to local Ollama models. Single binary, zero deps.</p>
     </a>
 
-    <a href="https://github.com/KTCrisis/ollama-mcp-go" target="_blank" style="background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:20px;text-decoration:none;transition:border-color 0.2s;display:flex;flex-direction:column;gap:8px;position:relative;overflow:hidden;">
-      <div style="position:absolute;top:0;left:0;right:0;height:2px;background:var(--orange);"></div>
-      <div style="display:flex;align-items:center;justify-content:space-between;">
-        <span style="font-family:var(--font);font-size:14px;font-weight:700;color:#fff;">ollama-mcp</span>
-        <span class="stack-tag">Go</span>
-      </div>
-      <div style="font-size:10px;letter-spacing:1px;color:var(--orange);" data-en="Ollama as MCP server" data-fr="Ollama en serveur MCP">Ollama as MCP server</div>
-      <p style="font-size:11px;color:var(--text2);line-height:1.6;margin:0;" data-en="Generate, chat, embed — any MCP client to local Ollama models. Single binary, zero deps." data-fr="Generate, chat, embed — tout client MCP vers les modeles Ollama locaux. Binaire unique, zero deps.">Generate, chat, embed — any MCP client to local Ollama models. Single binary, zero deps.</p>
+    <a href="https://github.com/KTCrisis/chromecast-mcp" target="_blank" class="mini-card">
+      <div class="mini-bar"></div>
+      <div class="mini-top"><span class="mini-name">chromecast-mcp</span><span class="stack-tag">Python</span></div>
+      <div class="mini-tagline" data-en="Cast from your AI agent" data-fr="Cast depuis votre agent AI">Cast from your AI agent</div>
+      <p class="mini-desc" data-en="Control Google Chromecast from any MCP client. YouTube, local files, URLs." data-fr="Controle Google Chromecast depuis tout client MCP. YouTube, fichiers locaux, URLs.">Control Google Chromecast from any MCP client. YouTube, local files, URLs.</p>
     </a>
 
-    <a href="https://github.com/KTCrisis/chromecast-mcp" target="_blank" style="background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:20px;text-decoration:none;transition:border-color 0.2s;display:flex;flex-direction:column;gap:8px;position:relative;overflow:hidden;">
-      <div style="position:absolute;top:0;left:0;right:0;height:2px;background:var(--orange);"></div>
-      <div style="display:flex;align-items:center;justify-content:space-between;">
-        <span style="font-family:var(--font);font-size:14px;font-weight:700;color:#fff;">chromecast-mcp</span>
-        <span class="stack-tag">Python</span>
-      </div>
-      <div style="font-size:10px;letter-spacing:1px;color:var(--orange);" data-en="Cast from your AI agent" data-fr="Cast depuis votre agent AI">Cast from your AI agent</div>
-      <p style="font-size:11px;color:var(--text2);line-height:1.6;margin:0;" data-en="Control Google Chromecast from any MCP client. YouTube, local files, URLs." data-fr="Controle Google Chromecast depuis tout client MCP. YouTube, fichiers locaux, URLs.">Control Google Chromecast from any MCP client. YouTube, local files, URLs.</p>
+    <a href="https://github.com/KTCrisis/score7" target="_blank" class="mini-card">
+      <div class="mini-bar"></div>
+      <div class="mini-top"><span class="mini-name">score7</span><span class="stack-tag">Python</span></div>
+      <div class="mini-tagline" data-en="Audio analysis as MCP" data-fr="Analyse audio en MCP">Audio analysis as MCP</div>
+      <p class="mini-desc" data-en="Key, chord grid, melody and timbre from any mp3/flac/wav. CLI + MCP, stem separation." data-fr="Tonalite, accords, melodie et timbre depuis tout mp3/flac/wav. CLI + MCP, separation de stems.">Key, chord grid, melody and timbre from any mp3/flac/wav. CLI + MCP, stem separation.</p>
     </a>
 
-    <a href="https://github.com/KTCrisis/score7" target="_blank" style="background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:20px;text-decoration:none;transition:border-color 0.2s;display:flex;flex-direction:column;gap:8px;position:relative;overflow:hidden;">
-      <div style="position:absolute;top:0;left:0;right:0;height:2px;background:var(--purple);"></div>
-      <div style="display:flex;align-items:center;justify-content:space-between;">
-        <span style="font-family:var(--font);font-size:14px;font-weight:700;color:#fff;">score7</span>
-        <span class="stack-tag">Python</span>
-      </div>
-      <div style="font-size:10px;letter-spacing:1px;color:var(--purple);" data-en="Audio analysis as MCP" data-fr="Analyse audio en MCP">Audio analysis as MCP</div>
-      <p style="font-size:11px;color:var(--text2);line-height:1.6;margin:0;" data-en="Key, chord grid, melody and timbre from any mp3/flac/wav. CLI + MCP, stem separation." data-fr="Tonalite, accords, melodie et timbre depuis tout mp3/flac/wav. CLI + MCP, separation de stems.">Key, chord grid, melody and timbre from any mp3/flac/wav. CLI + MCP, stem separation.</p>
-    </a>
-
-    <a href="https://github.com/KTCrisis/astrogenai" target="_blank" style="background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:20px;text-decoration:none;transition:border-color 0.2s;display:flex;flex-direction:column;gap:8px;position:relative;overflow:hidden;">
-      <div style="position:absolute;top:0;left:0;right:0;height:2px;background:var(--pink);"></div>
-      <div style="display:flex;align-items:center;justify-content:space-between;">
-        <span style="font-family:var(--font);font-size:14px;font-weight:700;color:#fff;">astroGenAI</span>
-        <span class="stack-tag">Python</span>
-      </div>
-      <div style="font-size:10px;letter-spacing:1px;color:var(--pink);" data-en="AI astrological content pipeline" data-fr="Pipeline de contenu astrologique IA">AI astrological content pipeline</div>
-      <p style="font-size:11px;color:var(--text2);line-height:1.6;margin:0;" data-en="Horoscopes from Skyfield calculations, sky charts, voice synthesis, automated video." data-fr="Horoscopes depuis calculs Skyfield, cartes du ciel, synthese vocale, video automatisee.">Horoscopes from Skyfield calculations, sky charts, voice synthesis, automated video.</p>
-    </a>
-
-    <a href="https://github.com/KTCrisis/audit7" target="_blank" style="background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:20px;text-decoration:none;transition:border-color 0.2s;display:flex;flex-direction:column;gap:8px;position:relative;overflow:hidden;">
-      <div style="position:absolute;top:0;left:0;right:0;height:2px;background:var(--gold);"></div>
-      <div style="display:flex;align-items:center;justify-content:space-between;">
-        <span style="font-family:var(--font);font-size:14px;font-weight:700;color:#fff;">audit7</span>
-        <span class="stack-tag">Python</span>
-      </div>
-      <div style="font-size:10px;letter-spacing:1px;color:var(--gold);" data-en="RAG audit agent" data-fr="Agent d'audit RAG">RAG audit agent</div>
-      <p style="font-size:11px;color:var(--text2);line-height:1.6;margin:0;" data-en="Audits codebase via Claude API + flux7-mesh + LanceDB vector store." data-fr="Audite le code via Claude API + flux7-mesh + LanceDB vector store.">Audits codebase via Claude API + flux7-mesh + LanceDB vector store.</p>
+    <a href="https://github.com/KTCrisis/astrogenai" target="_blank" class="mini-card">
+      <div class="mini-bar"></div>
+      <div class="mini-top"><span class="mini-name">astroGenAI</span><span class="stack-tag">Python</span></div>
+      <div class="mini-tagline" data-en="AI astrological content pipeline" data-fr="Pipeline de contenu astrologique IA">AI astrological content pipeline</div>
+      <p class="mini-desc" data-en="Horoscopes from Skyfield calculations, sky charts, voice synthesis, automated video." data-fr="Horoscopes depuis calculs Skyfield, cartes du ciel, synthese vocale, video automatisee.">Horoscopes from Skyfield calculations, sky charts, voice synthesis, automated video.</p>
     </a>
 
   </div>
@@ -700,36 +748,63 @@ function resizeBg() { bgCanvas.width = window.innerWidth; bgCanvas.height = wind
 resizeBg();
 window.addEventListener('resize', resizeBg);
 
-const particles = [];
-for (let i = 0; i < 60; i++) {
-  particles.push({
-    x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight,
-    vx: (Math.random() - 0.5) * 0.3, vy: (Math.random() - 0.5) * 0.3,
-    r: Math.random() * 1.5 + 0.5, c: Math.random() > 0.5 ? '#00ff88' : '#00e5ff'
-  });
-}
-
-function drawBg() {
-  bgCtx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
-  particles.forEach(p => {
-    p.x += p.vx; p.y += p.vy;
-    if (p.x < 0 || p.x > bgCanvas.width) p.vx *= -1;
-    if (p.y < 0 || p.y > bgCanvas.height) p.vy *= -1;
-    bgCtx.beginPath(); bgCtx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-    bgCtx.fillStyle = p.c; bgCtx.fill();
-  });
-  for (let i = 0; i < particles.length; i++) {
-    for (let j = i + 1; j < particles.length; j++) {
-      const dx = particles[i].x - particles[j].x, dy = particles[i].y - particles[j].y;
-      const dist = Math.sqrt(dx * dx + dy * dy);
-      if (dist < 120) {
-        bgCtx.beginPath(); bgCtx.moveTo(particles[i].x, particles[i].y);
-        bgCtx.lineTo(particles[j].x, particles[j].y);
-        bgCtx.strokeStyle = `rgba(0,255,136,${0.15 * (1 - dist / 120)})`;
-        bgCtx.lineWidth = 0.5; bgCtx.stroke();
-      }
-    }
+// starfield — quelques étoiles violettes/magenta parmi les blanches
+const stars = [];
+function seedStars() {
+  stars.length = 0;
+  const n = Math.min(170, Math.floor(window.innerWidth * window.innerHeight / 12000));
+  for (let i = 0; i < n; i++) {
+    const h = Math.random();
+    stars.push({
+      x: Math.random() * window.innerWidth,
+      y: Math.random() * window.innerHeight * 0.75,
+      r: Math.random() * 1.2 + 0.3,
+      a: Math.random() * 0.5 + 0.25,
+      tw: Math.random() * 0.03 + 0.004,
+      ph: Math.random() * Math.PI * 2,
+      c: h < 0.72 ? '224,224,255' : h < 0.87 ? '139,123,255' : '255,92,200'
+    });
   }
+}
+seedStars();
+window.addEventListener('resize', seedStars);
+
+let bgT = 0;
+function drawBg() {
+  const W = bgCanvas.width, H = bgCanvas.height;
+  bgCtx.clearRect(0, 0, W, H);
+
+  // étoiles scintillantes
+  stars.forEach(s => {
+    const a = Math.max(0, s.a + Math.sin(bgT * s.tw + s.ph) * 0.18);
+    bgCtx.beginPath(); bgCtx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+    bgCtx.fillStyle = `rgba(${s.c},${a})`; bgCtx.fill();
+  });
+
+  // grille en perspective (sol synthwave) + horizon
+  const horizon = H * 0.74, vpx = W / 2;
+  const scroll = (bgT * 0.0016) % (1 / 16);
+  bgCtx.lineWidth = 1;
+  for (let i = 0; i < 16; i++) {
+    const f = (i / 16) + scroll;
+    const y = horizon + Math.pow(f, 2.3) * (H - horizon);
+    bgCtx.strokeStyle = `rgba(139,123,255,${0.11 * (1 - f * 0.55)})`;
+    bgCtx.beginPath(); bgCtx.moveTo(0, y); bgCtx.lineTo(W, y); bgCtx.stroke();
+  }
+  for (let i = -11; i <= 11; i++) {
+    const x = vpx + i * (W / 13);
+    bgCtx.strokeStyle = 'rgba(46,230,255,0.06)';
+    bgCtx.beginPath(); bgCtx.moveTo(vpx, horizon); bgCtx.lineTo(x, H); bgCtx.stroke();
+  }
+  // ligne d'horizon : dégradé du triptyque
+  const g = bgCtx.createLinearGradient(0, 0, W, 0);
+  g.addColorStop(0, 'rgba(46,230,255,0)');
+  g.addColorStop(0.5, 'rgba(139,123,255,0.4)');
+  g.addColorStop(1, 'rgba(255,92,200,0)');
+  bgCtx.strokeStyle = g; bgCtx.lineWidth = 1.5;
+  bgCtx.beginPath(); bgCtx.moveTo(0, horizon); bgCtx.lineTo(W, horizon); bgCtx.stroke();
+
+  bgT += 1;
   requestAnimationFrame(drawBg);
 }
 drawBg();

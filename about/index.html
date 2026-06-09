@@ -46,16 +46,16 @@
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg:      #060a06;
-  --bg2:     #0c120c;
-  --bg3:     #111811;
-  --green:   #00ff88;
-  --pink:    #ff2d6b;
-  --cyan:    #00e5ff;
-  --gold:    #ffd166;
-  --text:    #b8ccb8;
-  --text2:   #5a7a5a;
-  --border:  #1a2a1a;
+  --bg:      #070611;
+  --bg2:     #0d0b1a;
+  --bg3:     #15122a;
+  --green:   #2ee6ff;
+  --pink:    #ff5cc8;
+  --cyan:    #2ee6ff;
+  --gold:    #b9a7ff;
+  --text:    #c7c4dc;
+  --text2:   #6f6b95;
+  --border:  #221d3d;
   --font:    'JetBrains Mono', monospace;
 }
 
@@ -119,7 +119,7 @@ nav {
 .music-content p { font-size: 12px; color: var(--text2); line-height: 1.8; margin-bottom: 20px; }
 .music-tools { display: flex; flex-direction: column; gap: 10px; }
 .music-tool { display: flex; align-items: center; gap: 14px; padding: 12px 14px; background: var(--bg2); border: 1px solid var(--border); border-radius: 4px; transition: all 0.2s; text-decoration: none; }
-.music-tool:hover { border-color: var(--pink); background: rgba(255,45,107,0.03); }
+.music-tool:hover { border-color: var(--pink); background: rgba(255,92,200,0.03); }
 .tool-icon { font-size: 18px; width: 32px; text-align: center; }
 .tool-name { font-size: 13px; color: #fff; font-weight: 600; margin-bottom: 2px; }
 .tool-desc { font-size: 10px; color: var(--text2); letter-spacing: 0.5px; }
@@ -149,9 +149,9 @@ footer a { color: var(--green); text-decoration: none; }
 <nav>
   <a href="/" class="nav-logo">flux<span>7</span>.art</a>
   <ul class="nav-links">
-    <li><a href="/#flux7">flux7</a></li>
-    <li><a href="/#projects">Products</a></li>
-    <li><a href="/#lab">Lab</a></li>
+    <li><a href="/#flux7">Governance</a></li>
+    <li><a href="/#projects">EDA·API</a></li>
+    <li><a href="/#lab">Tools</a></li>
     <li><a href="/blog/">log_</a></li>
     <li><a href="https://docs.flux7.art">Docs</a></li>
   </ul>
@@ -270,9 +270,9 @@ function drawWaveform() {
   const w = wfCanvas.width, h = wfCanvas.height;
   wfCtx.clearRect(0, 0, w, h);
   const waves = [
-    { color: '#ff2d6b', amp: 0.35, freq: 0.02, speed: 0.04, offset: 0 },
-    { color: '#00ff88', amp: 0.25, freq: 0.03, speed: 0.06, offset: 1 },
-    { color: '#00e5ff', amp: 0.18, freq: 0.05, speed: 0.03, offset: 2 },
+    { color: '#ff5cc8', amp: 0.35, freq: 0.02, speed: 0.04, offset: 0 },
+    { color: '#2ee6ff', amp: 0.25, freq: 0.03, speed: 0.06, offset: 1 },
+    { color: '#2ee6ff', amp: 0.18, freq: 0.05, speed: 0.03, offset: 2 },
   ];
   waves.forEach(wave => {
     wfCtx.beginPath(); wfCtx.strokeStyle = wave.color;

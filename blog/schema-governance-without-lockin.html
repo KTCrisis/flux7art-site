@@ -52,19 +52,19 @@
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <style>
 :root {
-  --bg:      #060a06;
-  --bg2:     #0c120c;
-  --bg3:     #111811;
-  --green:   #00ff88;
-  --pink:    #ff2d6b;
-  --cyan:    #00e5ff;
-  --gold:    #ffd166;
-  --purple:  #a855f7;
-  --teal:    #0d9488;
-  --dim:     #2a3a2a;
-  --text:    #b8ccb8;
-  --text2:   #5a7a5a;
-  --border:  #1a2a1a;
+  --bg:      #070611;
+  --bg2:     #0d0b1a;
+  --bg3:     #15122a;
+  --green:   #2ee6ff;
+  --pink:    #ff5cc8;
+  --cyan:    #2ee6ff;
+  --gold:    #b9a7ff;
+  --purple:  #8b7bff;
+  --teal:    #8b7bff;
+  --dim:     #3a3460;
+  --text:    #c7c4dc;
+  --text2:   #6f6b95;
+  --border:  #221d3d;
   --font:    'JetBrains Mono', monospace;
 }
 
@@ -91,7 +91,7 @@ nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
   display: flex; align-items: center; justify-content: space-between;
   padding: 18px 40px;
-  background: linear-gradient(to bottom, rgba(6,10,6,0.95), transparent);
+  background: linear-gradient(to bottom, rgba(7,6,17,0.95), transparent);
   backdrop-filter: blur(2px);
 }
 .nav-logo { font-size: 18px; font-weight: 700; color: var(--green); text-decoration: none; letter-spacing: -0.5px; }
@@ -128,7 +128,7 @@ nav {
 }
 .article-meta .tag {
   color: var(--purple);
-  border: 1px solid rgba(168,85,247,0.3);
+  border: 1px solid rgba(139,123,255,0.3);
   padding: 2px 8px;
   border-radius: 2px;
   margin-right: 12px;
@@ -182,7 +182,7 @@ nav {
 .prose a {
   color: var(--purple);
   text-decoration: none;
-  border-bottom: 1px solid rgba(168,85,247,0.3);
+  border-bottom: 1px solid rgba(139,123,255,0.3);
   transition: border-color 0.2s;
 }
 .prose a:hover { border-color: var(--purple); }
@@ -199,7 +199,7 @@ nav {
   border-left: 2px solid var(--purple);
   padding: 12px 20px;
   margin: 24px 0;
-  background: rgba(168,85,247,0.03);
+  background: rgba(139,123,255,0.03);
   border-radius: 0 4px 4px 0;
 }
 .prose blockquote p { color: var(--text2); margin-bottom: 0; font-style: italic; }
@@ -255,7 +255,7 @@ nav {
   line-height: 1.6;
   vertical-align: top;
 }
-.prose tr:hover td { background: rgba(168,85,247,0.02); }
+.prose tr:hover td { background: rgba(139,123,255,0.02); }
 
 /* ── DIVIDER ── */
 .prose hr {
@@ -274,7 +274,7 @@ nav {
   color: var(--text2);
   line-height: 1.8;
 }
-.article-footer a { color: var(--purple); text-decoration: none; border-bottom: 1px solid rgba(168,85,247,0.3); }
+.article-footer a { color: var(--purple); text-decoration: none; border-bottom: 1px solid rgba(139,123,255,0.3); }
 .article-footer a:hover { border-color: var(--purple); }
 
 .back-link {
@@ -323,9 +323,9 @@ footer span { color: var(--green); }
   <a href="/" class="nav-logo">flux<span>7</span>.art</a>
   <div style="display:flex;align-items:center;">
     <ul class="nav-links">
-      <li><a href="/#flux7">flux7</a></li>
-      <li><a href="/#projects">Products</a></li>
-      <li><a href="/#lab">Lab</a></li>
+      <li><a href="/#flux7">Governance</a></li>
+      <li><a href="/#projects">EDA·API</a></li>
+      <li><a href="/#lab">Tools</a></li>
       <li><a href="/blog/" class="active">log_</a></li>
       <li><a href="https://docs.flux7.art">Docs</a></li>
       <li><a href="/about/">About</a></li>

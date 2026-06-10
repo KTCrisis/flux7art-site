@@ -79,6 +79,7 @@
   --ax1:     #2ee6ff;   /* cyan    — 01 agentic governance */
   --ax2:     #8b7bff;   /* violet  — 02 eda · api · conseil */
   --ax3:     #ff5cc8;   /* magenta — 03 ai-native tools */
+  --ax4:     #ffd166;   /* amber   — 04 music */
 
   /* primaire = cyan (ex-lime green retiré) ; les noms legacy
      sont repointés sur le triptyque pour recolorer tout le site */
@@ -421,7 +422,7 @@ footer span { color: var(--green); }
 /* ── HERO HORIZON (soleil synthwave) ── */
 .hero-horizon {
   width: min(440px, 72vw); height: 2px; margin: 10px auto 0;
-  background: linear-gradient(90deg, transparent, var(--ax1) 25%, var(--ax2) 50%, var(--ax3) 75%, transparent);
+  background: linear-gradient(90deg, transparent, var(--ax1) 20%, var(--ax2) 40%, var(--ax3) 60%, var(--ax4) 80%, transparent);
   box-shadow: 0 0 26px rgba(139,123,255,0.55), 0 0 60px rgba(255,92,200,0.25);
   opacity: 0; animation: fadeUp 0.6s ease 0.5s forwards;
 }
@@ -440,6 +441,8 @@ footer span { color: var(--green); }
 .axis-1 .axis-line { background: linear-gradient(90deg, var(--ax1), transparent); }
 .axis-2 .axis-line { background: linear-gradient(90deg, var(--ax2), transparent); }
 .axis-3 .axis-line { background: linear-gradient(90deg, var(--ax3), transparent); }
+.axis-4 .axis-num, .axis-4 .axis-thesis b { color: var(--ax4); }
+.axis-4 .axis-line { background: linear-gradient(90deg, var(--ax4), transparent); }
 
 /* ── MINI CARDS (couleur héritée de l'axe) ── */
 .lab-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
@@ -453,6 +456,7 @@ footer span { color: var(--green); }
 .axis-1 .mini-bar { background: var(--ax1); } .axis-1 .mini-tagline { color: var(--ax1); }
 .axis-2 .mini-bar { background: var(--ax2); } .axis-2 .mini-tagline { color: var(--ax2); }
 .axis-3 .mini-bar { background: var(--ax3); } .axis-3 .mini-tagline { color: var(--ax3); }
+.axis-4 .mini-bar { background: var(--ax4); } .axis-4 .mini-tagline { color: var(--ax4); }
 
 /* ── CONSEIL block ── */
 .conseil { background: var(--bg2); border: 1px solid var(--border); border-left: 2px solid var(--ax2); border-radius: 4px; padding: 26px 30px; margin-top: 16px; }
@@ -492,6 +496,7 @@ footer span { color: var(--green); }
       <li><a href="#flux7">Governance</a></li>
       <li><a href="#projects">EDA·API</a></li>
       <li><a href="#lab">Tools</a></li>
+      <li><a href="#music">Music</a></li>
       <li><a href="/blog/">log_</a></li>
       <li><a href="https://docs.flux7.art">Docs</a></li>
       <li><a href="/about/">About</a></li>
@@ -527,6 +532,7 @@ footer span { color: var(--green); }
       <span class="ticker-item"><span class="dot">&gt;</span><span class="name">chromecast-mcp</span><span class="desc">mcp server for chromecast</span></span>
       <span class="ticker-item"><span class="dot">&gt;</span><span class="name">score7</span><span class="desc">audio harmonic analysis</span></span>
       <span class="ticker-item"><span class="dot">&gt;</span><span class="name">keys7</span><span class="desc">live piano-ai duet</span></span>
+      <span class="ticker-item"><span class="dot">&gt;</span><span class="name">xrns7</span><span class="desc">headless renoise reader</span></span>
       <span class="ticker-item"><span class="dot">&gt;</span><span class="name">astroGenAI</span><span class="desc">ai astrological pipeline</span></span>
     </div>
   </div>
@@ -714,13 +720,13 @@ L2  <span style="color:var(--cyan);">flux7-console</span>     human UI          
 </section>
 
 <!-- ═══ 03 — AI-NATIVE TOOLS ═══ -->
-<section id="lab" class="axis axis-3" style="padding-bottom:120px;">
+<section id="lab" class="axis axis-3">
   <div class="axis-head">
     <span class="axis-num">03 //</span>
     <h2 class="axis-title" data-en="AI-Native Tools" data-fr="Outils AI-Native">AI-Native Tools</h2>
     <div class="axis-line"></div>
   </div>
-  <p class="axis-thesis" data-en="The same instinct, turned loose on curiosity: small MCP-compatible tools for whatever I'm working on — diagrams, local models, music, the night sky. Built to plug into any AI agent." data-fr="Le meme reflexe, lache sur la curiosite : de petits outils compatibles MCP pour ce qui m'occupe — diagrammes, modeles locaux, musique, ciel nocturne. Concus pour se brancher sur n'importe quel agent IA."><b>MCP tools for whatever I'm curious about.</b> Diagrams, local models, music, the night sky — small tools built to plug into any AI agent.</p>
+  <p class="axis-thesis" data-en="The same instinct, turned loose on curiosity: small MCP-compatible tools for whatever I'm working on — diagrams, local models, the night sky. Built to plug into any AI agent." data-fr="Le meme reflexe, lache sur la curiosite : de petits outils compatibles MCP pour ce qui m'occupe — diagrammes, modeles locaux, ciel nocturne. Concus pour se brancher sur n'importe quel agent IA."><b>MCP tools for whatever I'm curious about.</b> Diagrams, local models, the night sky — small tools built to plug into any AI agent.</p>
 
   <div class="lab-grid">
 
@@ -745,12 +751,25 @@ L2  <span style="color:var(--cyan);">flux7-console</span>     human UI          
       <p class="mini-desc" data-en="Control Google Chromecast from any MCP client. YouTube, local files, URLs." data-fr="Controle Google Chromecast depuis tout client MCP. YouTube, fichiers locaux, URLs.">Control Google Chromecast from any MCP client. YouTube, local files, URLs.</p>
     </a>
 
-    <a href="https://github.com/KTCrisis/score7" target="_blank" class="mini-card">
+    <a href="https://github.com/KTCrisis/astrogenai" target="_blank" class="mini-card">
       <div class="mini-bar"></div>
-      <div class="mini-top"><span class="mini-name">score7</span><span class="stack-tag">Python</span></div>
-      <div class="mini-tagline" data-en="Audio analysis as MCP" data-fr="Analyse audio en MCP">Audio analysis as MCP</div>
-      <p class="mini-desc" data-en="Key, chord grid, melody and timbre from any mp3/flac/wav. CLI + MCP, stem separation." data-fr="Tonalite, accords, melodie et timbre depuis tout mp3/flac/wav. CLI + MCP, separation de stems.">Key, chord grid, melody and timbre from any mp3/flac/wav. CLI + MCP, stem separation.</p>
+      <div class="mini-top"><span class="mini-name">astroGenAI</span><span class="stack-tag">Python</span></div>
+      <div class="mini-tagline" data-en="AI astrological content pipeline" data-fr="Pipeline de contenu astrologique IA">AI astrological content pipeline</div>
+      <p class="mini-desc" data-en="Horoscopes from Skyfield calculations, sky charts, voice synthesis, automated video." data-fr="Horoscopes depuis calculs Skyfield, cartes du ciel, synthese vocale, video automatisee.">Horoscopes from Skyfield calculations, sky charts, voice synthesis, automated video.</p>
     </a>
+
+  </div>
+</section>
+
+<section id="music" class="axis axis-4" style="padding-bottom:120px;">
+  <div class="axis-head">
+    <span class="axis-num">04 //</span>
+    <h2 class="axis-title" data-en="Music · Human × Machine" data-fr="Musique · Humain × Machine">Music · Human × Machine</h2>
+    <div class="axis-line"></div>
+  </div>
+  <p class="axis-thesis" data-en="<b>A deliberative duet between piano and machine.</b> Play, and the AI listens, names what it hears and answers through the instrument — then reads the finished tracks, from audio or straight from the Renoise files." data-fr="<b>Un duo deliberatif entre piano et machine.</b> Joue, et l'IA ecoute, nomme ce qu'elle entend et repond a travers l'instrument — puis lit les morceaux finis, depuis l'audio ou directement depuis les fichiers Renoise."><b>A deliberative duet between piano and machine.</b> Play, and the AI listens, names what it hears and answers through the instrument — then reads the finished tracks, from audio or straight from the Renoise files.</p>
+
+  <div class="lab-grid">
 
     <a href="https://github.com/KTCrisis/keys7" target="_blank" class="mini-card">
       <div class="mini-bar"></div>
@@ -759,11 +778,18 @@ L2  <span style="color:var(--cyan);">flux7-console</span>     human UI          
       <p class="mini-desc" data-en="Reads chords, key and cadences live from any MIDI piano. Double-tap the lowest key: the AI reads the take, names what it heard and answers through the piano — multi-voice, turn by turn. Pure Go, deterministic theory engine." data-fr="Lit accords, tonalite et cadences de tout piano MIDI en live. Double-tape la note la plus grave : l'IA lit la prise, nomme ce qu'elle a entendu et repond a travers le piano — plusieurs voix, tour par tour. Pur Go, moteur de theorie deterministe.">Reads chords, key and cadences live from any MIDI piano. Double-tap the lowest key: the AI reads the take, names what it heard and answers through the piano — multi-voice, turn by turn. Pure Go, deterministic theory engine.</p>
     </a>
 
-    <a href="https://github.com/KTCrisis/astrogenai" target="_blank" class="mini-card">
+    <a href="https://github.com/KTCrisis/score7" target="_blank" class="mini-card">
       <div class="mini-bar"></div>
-      <div class="mini-top"><span class="mini-name">astroGenAI</span><span class="stack-tag">Python</span></div>
-      <div class="mini-tagline" data-en="AI astrological content pipeline" data-fr="Pipeline de contenu astrologique IA">AI astrological content pipeline</div>
-      <p class="mini-desc" data-en="Horoscopes from Skyfield calculations, sky charts, voice synthesis, automated video." data-fr="Horoscopes depuis calculs Skyfield, cartes du ciel, synthese vocale, video automatisee.">Horoscopes from Skyfield calculations, sky charts, voice synthesis, automated video.</p>
+      <div class="mini-top"><span class="mini-name">score7</span><span class="stack-tag">Python</span></div>
+      <div class="mini-tagline" data-en="Audio analysis as MCP" data-fr="Analyse audio en MCP">Audio analysis as MCP</div>
+      <p class="mini-desc" data-en="Key, chord grid, melody and timbre from any mp3/flac/wav. CLI + MCP, stem separation." data-fr="Tonalite, accords, melodie et timbre depuis tout mp3/flac/wav. CLI + MCP, separation de stems.">Key, chord grid, melody and timbre from any mp3/flac/wav. CLI + MCP, stem separation.</p>
+    </a>
+
+    <a href="https://github.com/KTCrisis/xrns7" target="_blank" class="mini-card">
+      <div class="mini-bar"></div>
+      <div class="mini-top"><span class="mini-name">xrns7</span><span class="stack-tag">Go</span></div>
+      <div class="mini-tagline" data-en="Headless Renoise reader" data-fr="Lecteur Renoise headless">Headless Renoise reader</div>
+      <p class="mini-desc" data-en="Exact notes from .xrns files, no Renoise running — song map, JSON notes in beats, playable sequences (one voice per tracker column)." data-fr="Notes exactes depuis les fichiers .xrns, sans lancer Renoise — carte du morceau, notes JSON en beats, sequences jouables (une voix par colonne de tracker).">Exact notes from .xrns files, no Renoise running — song map, JSON notes in beats, playable sequences (one voice per tracker column).</p>
     </a>
 
   </div>

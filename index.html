@@ -148,6 +148,15 @@ nav {
 .nav-links a:hover { color: var(--green); }
 .nav-links a:hover::after { width: 100%; }
 
+.nav-right { display: flex; align-items: center; }
+
+/* ── NAV TOGGLE (hamburger, mobile) ── */
+.nav-toggle { display: none; flex-direction: column; justify-content: center; gap: 4px; margin-left: 16px; padding: 7px 8px; background: transparent; border: 1px solid var(--border); border-radius: 3px; cursor: pointer; }
+.nav-toggle span { display: block; width: 18px; height: 2px; background: var(--text); border-radius: 1px; transition: transform 0.2s, opacity 0.2s; }
+.nav-toggle.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+.nav-toggle.open span:nth-child(2) { opacity: 0; }
+.nav-toggle.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
 /* ── LANG SWITCH ── */
 .lang-switch { display: flex; align-items: center; border: 1px solid var(--border); border-radius: 3px; overflow: hidden; margin-left: 24px; }
 .lang-btn { font-family: var(--font); font-size: 10px; letter-spacing: 2px; text-transform: uppercase; padding: 5px 10px; background: transparent; border: none; color: var(--text2); cursor: pointer; transition: all 0.2s; }
@@ -451,6 +460,8 @@ footer span { color: var(--green); }
 .mini-bar { position: absolute; top: 0; left: 0; right: 0; height: 2px; opacity: 0.85; }
 .mini-top { display: flex; align-items: center; justify-content: space-between; }
 .mini-name { font-size: 14px; font-weight: 700; color: #fff; }
+.mini-step { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--text2); margin-bottom: 2px; }
+.axis-4 .mini-step { color: var(--ax4); opacity: 0.85; }
 .mini-tagline { font-size: 10px; letter-spacing: 1px; }
 .mini-desc { font-size: 11px; color: var(--text2); line-height: 1.6; margin: 0; }
 .axis-1 .mini-bar { background: var(--ax1); } .axis-1 .mini-tagline { color: var(--ax1); }
@@ -465,21 +476,47 @@ footer span { color: var(--green); }
 .conseil .tags { display:flex; flex-wrap:wrap; gap:6px; margin-top:16px; }
 
 /* ── RESPONSIVE ── */
+@media (max-width: 860px) {
+  .axis, #projects, #lab { padding-left: 26px; padding-right: 26px; }
+  .nav-links { gap: 22px; }
+}
 @media (max-width: 768px) {
   .lab-grid { grid-template-columns: 1fr !important; }
-  nav { padding: 16px 20px; }
-  .nav-links { gap: 20px; }
-  #hero, #projects, #lab { padding-left: 20px; padding-right: 20px; }
+  nav { padding: 14px 20px; }
+  #hero { padding-left: 20px; padding-right: 20px; }
+  .axis, #projects, #lab { padding-left: 20px; padding-right: 20px; }
   .hero-title { letter-spacing: -2px; }
   .flip-grid { grid-template-columns: 1fr; }
   .flip-container { height: 440px; }
   #flux7 > div > div { grid-template-columns: 1fr !important; }
   #flux7 > div > div > div:first-child { border-right: none !important; border-bottom: 1px solid var(--border); }
+  #flux7 > div > div > div { padding: 28px 22px !important; }
+  #flux7 pre, .flip-back-img pre { overflow-x: auto; max-width: 100%; }
   #lab > div:last-child { grid-template-columns: 1fr !important; }
   .flip-back-metrics { grid-template-columns: repeat(2, 1fr); }
+  .conseil { padding: 22px 22px; }
 }
-@media (max-width: 500px) {
-  .nav-links { display: none; }
+/* nav collapses into a dropdown panel */
+@media (max-width: 680px) {
+  .nav-toggle { display: flex; }
+  .lang-switch { margin-left: 14px; }
+  .nav-links {
+    position: absolute; top: 100%; right: 16px; left: 16px;
+    flex-direction: column; gap: 0;
+    margin-top: 8px; padding: 6px;
+    background: var(--bg2); border: 1px solid var(--border); border-radius: 6px;
+    box-shadow: 0 14px 44px rgba(0,0,0,0.6);
+    display: none;
+  }
+  .nav-links.open { display: flex; }
+  .nav-links li { width: 100%; }
+  .nav-links a { display: block; padding: 11px 14px; }
+  .nav-links a::after { display: none; }
+}
+@media (max-width: 460px) {
+  .hero-sub { font-size: 12px; }
+  .axis-head { flex-wrap: wrap; gap: 10px; }
+  .flip-container { height: 470px; }
   .stack-grid { grid-template-columns: 1fr 1fr; }
 }
 </style>
@@ -491,8 +528,8 @@ footer span { color: var(--green); }
 
 <nav>
   <a href="#" class="nav-logo">flux<span>7</span>.art</a>
-  <div style="display:flex;align-items:center;">
-    <ul class="nav-links">
+  <div class="nav-right">
+    <ul class="nav-links" id="nav-links">
       <li><a href="#flux7">Governance</a></li>
       <li><a href="#projects">EDA·API</a></li>
       <li><a href="#lab">Tools</a></li>
@@ -505,6 +542,9 @@ footer span { color: var(--green); }
       <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
       <button class="lang-btn" id="btn-fr" onclick="setLang('fr')">FR</button>
     </div>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </nav>
 
@@ -773,20 +813,23 @@ L2  <span style="color:var(--cyan);">flux7-console</span>     human UI          
 
     <a href="https://github.com/KTCrisis/keys7" target="_blank" class="mini-card">
       <div class="mini-bar"></div>
+      <div class="mini-step" data-en="01 · Live duet" data-fr="01 · Duo live">01 · Live duet</div>
       <div class="mini-top"><span class="mini-name">keys7</span><span class="stack-tag">Go</span></div>
       <div class="mini-tagline" data-en="Live piano ↔ AI duet" data-fr="Duo live piano ↔ IA">Live piano ↔ AI duet</div>
-      <p class="mini-desc" data-en="Reads chords, key and cadences live from any MIDI piano. Double-tap the lowest key: the AI reads the take, names what it heard and answers through the piano — multi-voice, turn by turn. Pure Go, deterministic theory engine." data-fr="Lit accords, tonalite et cadences de tout piano MIDI en live. Double-tape la note la plus grave : l'IA lit la prise, nomme ce qu'elle a entendu et repond a travers le piano — plusieurs voix, tour par tour. Pur Go, moteur de theorie deterministe.">Reads chords, key and cadences live from any MIDI piano. Double-tap the lowest key: the AI reads the take, names what it heard and answers through the piano — multi-voice, turn by turn. Pure Go, deterministic theory engine.</p>
+      <p class="mini-desc" data-en="Reads chords, key and cadences live from any MIDI piano. Double-tap the lowest key and the AI answers through the instrument — multi-voice, turn by turn." data-fr="Lit accords, tonalite et cadences de tout piano MIDI en live. Double-tape la note la plus grave et l'IA repond a travers l'instrument — plusieurs voix, tour par tour.">Reads chords, key and cadences live from any MIDI piano. Double-tap the lowest key and the AI answers through the instrument — multi-voice, turn by turn.</p>
     </a>
 
     <a href="https://github.com/KTCrisis/score7" target="_blank" class="mini-card">
       <div class="mini-bar"></div>
+      <div class="mini-step" data-en="02 · Analysis" data-fr="02 · Analyse">02 · Analysis</div>
       <div class="mini-top"><span class="mini-name">score7</span><span class="stack-tag">Python</span></div>
-      <div class="mini-tagline" data-en="Audio analysis as MCP" data-fr="Analyse audio en MCP">Audio analysis as MCP</div>
+      <div class="mini-tagline" data-en="Audio harmonic analysis" data-fr="Analyse harmonique audio">Audio harmonic analysis</div>
       <p class="mini-desc" data-en="Key, chord grid, melody and timbre from any mp3/flac/wav. CLI + MCP, stem separation." data-fr="Tonalite, accords, melodie et timbre depuis tout mp3/flac/wav. CLI + MCP, separation de stems.">Key, chord grid, melody and timbre from any mp3/flac/wav. CLI + MCP, stem separation.</p>
     </a>
 
     <a href="https://github.com/KTCrisis/xrns7" target="_blank" class="mini-card">
       <div class="mini-bar"></div>
+      <div class="mini-step" data-en="03 · Reading" data-fr="03 · Lecture">03 · Reading</div>
       <div class="mini-top"><span class="mini-name">xrns7</span><span class="stack-tag">Go</span></div>
       <div class="mini-tagline" data-en="Headless Renoise reader" data-fr="Lecteur Renoise headless">Headless Renoise reader</div>
       <p class="mini-desc" data-en="Exact notes from .xrns files, no Renoise running — song map, JSON notes in beats, playable sequences (one voice per tracker column)." data-fr="Notes exactes depuis les fichiers .xrns, sans lancer Renoise — carte du morceau, notes JSON en beats, sequences jouables (une voix par colonne de tracker).">Exact notes from .xrns files, no Renoise running — song map, JSON notes in beats, playable sequences (one voice per tracker column).</p>
@@ -930,6 +973,20 @@ function setLang(lang) {
   localStorage.setItem('flux7_lang', lang);
 }
 (function() { const saved = localStorage.getItem('flux7_lang'); if (saved && saved !== 'en') setLang(saved); })();
+
+// ── NAV TOGGLE (mobile) ──
+(function() {
+  const toggle = document.getElementById('nav-toggle');
+  const links = document.getElementById('nav-links');
+  if (!toggle || !links) return;
+  const close = () => { links.classList.remove('open'); toggle.classList.remove('open'); toggle.setAttribute('aria-expanded', 'false'); };
+  toggle.addEventListener('click', () => {
+    const open = links.classList.toggle('open');
+    toggle.classList.toggle('open', open);
+    toggle.setAttribute('aria-expanded', String(open));
+  });
+  links.querySelectorAll('a').forEach(a => a.addEventListener('click', close));
+})();
 </script>
 </body>
 </html>

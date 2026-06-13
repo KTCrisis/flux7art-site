@@ -304,6 +304,12 @@ footer {
 footer span { color: var(--green); }
 
 /* ── RESPONSIVE ── */
+.nav-toggle { display: none; flex-direction: column; justify-content: center; gap: 4px; margin-left: 16px; padding: 7px 8px; background: transparent; border: 1px solid var(--border); border-radius: 3px; cursor: pointer; }
+.nav-toggle span { display: block; width: 18px; height: 2px; background: var(--text); border-radius: 1px; transition: transform 0.2s, opacity 0.2s; }
+.nav-toggle.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+.nav-toggle.open span:nth-child(2) { opacity: 0; }
+.nav-toggle.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
 @media (max-width: 768px) {
   nav { padding: 16px 20px; }
   .nav-links { gap: 20px; }
@@ -311,8 +317,20 @@ footer span { color: var(--green); }
   .prose table { font-size: 10px; }
   .prose th, .prose td { padding: 8px 6px; }
 }
-@media (max-width: 500px) {
-  .nav-links { display: none; }
+@media (max-width: 680px) {
+  nav { padding: 14px 20px; }
+  .nav-toggle { display: flex; }
+  .nav-links {
+    position: absolute; top: 100%; right: 16px; left: 16px;
+    flex-direction: column; gap: 0;
+    margin-top: 8px; padding: 6px;
+    background: var(--bg2); border: 1px solid var(--border); border-radius: 6px;
+    box-shadow: 0 14px 44px rgba(0,0,0,0.6);
+    display: none;
+  }
+  .nav-links.open { display: flex; }
+  .nav-links li { width: 100%; list-style: none; }
+  .nav-links a { display: block; padding: 11px 14px; }
 }
 </style>
 </head>
@@ -329,6 +347,7 @@ footer span { color: var(--green); }
       <li><a href="https://docs.flux7.art">Docs</a></li>
       <li><a href="/about/">About</a></li>
     </ul>
+    <button class="nav-toggle" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
   </div>
 </nav>
 
@@ -411,5 +430,19 @@ footer span { color: var(--green); }
   <span>flux7.art</span> &mdash; built and deployed on cloudflare &middot; 2026
 </footer>
 
+<script>
+(function() {
+  var toggle = document.querySelector('.nav-toggle');
+  var links = document.querySelector('.nav-links');
+  if (!toggle || !links) return;
+  function close() { links.classList.remove('open'); toggle.classList.remove('open'); toggle.setAttribute('aria-expanded', 'false'); }
+  toggle.addEventListener('click', function() {
+    var open = links.classList.toggle('open');
+    toggle.classList.toggle('open', open);
+    toggle.setAttribute('aria-expanded', String(open));
+  });
+  links.querySelectorAll('a').forEach(function(a) { a.addEventListener('click', close); });
+})();
+</script>
 </body>
 </html>

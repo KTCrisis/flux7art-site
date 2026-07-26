@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>flux7 — governance for AI agents · flux7.art</title>
+<meta name="description" content="flux7 decides what an AI agent is allowed to do: a policy engine in under a millisecond, past decisions kept in memory, an arbitration for unclear cases, and a human when it matters.">
+<meta name="author" content="Marc Verchiani">
+<link rel="canonical" href="https://flux7.art/projects/flux7/">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="flux7.art">
+<meta property="og:title" content="flux7 — governance for AI agents">
+<meta property="og:description" content="A sidecar between agents and their tools. Four layers, from a sub-millisecond policy engine to human oversight.">
+<meta property="og:url" content="https://flux7.art/projects/flux7/">
+<meta property="og:image" content="https://flux7.art/img/og.png">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="flux7 — governance for AI agents">
+<meta name="twitter:description" content="A sidecar between agents and their tools. Four layers, from a sub-millisecond policy engine to human oversight.">
+<meta name="twitter:image" content="https://flux7.art/img/og.png">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "flux7-mesh",
+  "applicationCategory": "DeveloperApplication",
+  "description": "Sidecar proxy that governs which tools an AI agent may call.",
+  "url": "https://flux7.art/projects/flux7/",
+  "codeRepository": "https://github.com/KTCrisis/flux7-mesh",
+  "author": { "@type": "Person", "name": "Marc Verchiani", "@id": "https://flux7.art/#marc" }
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="/project.css">
+</head>
+<body class="axis-1">
+
+<nav>
+  <a href="/" class="nav-logo">flux<span>7</span>.art</a>
+  <div class="nav-right">
+    <ul class="nav-links" id="nav-links">
+      <li><a href="/#flux7" class="active">Governance</a></li>
+      <li><a href="/#projects">EDA·API</a></li>
+      <li><a href="/#lab">Tools</a></li>
+      <li><a href="/#music">Music</a></li>
+      <li><a href="/blog/">log_</a></li>
+      <li><a href="https://docs.flux7.art">Docs</a></li>
+      <li><a href="/about/">About</a></li>
+    </ul>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <div class="crumb"><a href="/">flux7.art</a> / <a href="/#flux7">Governance</a> / flux7</div>
+
+  <header class="p-head">
+    <span class="p-status">● live · mesh v0.15.1</span>
+    <h1 class="p-title">flux<span class="seven">7</span></h1>
+    <div class="p-tagline">Governance for AI agents</div>
+    <p class="p-lede">
+      An AI agent calls tools: it writes files, sends mail, queries databases. Before it does,
+      something should decide whether it may. <b>flux7 is that something</b>, and it sits beside
+      the agent rather than inside it, so the agent's code does not change.
+    </p>
+    <div class="p-actions">
+      <a class="p-btn p-btn-main" href="https://docs.flux7.art" target="_blank">Documentation</a>
+      <a class="p-btn" href="https://github.com/KTCrisis/flux7-mesh" target="_blank">flux7-mesh</a>
+      <a class="p-btn" href="https://github.com/KTCrisis/flux7-memory" target="_blank">flux7-memory</a>
+    </div>
+  </header>
+
+  <section class="p-section">
+    <h2>The problem</h2>
+    <p>Three questions have no good answer today, and none of them are the agent framework's job to solve. They are infrastructure questions, the same ones service meshes answered for microservices a decade ago.</p>
+    <div class="p-pains">
+      <div class="p-pain"><span>01</span><p>Which agent may call which tool? Frameworks do not enforce boundaries. An agent can call anything it discovers.</p></div>
+      <div class="p-pain"><span>02</span><p>Who approved that action? Someone clicked yes in a terminal three weeks ago. That decision is gone.</p></div>
+      <div class="p-pain"><span>03</span><p>What actually happened? There are logs somewhere. They are not structured, not queryable, and not auditable.</p></div>
+    </div>
+  </section>
+
+  <section class="p-section">
+    <h2>Four steps, from instant to human</h2>
+    <p>A request climbs only as far as it needs to. Most never leave the first step. The interesting part is the second: a decision taken once is kept, and answers the next identical request on its own.</p>
+    <div class="p-diagram">
+<pre>  agent ──► <b>L0</b>  policy engine       rules say allow, deny or ask     &lt;1ms
+              │
+              ├─► <b>L1</b>  memory          3 past approvals, 0 refusals    ~100ms
+              │
+              ├─► <b>L1+</b> arbitration     rules engine, then a model      ~2-20s
+              │
+              └─► <b>L2</b>  human           the genuinely new decisions     minutes
+
+            every decision is written back as a fact, and answers the next one</pre>
+    </div>
+  </section>
+
+  <section class="p-section">
+    <h2>Four projects</h2>
+    <div class="p-grid">
+      <div class="p-item">
+        <h3>flux7-mesh</h3>
+        <p>The sidecar. One Go binary, one YAML file. Speaks MCP over stdio and HTTP, plus plain REST. The agent never knows it is there.</p>
+      </div>
+      <div class="p-item">
+        <h3>flux7-memory</h3>
+        <p>Where decisions are kept as facts rather than as log lines, so they can be recalled and reused instead of re-asked.</p>
+      </div>
+      <div class="p-item">
+        <h3>flux7-supervisor</h3>
+        <p>The arbitration step. A rules engine first, a language model only for what the rules cannot settle.</p>
+      </div>
+      <div class="p-item">
+        <h3>flux7-console</h3>
+        <p>The human end: pending approvals, the policy in force, and what the agents have actually been doing.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="p-section">
+    <h2>What it is not</h2>
+    <p>An API gateway governs traffic between a user and a model. An agent framework runs the agent's own loop. flux7 sits at a third place, between the agent and the tools it reaches for, with one policy per agent and per tool, an approval queue that does not block, and every decision kept where it can be queried.</p>
+    <div class="p-tags">
+      <span class="p-tag">Go</span>
+      <span class="p-tag">Python SDK</span>
+      <span class="p-tag">MCP</span>
+      <span class="p-tag">OpenAPI</span>
+      <span class="p-tag">OpenTelemetry</span>
+      <span class="p-tag">single binary</span>
+    </div>
+  </section>
+
+  <div class="p-next">
+    <a href="/#flux7">← Back to governance</a>
+  </div>
+
+</div>
+
+<footer>
+  <div style="display:flex;justify-content:center;gap:32px;margin-bottom:16px;">
+    <a href="/about/">About</a>
+    <a href="/blog/">Log</a>
+    <a href="https://github.com/KTCrisis">GitHub</a>
+    <a href="mailto:marc@flux7.art">Contact</a>
+  </div>
+  <span>flux7.art</span> — 2026
+</footer>
+
+<script>
+const navToggle = document.getElementById('nav-toggle');
+const navLinks = document.getElementById('nav-links');
+navToggle.addEventListener('click', () => {
+  const open = navLinks.classList.toggle('open');
+  navToggle.classList.toggle('open', open);
+  navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+});
+</script>
+
+</body>
+</html>

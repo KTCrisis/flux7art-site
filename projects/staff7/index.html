@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>staff7 — staffing, capacity and margin · flux7.art</title>
+<meta name="description" content="staff7 connects skills, assignments, timesheets and financials for consulting firms, with a natural-language console running on local models.">
+<meta name="author" content="Marc Verchiani">
+<link rel="canonical" href="https://flux7.art/projects/staff7/">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="flux7.art">
+<meta property="og:title" content="staff7 — staffing, capacity and margin">
+<meta property="og:description" content="Who is available, on what, at what margin. One platform, multi-tenant, with an AI console on live data.">
+<meta property="og:url" content="https://flux7.art/projects/staff7/">
+<meta property="og:image" content="https://flux7.art/img/og.png">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="staff7 — staffing, capacity and margin">
+<meta name="twitter:description" content="Who is available, on what, at what margin. One platform, multi-tenant, with an AI console on live data.">
+<meta name="twitter:image" content="https://flux7.art/img/og.png">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "staff7",
+  "applicationCategory": "BusinessApplication",
+  "description": "Staffing, capacity and margin platform for consulting firms.",
+  "url": "https://flux7.art/projects/staff7/",
+  "codeRepository": "https://github.com/KTCrisis/staffd",
+  "author": { "@type": "Person", "name": "Marc Verchiani", "@id": "https://flux7.art/#marc" }
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="/project.css">
+</head>
+<body class="axis-2">
+
+<nav>
+  <a href="/" class="nav-logo">flux<span>7</span>.art</a>
+  <div class="nav-right">
+    <ul class="nav-links" id="nav-links">
+      <li><a href="/#flux7">Governance</a></li>
+      <li><a href="/#projects" class="active">EDA·API</a></li>
+      <li><a href="/#lab">Tools</a></li>
+      <li><a href="/#music">Music</a></li>
+      <li><a href="/blog/">log_</a></li>
+      <li><a href="https://docs.flux7.art">Docs</a></li>
+      <li><a href="/about/">About</a></li>
+    </ul>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <div class="crumb"><a href="/">flux7.art</a> / <a href="/#projects">EDA · API</a> / staff7</div>
+
+  <header class="p-head">
+    <span class="p-status">● live · active development</span>
+    <h1 class="p-title">staff<span class="seven">7</span></h1>
+    <div class="p-tagline">Staffing, capacity and margin platform</div>
+    <p class="p-lede">
+      A consulting firm needs three answers at once: who is available, on what, and at what margin.
+      They usually live in three different files. <b>staff7 keeps them in one place</b>, and lets you
+      ask the question in plain language.
+    </p>
+    <div class="p-actions">
+      <a class="p-btn p-btn-main" href="https://staffd.pages.dev/" target="_blank">Live app</a>
+      <a class="p-btn" href="https://github.com/KTCrisis/staffd" target="_blank">GitHub</a>
+    </div>
+  </header>
+
+  <section class="p-section">
+    <h2>What it holds</h2>
+    <p>Eleven modules, but one chain: a consultant has skills, an assignment on a project, days logged against it, leave taken from it, and a margin that falls out of all four.</p>
+    <div class="p-grid">
+      <div class="p-item">
+        <h3>People and assignments</h3>
+        <p>Consultants, their skills, the clients and projects they are placed on, and who is free when.</p>
+      </div>
+      <div class="p-item">
+        <h3>Time and leave</h3>
+        <p>Timesheets, leave requests and availability, feeding the same timeline rather than a separate one.</p>
+      </div>
+      <div class="p-item">
+        <h3>Money</h3>
+        <p>Financials, profitability per project and per person, invoices, and a simulator for the deal you have not signed yet.</p>
+      </div>
+      <div class="p-item">
+        <h3>An AI console on live data</h3>
+        <p>Ask about staffing, margins or pending leave in plain language. It runs on local models, so the data stays where it already is.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="p-section">
+    <h2>Isolation by default</h2>
+    <p>Each company gets a workspace that cannot see any other, enforced in the database itself through row-level security rather than in application code. That is what makes the same deployment usable by a firm, a reseller, or a single freelancer in solo mode.</p>
+    <div class="p-tags">
+      <span class="p-tag">multi-tenant</span>
+      <span class="p-tag">row-level security</span>
+      <span class="p-tag">EN / FR</span>
+      <span class="p-tag">solo mode</span>
+    </div>
+  </section>
+
+  <section class="p-section">
+    <h2>Built with</h2>
+    <div class="p-stack">
+      <div class="k">Frontend</div><div class="v">Next.js 16, React 19, Tailwind CSS, next-intl</div>
+      <div class="k">Backend</div><div class="v">Supabase: PostgreSQL, row-level security, RPC</div>
+      <div class="k">Auth</div><div class="v">Supabase Auth, roles carried in app metadata</div>
+      <div class="k">AI</div><div class="v">Ollama, local or cloud, streamed over SSE</div>
+      <div class="k">Deployment</div><div class="v">Cloudflare Pages via OpenNext</div>
+      <div class="k">License</div><div class="v">BUSL-1.1</div>
+    </div>
+  </section>
+
+  <div class="p-next">
+    <a href="/#projects">← Back to EDA · API projects</a>
+  </div>
+
+</div>
+
+<footer>
+  <div style="display:flex;justify-content:center;gap:32px;margin-bottom:16px;">
+    <a href="/about/">About</a>
+    <a href="/blog/">Log</a>
+    <a href="https://github.com/KTCrisis">GitHub</a>
+    <a href="mailto:marc@flux7.art">Contact</a>
+  </div>
+  <span>flux7.art</span> — 2026
+</footer>
+
+<script>
+const navToggle = document.getElementById('nav-toggle');
+const navLinks = document.getElementById('nav-links');
+navToggle.addEventListener('click', () => {
+  const open = navLinks.classList.toggle('open');
+  navToggle.classList.toggle('open', open);
+  navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+});
+</script>
+
+</body>
+</html>

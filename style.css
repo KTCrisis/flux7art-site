@@ -1,0 +1,114 @@
+/* ══════════════════════════════════════════════════════════════
+   flux7.art — socle commun
+   Partage par index.html, /about/ et /blog/ : variables, reset,
+   chrome de navigation, en-tetes de section, pied de page.
+   Ce qui est propre a une page reste dans son <style>, place
+   apres ce fichier pour pouvoir y deroger.
+   ══════════════════════════════════════════════════════════════ */
+
+:root {
+  /* ── darksynth · espace · pro — fond violet-noir ── */
+  --bg:      #070611;   --bg-rgb:  7,6,17;
+  --bg2:     #0d0b1a;
+
+  /* ── une couleur par axe, et rien d'autre ──
+     La forme -rgb sert aux transparences : rgba(var(--ax2-rgb), 0.3)
+     plutot que la teinte reecrite a la main a chaque opacite. Changer
+     un axe de couleur ne demande que de toucher ces deux lignes. */
+  --ax1: #2ee6ff;   --ax1-rgb: 46,230,255;    /* 01 gouvernance des agents */
+  --ax2: #8b7bff;   --ax2-rgb: 139,123,255;   /* 02 eda · api · conseil    */
+  --ax3: #ff5cc8;   --ax3-rgb: 255,92,200;    /* 03 outils ai-native       */
+  --ax4: #ffd166;   --ax4-rgb: 255,209,102;   /* 04 musique                */
+
+  /* seconde teinte de l'axe 02, pour ses degrades et ses logos */
+  --ax2-light: #b9a7ff;  --ax2-light-rgb: 185,167,255;
+
+  --dim:     #3a3460;
+  --text:    #c7c4dc;
+  --text2:   #6f6b95;
+  --border:  #221d3d;
+  --font:    'JetBrains Mono', monospace;
+}
+
+/* ── RESET ── */
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── SCANLINES ── */
+/* /about/ y deroge : voir son bloc <style> */
+body::after {
+  content: ''; position: fixed; inset: 0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.07) 2px, rgba(0,0,0,0.07) 4px);
+  pointer-events: none; z-index: 9999;
+}
+
+/* ── NAV ── */
+/* barre flottante par defaut ; /about/ la repasse en statique bordee */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 40px;
+  background: linear-gradient(to bottom, rgba(var(--bg-rgb),0.95), transparent);
+  backdrop-filter: blur(2px);
+}
+.nav-logo { font-size: 18px; font-weight: 700; color: var(--ax1); text-decoration: none; letter-spacing: -0.5px; }
+.nav-logo span { color: var(--ax3); }
+.nav-links { display: flex; gap: 32px; list-style: none; }
+.nav-links a {
+  color: var(--text2); text-decoration: none; font-size: 12px;
+  letter-spacing: 2px; text-transform: uppercase; transition: color 0.2s; position: relative;
+}
+.nav-links a::after {
+  content: ''; position: absolute; bottom: -4px; left: 0;
+  width: 0; height: 1px; background: var(--ax1); transition: width 0.2s;
+}
+.nav-links a:hover { color: var(--ax1); }
+.nav-links a:hover::after { width: 100%; }
+.nav-links a.active { color: var(--ax1); }
+.nav-links a.active::after { width: 100%; }
+
+.nav-right { display: flex; align-items: center; }
+
+/* ── NAV TOGGLE (hamburger, mobile) ── */
+.nav-toggle { display: none; flex-direction: column; justify-content: center; gap: 4px; margin-left: 16px; padding: 7px 8px; background: transparent; border: 1px solid var(--border); border-radius: 3px; cursor: pointer; }
+.nav-toggle span { display: block; width: 18px; height: 2px; background: var(--text); border-radius: 1px; transition: transform 0.2s, opacity 0.2s; }
+.nav-toggle.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+.nav-toggle.open span:nth-child(2) { opacity: 0; }
+.nav-toggle.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+/* ── EN-TETES DE SECTION ── */
+.section-header { display: flex; align-items: baseline; gap: 20px; margin-bottom: 60px; }
+.section-num { font-size: 11px; color: var(--ax1); letter-spacing: 3px; }
+.section-title { font-size: 36px; font-weight: 700; color: #fff; letter-spacing: -1px; }
+.section-line { flex: 1; height: 1px; background: var(--border); }
+
+/* ── FOOTER ── */
+footer { text-align: center; padding: 40px; border-top: 1px solid var(--border); font-size: 10px; color: var(--text2); letter-spacing: 2px; }
+footer span { color: var(--ax1); }
+footer a { color: var(--ax1); text-decoration: none; }
+
+/* ── RESPONSIVE : la nav se replie en panneau ── */
+@media (max-width: 680px) {
+  nav { padding: 14px 20px; }
+  .nav-toggle { display: flex; }
+  .nav-links {
+    position: absolute; top: 100%; right: 16px; left: 16px;
+    flex-direction: column; gap: 0;
+    margin-top: 8px; padding: 6px;
+    background: var(--bg2); border: 1px solid var(--border); border-radius: 6px;
+    box-shadow: 0 14px 44px rgba(0,0,0,0.6);
+    display: none;
+  }
+  .nav-links.open { display: flex; }
+  .nav-links li { width: 100%; list-style: none; }
+  .nav-links a { display: block; padding: 11px 14px; }
+  .nav-links a::after { display: none; }
+}

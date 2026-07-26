@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>event7 — schema registry governance · flux7.art</title>
+<meta name="description" content="event7 adds a provider-agnostic governance layer above schema registries: ownership, rules, scoring, channels and AsyncAPI, across Confluent, Apicurio, Karapace and Redpanda.">
+<meta name="author" content="Marc Verchiani">
+<link rel="canonical" href="https://flux7.art/projects/event7/">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="flux7.art">
+<meta property="og:title" content="event7 — schema registry governance">
+<meta property="og:description" content="A schema registry stores your message shapes. It doesn't govern them. event7 adds the layer that does.">
+<meta property="og:url" content="https://flux7.art/projects/event7/">
+<meta property="og:image" content="https://flux7.art/img/og.png">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="event7 — schema registry governance">
+<meta name="twitter:description" content="A schema registry stores your message shapes. It doesn't govern them. event7 adds the layer that does.">
+<meta name="twitter:image" content="https://flux7.art/img/og.png">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "event7",
+  "applicationCategory": "DeveloperApplication",
+  "description": "Provider-agnostic governance layer for schema registries.",
+  "license": "https://www.apache.org/licenses/LICENSE-2.0",
+  "url": "https://flux7.art/projects/event7/",
+  "codeRepository": "https://github.com/KTCrisis/event7",
+  "author": { "@type": "Person", "name": "Marc Verchiani", "@id": "https://flux7.art/#marc" }
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="/project.css">
+</head>
+<body class="axis-2">
+
+<nav>
+  <a href="/" class="nav-logo">flux<span>7</span>.art</a>
+  <div class="nav-right">
+    <ul class="nav-links" id="nav-links">
+      <li><a href="/#flux7">Governance</a></li>
+      <li><a href="/#projects" class="active">EDA·API</a></li>
+      <li><a href="/#lab">Tools</a></li>
+      <li><a href="/#music">Music</a></li>
+      <li><a href="/blog/">log_</a></li>
+      <li><a href="https://docs.flux7.art">Docs</a></li>
+      <li><a href="/about/">About</a></li>
+    </ul>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <div class="crumb"><a href="/">flux7.art</a> / <a href="/#projects">EDA · API</a> / event7</div>
+
+  <header class="p-head">
+    <span class="p-status">● live · apache 2.0</span>
+    <h1 class="p-title">event<span class="seven">7</span></h1>
+    <div class="p-tagline">Schema registry governance platform</div>
+    <p class="p-lede">
+      A schema registry stores the shape of your messages. It does not tell you who owns them,
+      what they mean, or whether the change you are about to publish will break someone.
+      <b>event7 adds the layer that does</b>, above the registry you already run.
+    </p>
+    <div class="p-actions">
+      <a class="p-btn p-btn-main" href="https://event7.pages.dev" target="_blank">Live demo</a>
+      <a class="p-btn" href="https://github.com/KTCrisis/event7" target="_blank">GitHub</a>
+      <a class="p-btn" href="https://event7.pages.dev/docs" target="_blank">Documentation</a>
+    </div>
+  </header>
+
+  <section class="p-section">
+    <h2>The problem</h2>
+    <p>Four things go wrong in every event-driven system, and none of them are the registry's fault. A registry stores schemas. That is all it was built to do.</p>
+    <div class="p-pains">
+      <div class="p-pain"><span>01</span><p>Schemas are scattered across several registries, and each vendor governs them differently.</p></div>
+      <div class="p-pain"><span>02</span><p>Nothing connects the technical schema to its business meaning: no owner, no classification, no data layer.</p></div>
+      <div class="p-pain"><span>03</span><p>Contracts drift. A field changes, and you find out when a consumer breaks in production.</p></div>
+      <div class="p-pain"><span>04</span><p>Whatever governance you do add is locked inside one vendor's tool, and does not travel.</p></div>
+    </div>
+  </section>
+
+  <section class="p-section">
+    <h2>What it does</h2>
+    <p>Schemas stay in your registry. Everything event7 adds lives in event7, so switching registry does not cost you your governance.</p>
+    <div class="p-grid">
+      <div class="p-item">
+        <h3>Diff before you publish</h3>
+        <p>Side-by-side, field by field, with breaking changes flagged. Works on Avro, JSON Schema and Protobuf.</p>
+      </div>
+      <div class="p-item">
+        <h3>One validation report</h3>
+        <p>Registry compatibility, governance rules and the diff preview in a single answer: pass, warn or fail.</p>
+      </div>
+      <div class="p-item">
+        <h3>Ownership and meaning</h3>
+        <p>Tags, owners, descriptions, data layers and classification, attached to the schema and stored outside the registry.</p>
+      </div>
+      <div class="p-item">
+        <h3>Rules and scoring</h3>
+        <p>Conditions, transforms and policies, with a three-axis score covering enrichment, rules and schema quality.</p>
+      </div>
+      <div class="p-item">
+        <h3>Channels across brokers</h3>
+        <p>Map a schema to where it actually travels: Kafka topics, RabbitMQ exchanges, Pulsar, NATS, Redis streams.</p>
+      </div>
+      <div class="p-item">
+        <h3>AsyncAPI both ways</h3>
+        <p>Import a spec to create channels and register schemas, or generate one from event7, with drift detection between the two.</p>
+      </div>
+    </div>
+    <div class="p-tags">
+      <span class="p-tag">Confluent Cloud</span>
+      <span class="p-tag">Confluent Platform</span>
+      <span class="p-tag">Apicurio v3</span>
+      <span class="p-tag">Karapace</span>
+      <span class="p-tag">Redpanda</span>
+    </div>
+  </section>
+
+  <section class="p-section">
+    <h2>Where it sits</h2>
+    <p>event7 is not a registry, not a documentation portal, not a Kafka operations tool. It is the layer between your infrastructure and your documentation.</p>
+    <div class="p-diagram">
+<pre>  Schema Registry  ──►  <b>event7</b>  ──►  AsyncAPI  ──►  EventCatalog
+      stores           governs         specifies       documents
+                     validates
+                          │
+                          └── scores · rules · channels · owners</pre>
+    </div>
+  </section>
+
+  <section class="p-section">
+    <h2>Built with</h2>
+    <div class="p-stack">
+      <div class="k">Frontend</div><div class="v">Next.js 16, React 19, TypeScript, Tailwind CSS v4, shadcn/ui</div>
+      <div class="k">Backend</div><div class="v">Python 3.12, FastAPI, Pydantic v2, httpx</div>
+      <div class="k">Database</div><div class="v">Supabase Cloud or PostgreSQL 15</div>
+      <div class="k">Cache</div><div class="v">Redis 7, with TTL and hierarchical keys</div>
+      <div class="k">License</div><div class="v">Apache 2.0 for the core platform</div>
+    </div>
+  </section>
+
+  <div class="p-next">
+    <a href="/#projects">← Back to EDA · API projects</a>
+  </div>
+
+</div>
+
+<footer>
+  <div style="display:flex;justify-content:center;gap:32px;margin-bottom:16px;">
+    <a href="/about/">About</a>
+    <a href="/blog/">Log</a>
+    <a href="https://github.com/KTCrisis">GitHub</a>
+    <a href="mailto:marc@flux7.art">Contact</a>
+  </div>
+  <span>flux7.art</span> — 2026
+</footer>
+
+<script>
+const navToggle = document.getElementById('nav-toggle');
+const navLinks = document.getElementById('nav-links');
+navToggle.addEventListener('click', () => {
+  const open = navLinks.classList.toggle('open');
+  navToggle.classList.toggle('open', open);
+  navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,86 @@
+/* ══════════════════════════════════════════════════════════════
+   flux7.art — socle des pages projet
+   Charge apres style.css. La page pose sa couleur en portant une
+   classe axis-N sur <body> : tout le reste la lit via --ax.
+   ══════════════════════════════════════════════════════════════ */
+
+body.axis-1 { --ax: var(--ax1); --ax-rgb: var(--ax1-rgb); }
+body.axis-2 { --ax: var(--ax2); --ax-rgb: var(--ax2-rgb); }
+body.axis-3 { --ax: var(--ax3); --ax-rgb: var(--ax3-rgb); }
+body.axis-4 { --ax: var(--ax4); --ax-rgb: var(--ax4-rgb); }
+
+.wrap { max-width: 940px; margin: 0 auto; padding: 0 40px; position: relative; z-index: 1; }
+
+/* ── FIL D'ARIANE ── */
+.crumb { padding-top: 110px; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--text2); }
+.crumb a { color: var(--text2); text-decoration: none; transition: color 0.2s; }
+.crumb a:hover { color: var(--ax); }
+
+/* ── EN-TETE PROJET ── */
+.p-head { padding: 26px 0 56px; border-bottom: 1px solid var(--border); }
+.p-status { display: inline-block; font-size: 9px; letter-spacing: 2px; text-transform: uppercase; padding: 3px 10px; border-radius: 2px; margin-bottom: 16px; color: var(--ax); background: rgba(var(--ax-rgb),0.1); border: 1px solid rgba(var(--ax-rgb),0.3); }
+.p-title { font-size: clamp(38px, 7vw, 60px); font-weight: 700; letter-spacing: -2px; line-height: 1; color: #fff; }
+.p-title .seven { color: var(--ax); text-shadow: 0 0 14px rgba(var(--ax-rgb),0.55); }
+.p-tagline { margin-top: 12px; font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--text2); }
+.p-lede { margin-top: 22px; font-size: 14px; line-height: 1.8; color: var(--text); max-width: 680px; }
+.p-lede b { color: var(--ax); font-weight: 400; }
+.p-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+
+/* ── SECTIONS ── */
+.p-section { padding: 56px 0; border-bottom: 1px solid var(--border); }
+.p-section:last-of-type { border-bottom: none; }
+.p-section h2 { font-size: 22px; font-weight: 700; color: #fff; letter-spacing: -0.5px; margin-bottom: 8px; }
+.p-section h2::before { content: '// '; color: var(--ax); font-weight: 400; }
+.p-section > p { font-size: 13px; line-height: 1.8; color: var(--text2); max-width: 700px; margin-bottom: 26px; }
+.p-section > p:last-child { margin-bottom: 0; }
+
+/* ── LISTE DE PROBLEMES ── */
+.p-pains { display: grid; gap: 10px; max-width: 700px; }
+.p-pain { display: flex; gap: 14px; align-items: baseline; padding: 14px 16px; background: var(--bg2); border: 1px solid var(--border); border-left: 2px solid rgba(var(--ax-rgb),0.5); border-radius: 3px; }
+.p-pain span { color: var(--ax); font-size: 11px; flex-shrink: 0; }
+.p-pain p { font-size: 12.5px; line-height: 1.65; color: var(--text2); margin: 0; }
+
+/* ── CAPACITES ── */
+.p-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.p-item { background: var(--bg2); border: 1px solid var(--border); border-radius: 4px; padding: 20px; position: relative; overflow: hidden; }
+.p-item::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--ax); opacity: 0.6; }
+.p-item h3 { font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 8px; }
+.p-item p { font-size: 11.5px; line-height: 1.65; color: var(--text2); margin: 0; }
+
+/* ── SCHEMA ── */
+.p-diagram { background: var(--bg2); border: 1px solid var(--border); border-radius: 4px; padding: 24px; overflow-x: auto; }
+.p-diagram pre { font-family: var(--font); font-size: 10.5px; line-height: 1.7; color: var(--text2); margin: 0; white-space: pre; }
+.p-diagram pre b { color: var(--ax); font-weight: 400; }
+
+/* ── TABLEAU DE STACK ── */
+.p-stack { display: grid; grid-template-columns: 150px 1fr; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
+.p-stack > div { background: var(--bg2); padding: 13px 16px; font-size: 11.5px; }
+.p-stack .k { color: var(--ax); letter-spacing: 1.5px; text-transform: uppercase; font-size: 9.5px; }
+.p-stack .v { color: var(--text2); }
+
+/* ── TAGS ── */
+.p-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 18px; }
+.p-tag { font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; padding: 3px 9px; border: 1px solid var(--border); color: var(--text2); border-radius: 2px; }
+
+/* ── BOUTONS ── */
+.p-btn { display: inline-flex; align-items: center; gap: 7px; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; padding: 9px 18px; border-radius: 2px; text-decoration: none; border: 1px solid var(--border); color: var(--text2); transition: all 0.2s; }
+.p-btn:hover { color: #fff; border-color: var(--text2); }
+.p-btn-main { color: var(--ax); border-color: rgba(var(--ax-rgb),0.45); background: rgba(var(--ax-rgb),0.06); }
+.p-btn-main:hover { color: var(--ax); border-color: var(--ax); background: rgba(var(--ax-rgb),0.12); }
+
+/* ── PIED DE PAGE PROJET ── */
+.p-next { padding: 40px 0 70px; }
+.p-next a { color: var(--ax); text-decoration: none; font-size: 12px; letter-spacing: 1px; border-bottom: 1px solid rgba(var(--ax-rgb),0.35); }
+.p-next a:hover { border-color: var(--ax); }
+
+@media (max-width: 760px) {
+  .wrap { padding: 0 20px; }
+  .crumb { padding-top: 90px; }
+  .p-grid { grid-template-columns: 1fr; }
+  .p-stack { grid-template-columns: 1fr; }
+  .p-stack .k { padding-bottom: 0; }
+}
+
+/* ── liens du pied de page, comme sur l'accueil ── */
+footer a { color: var(--text2); font-size: 10px; letter-spacing: 2px; text-transform: uppercase; transition: color 0.2s; }
+footer a:hover { color: var(--ax); }

@@ -44,45 +44,17 @@
 
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/style.css">
 <style>
-:root {
-  --bg:      #070611;
-  --bg2:     #0d0b1a;
-  --bg3:     #15122a;
-  --green:   #2ee6ff;
-  --pink:    #ff5cc8;
-  --cyan:    #2ee6ff;
-  --gold:    #b9a7ff;
-  --text:    #c7c4dc;
-  --text2:   #6f6b95;
-  --border:  #221d3d;
-  --font:    'JetBrains Mono', monospace;
-}
-
-* { margin:0; padding:0; box-sizing:border-box; }
-html { scroll-behavior: smooth; }
-
-body {
-  font-family: var(--font);
-  background: var(--bg);
-  color: var(--text);
-  min-height: 100vh;
-  overflow-x: hidden;
-}
-
+/* Derogations au socle : cette page n'a ni scanlines ni barre flottante. */
+body::after { content: none; }
 nav {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 18px 40px;
+  position: static;
+  background: none;
+  backdrop-filter: none;
   border-bottom: 1px solid var(--border);
 }
-.nav-logo { font-size: 18px; font-weight: 700; color: var(--green); text-decoration: none; letter-spacing: -0.5px; }
-.nav-logo span { color: var(--pink); }
-.nav-links { display: flex; gap: 32px; list-style: none; }
-.nav-links a {
-  color: var(--text2); text-decoration: none; font-size: 12px;
-  letter-spacing: 2px; text-transform: uppercase; transition: color 0.2s;
-}
-.nav-links a:hover { color: var(--green); }
+.nav-links a::after { display: none; }
 
 .container { max-width: 900px; margin: 0 auto; padding: 0 40px; }
 
@@ -94,7 +66,7 @@ nav {
 .perso-hero h1 {
   font-size: 42px; font-weight: 700; color: #fff; letter-spacing: -2px; margin-bottom: 16px;
 }
-.perso-hero h1 span { color: var(--green); }
+.perso-hero h1 span { color: var(--ax1); }
 .perso-hero p {
   font-size: 12px; color: var(--text2); line-height: 1.8; max-width: 560px;
 }
@@ -105,21 +77,20 @@ nav {
 /* Sections */
 .perso-section { padding: 60px 0; border-bottom: 1px solid var(--border); }
 .perso-section:last-child { border-bottom: none; }
-.section-header { display: flex; align-items: baseline; gap: 16px; margin-bottom: 40px; }
-.section-num { font-size: 11px; color: var(--green); letter-spacing: 3px; }
-.section-title { font-size: 28px; font-weight: 700; color: #fff; letter-spacing: -1px; }
-.section-line { flex: 1; height: 1px; background: var(--border); }
+/* en-tetes plus resserres que sur l'accueil */
+.section-header { gap: 16px; margin-bottom: 40px; }
+.section-title { font-size: 28px; }
 
 /* Music */
 .music-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
 #waveform-canvas { width: 100%; height: 140px; border: 1px solid var(--border); border-radius: 4px; background: var(--bg); }
 .music-label { font-size: 10px; color: var(--text2); letter-spacing: 2px; text-transform: uppercase; margin-top: 10px; text-align: center; }
 .music-content h3 { font-size: 24px; color: #fff; font-weight: 700; letter-spacing: -1px; margin-bottom: 12px; line-height: 1.2; }
-.music-content h3 span { color: var(--pink); }
+.music-content h3 span { color: var(--ax3); }
 .music-content p { font-size: 12px; color: var(--text2); line-height: 1.8; margin-bottom: 20px; }
 .music-tools { display: flex; flex-direction: column; gap: 10px; }
 .music-tool { display: flex; align-items: center; gap: 14px; padding: 12px 14px; background: var(--bg2); border: 1px solid var(--border); border-radius: 4px; transition: all 0.2s; text-decoration: none; }
-.music-tool:hover { border-color: var(--pink); background: rgba(255,92,200,0.03); }
+.music-tool:hover { border-color: var(--ax3); background: rgba(var(--ax3-rgb),0.03); }
 .tool-icon { font-size: 18px; width: 32px; text-align: center; }
 .tool-name { font-size: 13px; color: #fff; font-weight: 600; margin-bottom: 2px; }
 .tool-desc { font-size: 10px; color: var(--text2); letter-spacing: 0.5px; }
@@ -127,21 +98,12 @@ nav {
 /* Links */
 .links-grid { display: flex; flex-direction: column; gap: 10px; max-width: 480px; }
 .link-item { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; background: var(--bg2); border: 1px solid var(--border); border-radius: 4px; text-decoration: none; transition: all 0.2s; }
-.link-item:hover { border-color: var(--green); }
-.link-item:hover .link-label { color: var(--green); }
-.link-item:hover .link-arrow { color: var(--green); transform: translateX(4px); }
+.link-item:hover { border-color: var(--ax1); }
+.link-item:hover .link-label { color: var(--ax1); }
+.link-item:hover .link-arrow { color: var(--ax1); transform: translateX(4px); }
 .link-label { font-size: 13px; color: #fff; font-weight: 600; transition: color 0.2s; }
 .link-sub { font-size: 10px; color: var(--text2); letter-spacing: 0.5px; margin-top: 2px; }
 .link-arrow { color: var(--text2); font-size: 16px; transition: all 0.2s; }
-
-footer { text-align: center; padding: 40px; font-size: 10px; color: var(--text2); letter-spacing: 2px; border-top: 1px solid var(--border); }
-footer a { color: var(--green); text-decoration: none; }
-
-.nav-toggle { display: none; flex-direction: column; justify-content: center; gap: 4px; margin-left: 16px; padding: 7px 8px; background: transparent; border: 1px solid var(--border); border-radius: 3px; cursor: pointer; }
-.nav-toggle span { display: block; width: 18px; height: 2px; background: var(--text); border-radius: 1px; transition: transform 0.2s, opacity 0.2s; }
-.nav-toggle.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
-.nav-toggle.open span:nth-child(2) { opacity: 0; }
-.nav-toggle.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
 
 @media (max-width: 768px) {
   .container { padding: 0 20px; }
@@ -149,19 +111,8 @@ footer a { color: var(--green); text-decoration: none; }
   .perso-hero h1 { font-size: 32px; }
 }
 @media (max-width: 680px) {
-  nav { position: relative; padding: 14px 20px; }
-  .nav-toggle { display: flex; }
-  .nav-links {
-    position: absolute; top: 100%; right: 16px; left: 16px;
-    flex-direction: column; gap: 0;
-    margin-top: 8px; padding: 6px;
-    background: var(--bg2); border: 1px solid var(--border); border-radius: 6px;
-    box-shadow: 0 14px 44px rgba(0,0,0,0.6);
-    display: none;
-  }
-  .nav-links.open { display: flex; }
-  .nav-links li { width: 100%; list-style: none; }
-  .nav-links a { display: block; padding: 11px 14px; }
+  /* la nav est statique ici : il lui faut un contexte pour ancrer le panneau */
+  nav { position: relative; }
 }
 </style>
 </head>

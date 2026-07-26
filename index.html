@@ -733,6 +733,14 @@ document.addEventListener('mousemove', e => {
 // ── BACKGROUND CANVAS ──
 const bgCanvas = document.getElementById('bg-canvas');
 const bgCtx = bgCanvas.getContext('2d');
+// Le canvas ne comprend pas var(--...) : on lit la palette une fois, au
+// demarrage, pour que le fond suive la meme source que le reste du site.
+// addColorStop leve une exception sur une couleur invalide, et cette
+// exception interromprait tout le script qui suit, ticker compris.
+const palette = getComputedStyle(document.documentElement);
+const axRGB = (n, fallback) => palette.getPropertyValue('--ax' + n + '-rgb').trim() || fallback;
+const AX1 = axRGB(1, '46,230,255'), AX2 = axRGB(2, '139,123,255'), AX3 = axRGB(3, '255,92,200');
+
 function resizeBg() { bgCanvas.width = window.innerWidth; bgCanvas.height = window.innerHeight; }
 resizeBg();
 window.addEventListener('resize', resizeBg);
@@ -777,19 +785,19 @@ function drawBg() {
   for (let i = 0; i < 16; i++) {
     const f = (i / 16) + scroll;
     const y = horizon + Math.pow(f, 2.3) * (H - horizon);
-    bgCtx.strokeStyle = `rgba(var(--ax2-rgb),${0.11 * (1 - f * 0.55)})`;
+    bgCtx.strokeStyle = `rgba(${AX2},${0.11 * (1 - f * 0.55)})`;
     bgCtx.beginPath(); bgCtx.moveTo(0, y); bgCtx.lineTo(W, y); bgCtx.stroke();
   }
   for (let i = -11; i <= 11; i++) {
     const x = vpx + i * (W / 13);
-    bgCtx.strokeStyle = 'rgba(var(--ax1-rgb),0.06)';
+    bgCtx.strokeStyle = `rgba(${AX1},0.06)`;
     bgCtx.beginPath(); bgCtx.moveTo(vpx, horizon); bgCtx.lineTo(x, H); bgCtx.stroke();
   }
   // ligne d'horizon : dégradé du triptyque
   const g = bgCtx.createLinearGradient(0, 0, W, 0);
-  g.addColorStop(0, 'rgba(var(--ax1-rgb),0)');
-  g.addColorStop(0.5, 'rgba(var(--ax2-rgb),0.4)');
-  g.addColorStop(1, 'rgba(var(--ax3-rgb),0)');
+  g.addColorStop(0, `rgba(${AX1},0)`);
+  g.addColorStop(0.5, `rgba(${AX2},0.4)`);
+  g.addColorStop(1, `rgba(${AX3},0)`);
   bgCtx.strokeStyle = g; bgCtx.lineWidth = 1.5;
   bgCtx.beginPath(); bgCtx.moveTo(0, horizon); bgCtx.lineTo(W, horizon); bgCtx.stroke();
 

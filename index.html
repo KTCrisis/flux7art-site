@@ -572,6 +572,9 @@ footer span { color: var(--green); }
       <span class="ticker-item"><span class="dot">&gt;</span><span class="name">chromecast-mcp</span><span class="desc">mcp server for chromecast</span></span>
       <span class="ticker-item"><span class="dot">&gt;</span><span class="name">score7</span><span class="desc">audio harmonic analysis</span></span>
       <span class="ticker-item"><span class="dot">&gt;</span><span class="name">keys7</span><span class="desc">live piano-ai duet</span></span>
+      <span class="ticker-item"><span class="dot">&gt;</span><span class="name">flux7-studio</span><span class="desc">image &amp; video workshop</span></span>
+      <span class="ticker-item"><span class="dot">&gt;</span><span class="name">flux7-audio</span><span class="desc">music workshop</span></span>
+      <span class="ticker-item"><span class="dot">&gt;</span><span class="name">flux7-press</span><span class="desc">document workshop</span></span>
       <span class="ticker-item"><span class="dot">&gt;</span><span class="name">xrns7</span><span class="desc">headless renoise reader</span></span>
       <span class="ticker-item"><span class="dot">&gt;</span><span class="name">astroGenAI</span><span class="desc">ai astrological pipeline</span></span>
     </div>
@@ -799,6 +802,36 @@ L2  <span style="color:var(--cyan);">flux7-console</span>     human UI          
     </a>
 
   </div>
+
+  <p class="axis-thesis" style="margin-top:56px;" data-en="<b>Three private workshops, one shape.</b> Image, music, documents: each keeps a single canonical source and treats every output as a projection of it. The intelligence is a Claude Code session watching a folder of requests, so no API key is ever involved. Personal tools, not products — but the pattern travels, so write if it speaks to you." data-fr="<b>Trois ateliers personnels, une meme forme.</b> Image, musique, documents : chacun garde une source canonique unique et traite chaque sortie comme une projection. L'intelligence est une session Claude Code qui guette un dossier de demandes, donc aucune cle d'API n'entre en jeu. Des outils personnels, pas des produits — mais le motif se transpose, alors ecrivez si le sujet vous parle."><b>Three private workshops, one shape.</b> Image, music, documents: each keeps a single canonical source and treats every output as a projection of it. The intelligence is a Claude Code session watching a folder of requests, so no API key is ever involved. Personal tools, not products — but the pattern travels, so write if it speaks to you.</p>
+
+  <div class="lab-grid">
+
+    <a href="mailto:marc@flux7.art?subject=flux7-studio" class="mini-card">
+      <div class="mini-bar"></div>
+      <div class="mini-step" data-en="private · ask me" data-fr="prive · ecrivez-moi">private · ask me</div>
+      <div class="mini-top"><span class="mini-name">flux7-studio</span><span class="stack-tag">Python · Next</span></div>
+      <div class="mini-tagline" data-en="Image &amp; video workshop" data-fr="Atelier image &amp; video">Image &amp; video workshop</div>
+      <p class="mini-desc" data-en="Composes stills and clips on local diffusion models: keyframes, transitions between them, one image brought to life. Prompt in, gallery out." data-fr="Compose images et clips sur des modeles de diffusion locaux : keyframes, transitions entre elles, une image mise en mouvement. Un prompt entre, une galerie sort.">Composes stills and clips on local diffusion models: keyframes, transitions between them, one image brought to life. Prompt in, gallery out.</p>
+    </a>
+
+    <a href="mailto:marc@flux7.art?subject=flux7-audio" class="mini-card">
+      <div class="mini-bar"></div>
+      <div class="mini-step" data-en="private · ask me" data-fr="prive · ecrivez-moi">private · ask me</div>
+      <div class="mini-top"><span class="mini-name">flux7-audio</span><span class="stack-tag">Python · Next</span></div>
+      <div class="mini-tagline" data-en="Music workshop" data-fr="Atelier musical">Music workshop</div>
+      <p class="mini-desc" data-en="Where score7, xrns7 and keys7 meet: one canonical fragment holds key, chords and notes, and every view — sheet music, MIDI, tracker pattern — is a projection of it." data-fr="Le point de rencontre de score7, xrns7 et keys7 : un fragment canonique porte tonalite, accords et notes, et chaque vue — partition, MIDI, motif de tracker — en est une projection.">Where score7, xrns7 and keys7 meet: one canonical fragment holds key, chords and notes, and every view — sheet music, MIDI, tracker pattern — is a projection of it.</p>
+    </a>
+
+    <a href="mailto:marc@flux7.art?subject=flux7-press" class="mini-card">
+      <div class="mini-bar"></div>
+      <div class="mini-step" data-en="private · ask me" data-fr="prive · ecrivez-moi">private · ask me</div>
+      <div class="mini-top"><span class="mini-name">flux7-press</span><span class="stack-tag">Python · Next</span></div>
+      <div class="mini-tagline" data-en="Document workshop" data-fr="Atelier documentaire">Document workshop</div>
+      <p class="mini-desc" data-en="Write once in markdown, print six ways: PDF, Word, slides, wiki markup. Structure, house style and format stay independent, and diagrams live inside the text." data-fr="Ecrire une fois en markdown, imprimer de six façons : PDF, Word, slides, markup wiki. Structure, charte et format restent independants, et les diagrammes vivent dans le texte.">Write once in markdown, print six ways: PDF, Word, slides, wiki markup. Structure, house style and format stay independent, and diagrams live inside the text.</p>
+    </a>
+
+  </div>
 </section>
 
 <section id="music" class="axis axis-4" style="padding-bottom:120px;">
@@ -963,8 +996,11 @@ function setLang(lang) {
   document.querySelectorAll('[data-en]').forEach(el => {
     const txt = el.getAttribute('data-' + lang);
     if (!txt) return;
-    if (el.tagName === 'H2') { el.innerHTML = txt; }
-    else if (el.tagName === 'P') { el.textContent = txt; }
+    // innerHTML aussi pour les <p> : les theses de section portent un <b> dans
+    // leurs donnees, et textContent affichait les balises en clair des qu'on
+    // touchait au selecteur de langue. Le contenu vient de ce fichier statique,
+    // ecrit a la main : aucune entree utilisateur n'y passe.
+    if (el.tagName === 'H2' || el.tagName === 'P') { el.innerHTML = txt; }
     else { el.textContent = txt; }
   });
   document.getElementById('btn-en').classList.toggle('active', lang === 'en');

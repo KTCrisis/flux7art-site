@@ -100,6 +100,13 @@ section { position: relative; z-index: 1; }
 .hero-title .t3 { color: var(--pink); }
 .hero-sub { font-size: 13px; color: var(--text2); margin-top: 28px; letter-spacing: 1px; max-width: 500px; line-height: 1.8; opacity: 0; animation: fadeUp 0.6s ease 0.6s forwards; }
 .hero-sub b { color: var(--cyan); font-weight: 400; }
+
+/* ── HERO : qui parle, et comment le joindre ── */
+.hero-id { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px 18px; margin-top: 24px; opacity: 0; animation: fadeUp 0.6s ease 0.7s forwards; }
+.hero-name { font-size: 13px; font-weight: 700; color: #fff; letter-spacing: 0.5px; }
+.hero-role { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--text2); }
+.hero-mail { font-size: 11px; letter-spacing: 1px; color: var(--cyan); text-decoration: none; border-bottom: 1px solid rgba(46,230,255,0.3); transition: border-color 0.2s; }
+.hero-mail:hover { border-color: var(--cyan); }
 .hero-tags { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 36px; opacity: 0; animation: fadeUp 0.6s ease 0.8s forwards; }
 .htag { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; padding: 5px 14px; border: 1px solid var(--border); border-radius: 2px; color: var(--text2); transition: all 0.2s; }
 .htag:hover { border-color: var(--green); color: var(--green); background: rgba(46,230,255,0.05); }
@@ -161,11 +168,15 @@ section { position: relative; z-index: 1; }
 #lab a:hover { border-color: var(--dim) !important; }
 
 /* ── FLIP CARDS ── */
-.sub-header { display: flex; align-items: center; gap: 14px; margin-bottom: 28px; margin-top: 48px; }
+.sub-header { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; margin-bottom: 28px; margin-top: 48px; }
 .sub-header:first-child { margin-top: 0; }
-.sub-header-label { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; padding: 3px 12px; border-radius: 2px; font-weight: 700; }
-.sub-header-label-pro { color: var(--teal-light); border: 1px solid rgba(139,123,255,0.4); background: rgba(139,123,255,0.08); }
-.sub-header-label-lab { color: var(--pink); border: 1px solid rgba(255,92,200,0.4); background: rgba(255,92,200,0.08); }
+.sub-header-note { font-size: 11px; color: var(--text2); letter-spacing: 0.5px; }
+.sub-header-label { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; padding: 3px 12px; border-radius: 2px; font-weight: 700; border: 1px solid transparent; }
+/* le libelle prend la couleur de son axe */
+.axis-1 .sub-header-label { color: var(--ax1); border-color: rgba(46,230,255,0.4); background: rgba(46,230,255,0.08); }
+.axis-2 .sub-header-label { color: var(--ax2); border-color: rgba(139,123,255,0.4); background: rgba(139,123,255,0.08); }
+.axis-3 .sub-header-label { color: var(--ax3); border-color: rgba(255,92,200,0.4); background: rgba(255,92,200,0.08); }
+.axis-4 .sub-header-label { color: var(--ax4); border-color: rgba(255,209,102,0.4); background: rgba(255,209,102,0.08); }
 .sub-header-line { flex: 1; height: 1px; background: var(--border); }
 
 .flip-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
@@ -358,6 +369,9 @@ section { position: relative; z-index: 1; }
 .axis-line { flex: 1; height: 1px; }
 .axis-thesis { font-size: 12.5px; line-height: 1.75; color: var(--text2); max-width: 740px; margin-bottom: 44px; }
 .axis-thesis b { font-weight: 400; }
+.thesis-link { color: inherit; text-decoration: none; border-bottom: 1px solid currentColor; opacity: 0.85; transition: opacity 0.2s; }
+.thesis-link:hover { opacity: 1; }
+.axis-4 .thesis-link { color: var(--ax4); }
 .axis-1 .axis-num, .axis-1 .axis-thesis b { color: var(--ax1); }
 .axis-2 .axis-num, .axis-2 .axis-thesis b { color: var(--ax2); }
 .axis-3 .axis-num, .axis-3 .axis-thesis b { color: var(--ax3); }
@@ -461,8 +475,13 @@ section { position: relative; z-index: 1; }
   </h1>
   <div class="hero-horizon"></div>
   <p class="hero-sub">
-    <span data-en="I build tools that govern what AI agents can do — and explore where governance meets event streaming, APIs, and music played in duet with machines." data-fr="Je construis des outils qui gouvernent ce que les agents AI peuvent faire — et j'explore ou la gouvernance rencontre l'event streaming, les APIs et la musique jouee en duo avec les machines.">I build tools that govern what AI agents can do — and explore where governance meets event streaming, APIs, and music played in duet with machines.</span>
+    <span data-en="I build tools that decide what an AI agent is allowed to do. I also work on Kafka, event streaming and API platforms, and I play music with machines." data-fr="Je construis des outils qui decident ce qu'un agent IA a le droit de faire. Je travaille aussi sur Kafka, l'event streaming et les plateformes API, et je fais de la musique avec des machines.">I build tools that decide what an AI agent is allowed to do. I also work on Kafka, event streaming and API platforms, and I play music with machines.</span>
   </p>
+  <div class="hero-id">
+    <span class="hero-name">Marc Verchiani</span>
+    <span class="hero-role" data-en="Engineer · AI agent governance, event streaming, MCP tooling" data-fr="Ingenieur · gouvernance des agents IA, event streaming, outillage MCP">Engineer · AI agent governance, event streaming, MCP tooling</span>
+    <a class="hero-mail" href="mailto:marc@flux7.art">marc@flux7.art</a>
+  </div>
   <a href="/blog/" style="display:inline-flex;align-items:center;gap:8px;margin-top:36px;font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--cyan);text-decoration:none;border:1px solid rgba(46,230,255,0.4);padding:10px 24px;border-radius:2px;transition:all 0.3s;opacity:0;animation:fadeUp 0.6s ease 0.8s forwards;text-shadow:0 0 12px rgba(46,230,255,0.4);" onmouseover="this.style.borderColor='var(--cyan)';this.style.textShadow='0 0 20px rgba(46,230,255,0.7)';this.style.boxShadow='0 0 16px rgba(46,230,255,0.15)'" onmouseout="this.style.borderColor='rgba(46,230,255,0.4)';this.style.textShadow='0 0 12px rgba(46,230,255,0.4)';this.style.boxShadow='none'">
     <span data-en="// log" data-fr="// log">// log</span><span class="log-cursor">_</span>
   </a>
@@ -495,7 +514,7 @@ section { position: relative; z-index: 1; }
     <h2 class="axis-title" data-en="Agentic AI Governance" data-fr="Gouvernance des agents IA">Agentic AI Governance</h2>
     <div class="axis-line"></div>
   </div>
-  <p class="axis-thesis" data-en="A decision an AI agent makes shouldn't vanish the moment it's made. flux7 treats decisions as facts — stored, recalled, and used to govern the next call. Four layers, from a sub-millisecond policy engine to human oversight." data-fr="La decision d'un agent ne devrait pas disparaitre une fois prise. flux7 traite les decisions comme des faits — stockees, rappelees, et utilisees pour gouverner l'appel suivant. Quatre niveaux, du moteur de policy sub-milliseconde a la supervision humaine."><b>Decisions as facts.</b> A decision an AI agent makes shouldn't vanish the moment it's made. flux7 stores it, recalls it, and uses it to govern the next call — four layers, from a sub-millisecond policy engine to human oversight.</p>
+  <p class="axis-thesis" data-en="<b>Before an agent runs a tool, something decides whether it may.</b> flux7 does that in four steps: a rules engine in under a millisecond, past decisions kept in memory, an arbitration when the rules don't settle it, and a human when it matters." data-fr="<b>Avant qu'un agent lance un outil, quelque chose decide s'il en a le droit.</b> flux7 le fait en quatre etapes : un moteur de regles en moins d'une milliseconde, les decisions passees gardees en memoire, un arbitrage quand les regles ne tranchent pas, et un humain quand ca compte."><b>Before an agent runs a tool, something decides whether it may.</b> flux7 does that in four steps: a rules engine in under a millisecond, past decisions kept in memory, an arbitration when the rules don't settle it, and a human when it matters.</p>
 
   <div style="background:var(--bg2);border:1px solid var(--border);border-radius:4px;overflow:hidden;position:relative;">
     <div style="height:2px;background:linear-gradient(90deg,var(--green),var(--cyan),var(--green));"></div>
@@ -503,7 +522,7 @@ section { position: relative; z-index: 1; }
       <div style="padding:36px 40px;border-right:1px solid var(--border);">
         <div style="font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--text2);margin-bottom:12px;">// <span style="color:var(--green);">Governance infrastructure for AI agents</span></div>
         <div style="font-size:32px;font-weight:700;color:#fff;letter-spacing:-1px;margin-bottom:16px;" data-en="Policy. Memory. Judgment. Oversight." data-fr="Politique. Memoire. Jugement. Supervision.">Policy. Memory. Judgment. Oversight.</div>
-        <p style="font-size:12px;color:var(--text);line-height:1.7;margin-bottom:24px;" data-en="Four projects that govern what AI agents can do, remember what happened, evaluate what's ambiguous, and let humans intervene when it matters." data-fr="Quatre projets qui gouvernent ce que les agents AI peuvent faire, retiennent ce qui s'est passe, evaluent ce qui est ambigu, et permettent aux humains d'intervenir quand ca compte.">Four projects that govern what AI agents can do, remember what happened, evaluate what's ambiguous, and let humans intervene when it matters.</p>
+        <p style="font-size:12px;color:var(--text);line-height:1.7;margin-bottom:24px;" data-en="Four projects: one says yes or no, one remembers what was decided before, one arbitrates the unclear cases, one hands it to a human." data-fr="Quatre projets : l'un dit oui ou non, l'un se souvient de ce qui a deja ete decide, l'un arbitre les cas flous, l'un passe la main a un humain.">Four projects: one says yes or no, one remembers what was decided before, one arbitrates the unclear cases, one hands it to a human.</p>
         <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px;">
           <span class="stack-tag" style="border-color:var(--green);color:var(--green);">flux7-mesh</span>
           <span class="stack-tag" style="border-color:var(--gold);color:var(--gold);">flux7-memory</span>
@@ -525,7 +544,12 @@ L2  <span style="color:var(--cyan);">flux7-console</span>     human UI          
       </div>
     </div>
   </div>
-  <div class="lab-grid grid-2" style="margin-top:16px;">
+  <div class="sub-header">
+    <span class="sub-header-label" data-en="Running on it" data-fr="Ce qui tourne dessus">Running on it</span>
+    <span class="sub-header-note" data-en="Two agents. Every tool they call goes through the four layers above." data-fr="Deux agents. Chaque outil qu'ils appellent passe par les quatre couches ci-dessus.">Two agents. Every tool they call goes through the four layers above.</span>
+    <span class="sub-header-line"></span>
+  </div>
+  <div class="lab-grid grid-2">
     <a href="https://github.com/KTCrisis/scout7" target="_blank" class="mini-card">
       <div class="mini-bar"></div>
       <div class="mini-top"><span class="mini-name">scout7</span><span class="stack-tag">Go</span></div>
@@ -548,7 +572,7 @@ L2  <span style="color:var(--cyan);">flux7-console</span>     human UI          
     <h2 class="axis-title">EDA · API · Consulting</h2>
     <div class="axis-line"></div>
   </div>
-  <p class="axis-thesis" data-en="The same idea, one layer down the stack: governance for the data that flows between systems. Schema registries, event-driven contracts, API platforms — plus the consulting that puts them to work in the field." data-fr="La meme idee, un etage plus bas : gouverner la donnee qui circule entre les systemes. Schema registries, contrats event-driven, plateformes API — et le conseil qui les met en oeuvre sur le terrain."><b>Governance for what flows between systems.</b> Schema registries, event-driven contracts, API platforms — plus the consulting that puts them to work in the field.</p>
+  <p class="axis-thesis" data-en="<b>The same problem, for data instead of agents.</b> Making sure the messages that travel between systems keep the shape everyone agreed on. Schema registries, Kafka, API platforms, and the consulting that goes with them." data-fr="<b>Le meme probleme, pour la donnee au lieu des agents.</b> S'assurer que les messages qui circulent entre systemes gardent la forme sur laquelle tout le monde s'est mis d'accord. Schema registries, Kafka, plateformes API, et le conseil qui va avec."><b>The same problem, for data instead of agents.</b> Making sure the messages that travel between systems keep the shape everyone agreed on. Schema registries, Kafka, API platforms, and the consulting that goes with them.</p>
 
   <div class="flip-grid">
 
@@ -672,10 +696,16 @@ L2  <span style="color:var(--cyan);">flux7-console</span>     human UI          
 <section id="lab" class="axis axis-3">
   <div class="axis-head">
     <span class="axis-num">03 //</span>
-    <h2 class="axis-title" data-en="AI-Native Tools" data-fr="Outils AI-Native">AI-Native Tools</h2>
+    <h2 class="axis-title" data-en="AI-Native Tools &amp; Workshops" data-fr="Outils AI-Native &amp; ateliers">AI-Native Tools &amp; Workshops</h2>
     <div class="axis-line"></div>
   </div>
-  <p class="axis-thesis" data-en="The same instinct, turned loose on curiosity: small MCP-compatible tools for whatever I'm working on — diagrams, local models, the night sky. Built to plug into any AI agent." data-fr="Le meme reflexe, lache sur la curiosite : de petits outils compatibles MCP pour ce qui m'occupe — diagrammes, modeles locaux, ciel nocturne. Concus pour se brancher sur n'importe quel agent IA."><b>MCP tools for whatever I'm curious about.</b> Diagrams, local models, the night sky — small tools built to plug into any AI agent.</p>
+  <p class="axis-thesis" data-en="<b>Small tools I use every day.</b> MCP servers that let an AI agent draw a diagram, run a local model or cast to a TV, plus three workshops I built for my own image, music and document work." data-fr="<b>De petits outils dont je me sers tous les jours.</b> Des serveurs MCP qui permettent a un agent IA de dessiner un diagramme, lancer un modele local ou caster sur une TV, plus trois ateliers construits pour mon propre travail image, musique et documents."><b>Small tools I use every day.</b> MCP servers that let an AI agent draw a diagram, run a local model or cast to a TV, plus three workshops I built for my own image, music and document work.</p>
+
+  <div class="sub-header">
+    <span class="sub-header-label" data-en="MCP servers" data-fr="Serveurs MCP">MCP servers</span>
+    <span class="sub-header-note" data-en="Diagrams, local models, casting, astrology." data-fr="Diagrammes, modeles locaux, cast, astrologie.">Diagrams, local models, casting, astrology.</span>
+    <span class="sub-header-line"></span>
+  </div>
 
   <div class="lab-grid grid-2">
 
@@ -700,8 +730,9 @@ L2  <span style="color:var(--cyan);">flux7-console</span>     human UI          
       <p class="mini-desc" data-en="Control Google Chromecast from any MCP client. YouTube, local files, URLs." data-fr="Controle Google Chromecast depuis tout client MCP. YouTube, fichiers locaux, URLs.">Control Google Chromecast from any MCP client. YouTube, local files, URLs.</p>
     </a>
 
-    <a href="https://github.com/KTCrisis/astrogenai" target="_blank" class="mini-card">
+    <a href="https://astrogen.art" target="_blank" class="mini-card">
       <div class="mini-bar"></div>
+      <div class="mini-step" data-en="live · astrogen.art" data-fr="en ligne · astrogen.art">live · astrogen.art</div>
       <div class="mini-top"><span class="mini-name">astroGenAI</span><span class="stack-tag">Python</span></div>
       <div class="mini-tagline" data-en="AI astrological content pipeline" data-fr="Pipeline de contenu astrologique IA">AI astrological content pipeline</div>
       <p class="mini-desc" data-en="Horoscopes from Skyfield calculations, sky charts, voice synthesis, automated video." data-fr="Horoscopes depuis calculs Skyfield, cartes du ciel, synthese vocale, video automatisee.">Horoscopes from Skyfield calculations, sky charts, voice synthesis, automated video.</p>
@@ -709,7 +740,12 @@ L2  <span style="color:var(--cyan);">flux7-console</span>     human UI          
 
   </div>
 
-  <p class="axis-thesis" style="margin-top:56px;" data-en="<b>Three private workshops, one shape.</b> Image, music, documents: each keeps a single canonical source and treats every output as a projection of it. The intelligence is a Claude Code session watching a folder of requests, so no API key is ever involved. Personal tools, not products — but the pattern travels, so write if it speaks to you." data-fr="<b>Trois ateliers personnels, une meme forme.</b> Image, musique, documents : chacun garde une source canonique unique et traite chaque sortie comme une projection. L'intelligence est une session Claude Code qui guette un dossier de demandes, donc aucune cle d'API n'entre en jeu. Des outils personnels, pas des produits — mais le motif se transpose, alors ecrivez si le sujet vous parle."><b>Three private workshops, one shape.</b> Image, music, documents: each keeps a single canonical source and treats every output as a projection of it. The intelligence is a Claude Code session watching a folder of requests, so no API key is ever involved. Personal tools, not products — but the pattern travels, so write if it speaks to you.</p>
+  <div class="sub-header">
+    <span class="sub-header-label" data-en="Private workshops" data-fr="Ateliers personnels">Private workshops</span>
+    <span class="sub-header-line"></span>
+  </div>
+
+  <p class="axis-thesis" data-en="<b>Three workshops, built the same way.</b> Image, music, documents. Each keeps one source file and produces every format from it. The AI part is a Claude Code session watching a folder, so there is no API key anywhere. Private tools, not products, but write if you want to know how they work." data-fr="<b>Trois ateliers, construits pareil.</b> Image, musique, documents. Chacun garde un fichier source unique et en tire tous les formats. La partie IA est une session Claude Code qui surveille un dossier, donc aucune cle d'API nulle part. Des outils prives, pas des produits, mais ecrivez si vous voulez savoir comment ils marchent."><b>Three workshops, built the same way.</b> Image, music, documents. Each keeps one source file and produces every format from it. The AI part is a Claude Code session watching a folder, so there is no API key anywhere. Private tools, not products, but write if you want to know how they work.</p>
 
   <div class="lab-grid">
 
@@ -746,7 +782,7 @@ L2  <span style="color:var(--cyan);">flux7-console</span>     human UI          
     <h2 class="axis-title" data-en="Music · Human × Machine" data-fr="Musique · Humain × Machine">Music · Human × Machine</h2>
     <div class="axis-line"></div>
   </div>
-  <p class="axis-thesis" data-en="<b>A deliberative duet between piano and machine.</b> Play, and the AI listens, names what it hears and answers through the instrument — then reads the finished tracks, from audio or straight from the Renoise files." data-fr="<b>Un duo deliberatif entre piano et machine.</b> Joue, et l'IA ecoute, nomme ce qu'elle entend et repond a travers l'instrument — puis lit les morceaux finis, depuis l'audio ou directement depuis les fichiers Renoise."><b>A deliberative duet between piano and machine.</b> Play, and the AI listens, names what it hears and answers through the instrument — then reads the finished tracks, from audio or straight from the Renoise files.</p>
+  <p class="axis-thesis" data-en="<b>Playing piano with an AI.</b> It listens to what I play, names the chords and the key, and answers on the instrument. It also reads finished tracks, from the audio file or straight from the Renoise project. The three tools below meet in <a class='thesis-link' href='#lab'>flux7-audio</a>, the music workshop." data-fr="<b>Jouer du piano avec une IA.</b> Elle ecoute ce que je joue, nomme les accords et la tonalite, et repond sur l'instrument. Elle lit aussi les morceaux finis, depuis le fichier audio ou directement depuis le projet Renoise. Les trois outils ci-dessous se rejoignent dans <a class='thesis-link' href='#lab'>flux7-audio</a>, l'atelier musical."><b>Playing piano with an AI.</b> It listens to what I play, names the chords and the key, and answers on the instrument. It also reads finished tracks, from the audio file or straight from the Renoise project. The three tools below meet in <a class="thesis-link" href="#lab">flux7-audio</a>, the music workshop.</p>
 
   <div class="lab-grid">
 
@@ -783,6 +819,7 @@ L2  <span style="color:var(--cyan);">flux7-console</span>     human UI          
     <a href="/blog/" style="color:var(--text2);text-decoration:none;font-size:10px;letter-spacing:2px;text-transform:uppercase;transition:color 0.2s;" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--text2)'">Log</a>
     <a href="https://docs.flux7.art" style="color:var(--text2);text-decoration:none;font-size:10px;letter-spacing:2px;text-transform:uppercase;transition:color 0.2s;" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--text2)'">Docs</a>
     <a href="https://github.com/KTCrisis" style="color:var(--text2);text-decoration:none;font-size:10px;letter-spacing:2px;text-transform:uppercase;transition:color 0.2s;" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--text2)'">GitHub</a>
+    <a href="mailto:marc@flux7.art" style="color:var(--text2);text-decoration:none;font-size:10px;letter-spacing:2px;text-transform:uppercase;transition:color 0.2s;" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--text2)'">Contact</a>
   </div>
   <span>flux7.art</span> — 2026
 </footer>

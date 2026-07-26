@@ -251,15 +251,15 @@ section { position: relative; z-index: 1; }
 .sub-header-label-lab { color: var(--pink); border: 1px solid rgba(255,92,200,0.4); background: rgba(255,92,200,0.08); }
 .sub-header-line { flex: 1; height: 1px; background: var(--border); }
 
-.flip-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.flip-container { perspective: 1200px; height: 420px; cursor: pointer; }
+.flip-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.flip-container { perspective: 1200px; height: 470px; cursor: pointer; }
 .flip-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); transform-style: preserve-3d; }
 .flip-container.flipped .flip-inner { transform: rotateY(180deg); }
 .flip-front, .flip-back { position: absolute; inset: 0; -webkit-backface-visibility: hidden; backface-visibility: hidden; border-radius: 4px; overflow: hidden; }
 
 /* Front */
 .flip-front {
-  background: var(--bg2); border: 1px solid var(--border); padding: 32px;
+  background: var(--bg2); border: 1px solid var(--border); padding: 26px 24px;
   display: flex; flex-direction: column; transition: border-color 0.3s;
 }
 .flip-front::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: transparent; transition: background 0.3s; }
@@ -280,9 +280,9 @@ section { position: relative; z-index: 1; }
 .flip-cat { font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--text2); margin-bottom: 14px; }
 .flip-cat span { color: var(--green); }
 .flip-logo-area { display: flex; align-items: center; gap: 14px; margin-bottom: 6px; }
-.flip-logo-text { font-size: 42px; font-weight: 700; letter-spacing: -2px; line-height: 1; }
-.flip-tagline { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--text2); margin-bottom: 16px; opacity: 0.8; }
-.flip-desc { font-size: 12px; color: var(--text2); line-height: 1.7; margin-bottom: 20px; flex: 1; }
+.flip-logo-text { font-size: 36px; font-weight: 700; letter-spacing: -1.5px; line-height: 1; }
+.flip-tagline { font-size: 9.5px; letter-spacing: 1.6px; text-transform: uppercase; color: var(--text2); margin-bottom: 14px; opacity: 0.8; }
+.flip-desc { font-size: 11.5px; color: var(--text2); line-height: 1.65; margin-bottom: 18px; flex: 1; }
 .flip-desc b { color: var(--text); font-weight: 400; }
 .flip-stack { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 16px; }
 .flip-actions { display: flex; gap: 8px; margin-top: auto; }
@@ -299,8 +299,8 @@ section { position: relative; z-index: 1; }
 .flip-back-duo img { width: 100%; height: 100%; object-fit: cover; opacity: 0.85; transition: opacity 0.3s; }
 .flip-container.flipped:hover .flip-back-duo img { opacity: 1; }
 
-.flip-back-metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); border-top: 1px solid var(--border); }
-.flip-back-metric { padding: 12px 10px; background: var(--bg2); text-align: center; }
+.flip-back-metrics { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--border); border-top: 1px solid var(--border); }
+.flip-back-metric { padding: 11px 10px; background: var(--bg2); text-align: center; }
 .flip-back-metric-val { font-size: 16px; font-weight: 700; letter-spacing: -0.5px; line-height: 1; margin-bottom: 3px; }
 .flip-back-metric-label { font-size: 8px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text2); }
 .flip-back-hint { position: absolute; bottom: 10px; right: 14px; font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--text2); opacity: 0.5; z-index: 2; }
@@ -454,7 +454,9 @@ footer span { color: var(--green); }
 .axis-4 .axis-line { background: linear-gradient(90deg, var(--ax4), transparent); }
 
 /* ── MINI CARDS (couleur héritée de l'axe) ── */
-.lab-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+.lab-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+/* la grille suit le nombre de tuiles : pas de colonne vide en bout de ligne */
+.lab-grid.grid-2 { grid-template-columns: repeat(2, 1fr); }
 .mini-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 4px; padding: 20px; text-decoration: none; display: flex; flex-direction: column; gap: 8px; position: relative; overflow: hidden; transition: border-color 0.2s, transform 0.2s; }
 .mini-card:hover { border-color: var(--dim); transform: translateY(-2px); }
 .mini-bar { position: absolute; top: 0; left: 0; right: 0; height: 2px; opacity: 0.85; }
@@ -476,6 +478,11 @@ footer span { color: var(--green); }
 .conseil .tags { display:flex; flex-wrap:wrap; gap:6px; margin-top:16px; }
 
 /* ── RESPONSIVE ── */
+/* palier intermediaire : 3 colonnes deviennent illisibles avant le passage mobile */
+@media (max-width: 1080px) {
+  .flip-grid { grid-template-columns: repeat(2, 1fr); }
+  .lab-grid { grid-template-columns: repeat(2, 1fr); }
+}
 @media (max-width: 860px) {
   .axis, #projects, #lab { padding-left: 26px; padding-right: 26px; }
   .nav-links { gap: 22px; }
@@ -493,7 +500,6 @@ footer span { color: var(--green); }
   #flux7 > div > div > div { padding: 28px 22px !important; }
   #flux7 pre, .flip-back-img pre { overflow-x: auto; max-width: 100%; }
   #lab > div:last-child { grid-template-columns: 1fr !important; }
-  .flip-back-metrics { grid-template-columns: repeat(2, 1fr); }
   .conseil { padding: 22px 22px; }
 }
 /* nav collapses into a dropdown panel */
@@ -619,7 +625,7 @@ L2  <span style="color:var(--cyan);">flux7-console</span>     human UI          
       </div>
     </div>
   </div>
-  <div class="lab-grid" style="margin-top:16px;">
+  <div class="lab-grid grid-2" style="margin-top:16px;">
     <a href="https://github.com/KTCrisis/scout7" target="_blank" class="mini-card">
       <div class="mini-bar"></div>
       <div class="mini-top"><span class="mini-name">scout7</span><span class="stack-tag">Go</span></div>
@@ -771,7 +777,7 @@ L2  <span style="color:var(--cyan);">flux7-console</span>     human UI          
   </div>
   <p class="axis-thesis" data-en="The same instinct, turned loose on curiosity: small MCP-compatible tools for whatever I'm working on — diagrams, local models, the night sky. Built to plug into any AI agent." data-fr="Le meme reflexe, lache sur la curiosite : de petits outils compatibles MCP pour ce qui m'occupe — diagrammes, modeles locaux, ciel nocturne. Concus pour se brancher sur n'importe quel agent IA."><b>MCP tools for whatever I'm curious about.</b> Diagrams, local models, the night sky — small tools built to plug into any AI agent.</p>
 
-  <div class="lab-grid">
+  <div class="lab-grid grid-2">
 
     <a href="https://github.com/KTCrisis/arch7" target="_blank" class="mini-card">
       <div class="mini-bar"></div>

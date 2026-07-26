@@ -41,7 +41,7 @@
 }
 .blog-header .section-num {
   font-size: 11px;
-  color: var(--green);
+  color: var(--ax1);
   letter-spacing: 3px;
 }
 .blog-header h1 {
@@ -70,10 +70,10 @@
   background: var(--bg2);
 }
 .post-item:hover {
-  border-color: var(--purple);
-  background: rgba(139,123,255,0.03);
+  border-color: var(--ax2);
+  background: rgba(var(--ax2-rgb),0.03);
 }
-.post-item:hover .post-title { color: var(--purple); }
+.post-item:hover .post-title { color: var(--ax2); }
 
 .post-meta {
   font-size: 10px;
@@ -83,8 +83,8 @@
   margin-bottom: 10px;
 }
 .post-meta .tag {
-  color: var(--purple);
-  border: 1px solid rgba(139,123,255,0.3);
+  color: var(--ax2);
+  border: 1px solid rgba(var(--ax2-rgb),0.3);
   padding: 2px 8px;
   border-radius: 2px;
   margin-right: 12px;
@@ -129,13 +129,13 @@ footer { position: relative; z-index: 1; }
   transition: all 0.2s;
 }
 .filter-btn:hover {
-  color: var(--purple);
-  border-color: rgba(139,123,255,0.3);
+  color: var(--ax2);
+  border-color: rgba(var(--ax2-rgb),0.3);
 }
 .filter-btn.active {
-  color: var(--purple);
-  border-color: var(--purple);
-  background: rgba(139,123,255,0.06);
+  color: var(--ax2);
+  border-color: var(--ax2);
+  background: rgba(var(--ax2-rgb),0.06);
 }
 
 .post-item.hidden {

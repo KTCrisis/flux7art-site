@@ -79,7 +79,7 @@ body { font-family: var(--sans); font-size: 15px; line-height: 1.65; }
 .grad { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
 
 /* hero */
-#hero { padding-block: 150px 70px; }
+#hero { padding-block: 90px 60px; }
 .hero-tag { font-family: var(--font); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--text2); margin-bottom: 22px; }
 .hero-title { font-family: var(--font); font-size: clamp(56px, 11vw, 124px); font-weight: 700; line-height: 0.95; letter-spacing: -0.04em; color: #fff; margin: 0; }
 .hero-title .sig { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
@@ -143,13 +143,13 @@ footer nav a:hover { color: #fff; }
   .layers { grid-template-columns: 1fr; }
   .grid, .grid.two { grid-template-columns: 1fr; }
   .panel { padding: 26px 20px; }
-  #hero { padding-block: 110px 40px; }
+  #hero { padding-block: 56px 32px; }
 }
 @media (prefers-reduced-motion: reduce) { .log-cursor { animation: none; } }
 
 /* langue */
 .lang-switch { display: flex; align-items: center; border: 1px solid var(--border); border-radius: 3px; overflow: hidden; margin-left: 24px; }
-.lang-btn { font-family: var(--font); font-size: 10px; letter-spacing: 2px; text-transform: uppercase; padding: 5px 10px; background: transparent; border: none; color: var(--text2); cursor: pointer; }
+.lang-btn { font-family: var(--font); font-size: 10px; line-height: 1; letter-spacing: 2px; text-transform: uppercase; padding: 5px 10px; background: transparent; border: none; color: var(--text2); cursor: pointer; }
 .lang-btn.active { background: #fff; color: #000; font-weight: 700; }
 .lang-btn:not(.active):hover { color: #fff; }
 @media (max-width: 680px) { .lang-switch { margin-left: 14px; } }

@@ -46,15 +46,6 @@
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/style.css">
 <style>
-/* Derogations au socle : cette page n'a ni scanlines ni barre flottante. */
-body::after { content: none; }
-nav {
-  position: static;
-  background: none;
-  backdrop-filter: none;
-  border-bottom: 1px solid var(--border);
-}
-.nav-links a::after { display: none; }
 
 .container { max-width: 900px; margin: 0 auto; padding: 0 40px; }
 
@@ -127,6 +118,7 @@ nav {
     <li><a href="/#art">Art</a></li>
     <li><a href="/blog/">log_</a></li>
     <li><a href="https://docs.flux7.art">Docs</a></li>
+    <li><a href="/about/" class="active">About</a></li>
   </ul>
   <button class="nav-toggle" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
 </nav>

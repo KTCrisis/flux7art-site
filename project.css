@@ -12,7 +12,7 @@ body.axis-4 { --ax: var(--ax4); --ax-rgb: var(--ax4-rgb); }
 .wrap { max-width: 940px; margin: 0 auto; padding: 0 40px; position: relative; z-index: 1; }
 
 /* ── FIL D'ARIANE ── */
-.crumb { padding-top: 110px; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--text2); }
+.crumb { padding-top: 40px; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--text2); }
 .crumb a { color: var(--text2); text-decoration: none; transition: color 0.2s; }
 .crumb a:hover { color: var(--ax); }
 

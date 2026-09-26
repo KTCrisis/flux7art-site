@@ -50,21 +50,22 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="stylesheet" href="/style.css">
 <style>
 :root {
-  --bg:      #070611;
-  --bg2:     #0d0b1a;
-  --bg3:     #15122a;
+  --bg:      #09090b;
+  --bg2:     #111113;
+  --bg3:     #18181b;
   --green:   #2ee6ff;
   --pink:    #ff5cc8;
   --cyan:    #2ee6ff;
-  --gold:    #b9a7ff;
+  --gold:    #ffd166;
   --purple:  #8b7bff;
   --teal:    #8b7bff;
-  --dim:     #3a3460;
-  --text:    #c7c4dc;
-  --text2:   #6f6b95;
-  --border:  #221d3d;
+  --dim:     #3f3f46;
+  --text:    #d4d4d8;
+  --text2:   #71717a;
+  --border:  #232327;
   --font:    'JetBrains Mono', monospace;
 }
 
@@ -79,42 +80,13 @@ body {
   overflow-x: hidden;
 }
 
-/* ── SCANLINES ── */
-body::after {
-  content: ''; position: fixed; inset: 0;
-  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.07) 2px, rgba(0,0,0,0.07) 4px);
-  pointer-events: none; z-index: 9999;
-}
 
-/* ── NAV ── */
-nav {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 18px 40px;
-  background: linear-gradient(to bottom, rgba(7,6,17,0.95), transparent);
-  backdrop-filter: blur(2px);
-}
-.nav-logo { font-size: 18px; font-weight: 700; color: var(--green); text-decoration: none; letter-spacing: -0.5px; }
-.nav-logo span { color: var(--pink); }
-.nav-links { display: flex; gap: 32px; list-style: none; }
-.nav-links a {
-  color: var(--text2); text-decoration: none; font-size: 12px;
-  letter-spacing: 2px; text-transform: uppercase; transition: color 0.2s; position: relative;
-}
-.nav-links a::after {
-  content: ''; position: absolute; bottom: -4px; left: 0;
-  width: 0; height: 1px; background: var(--green); transition: width 0.2s;
-}
-.nav-links a:hover { color: var(--green); }
-.nav-links a:hover::after { width: 100%; }
-.nav-links a.active { color: var(--green); }
-.nav-links a.active::after { width: 100%; }
 
 /* ── ARTICLE ── */
 .article-wrapper {
   max-width: 760px;
   margin: 0 auto;
-  padding: 120px 40px 80px;
+  padding: 56px 40px 80px;
   position: relative;
   z-index: 1;
 }
@@ -305,21 +277,13 @@ footer {
 footer span { color: var(--green); }
 
 /* ── RESPONSIVE ── */
-.nav-toggle { display: none; flex-direction: column; justify-content: center; gap: 4px; margin-left: 16px; padding: 7px 8px; background: transparent; border: 1px solid var(--border); border-radius: 3px; cursor: pointer; }
-.nav-toggle span { display: block; width: 18px; height: 2px; background: var(--text); border-radius: 1px; transition: transform 0.2s, opacity 0.2s; }
-.nav-toggle.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
-.nav-toggle.open span:nth-child(2) { opacity: 0; }
-.nav-toggle.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
 
 @media (max-width: 768px) {
-  nav { padding: 16px 20px; }
-  .nav-links { gap: 20px; }
-  .article-wrapper { padding: 100px 20px 60px; }
+  .article-wrapper { padding: 40px 20px 60px; }
   .prose table { font-size: 10px; }
   .prose th, .prose td { padding: 8px 6px; }
 }
 @media (max-width: 680px) {
-  nav { padding: 14px 20px; }
   .nav-toggle { display: flex; }
   .nav-links {
     position: absolute; top: 100%; right: 16px; left: 16px;
@@ -343,6 +307,7 @@ footer span { color: var(--green); }
     <ul class="nav-links">
       <li><a href="/#flux7">Governance</a></li>
       <li><a href="/#lab">Lab</a></li>
+      <li><a href="/#music">Music</a></li>
       <li><a href="/#art">Art</a></li>
       <li><a href="/blog/" class="active">log_</a></li>
       <li><a href="https://docs.flux7.art">Docs</a></li>

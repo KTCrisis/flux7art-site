@@ -7,9 +7,9 @@
    ══════════════════════════════════════════════════════════════ */
 
 :root {
-  /* ── darksynth · espace · pro — fond violet-noir ── */
-  --bg:      #070611;   --bg-rgb:  7,6,17;
-  --bg2:     #0d0b1a;
+  /* ── epure (2026-09-26) : noir franc, panneaux gris tres sombre ── */
+  --bg:      #09090b;   --bg-rgb:  9,9,11;
+  --bg2:     #111113;
 
   /* ── une couleur par axe, et rien d'autre ──
      La forme -rgb sert aux transparences : rgba(var(--ax2-rgb), 0.3)
@@ -23,11 +23,15 @@
   /* seconde teinte de l'axe 02, pour ses degrades et ses logos */
   --ax2-light: #b9a7ff;  --ax2-light-rgb: 185,167,255;
 
-  --dim:     #3a3460;
-  --text:    #c7c4dc;
-  --text2:   #6f6b95;
-  --border:  #221d3d;
+  --dim:     #3f3f46;
+  --text:    #d4d4d8;
+  --text2:   #71717a;
+  --border:  #232327;
   --font:    'JetBrains Mono', monospace;
+  --sans:    'Mona Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  /* la signature : le degrade des trois premiers axes, et nulle part ailleurs
+     que sur le logo, les numeros de section et les filets */
+  --grad:    linear-gradient(90deg, var(--ax1), var(--ax2) 55%, var(--ax3));
 }
 
 /* ── RESET ── */
@@ -42,13 +46,6 @@ body {
   overflow-x: hidden;
 }
 
-/* ── SCANLINES ── */
-/* /about/ y deroge : voir son bloc <style> */
-body::after {
-  content: ''; position: fixed; inset: 0;
-  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.07) 2px, rgba(0,0,0,0.07) 4px);
-  pointer-events: none; z-index: 9999;
-}
 
 /* ── NAV ── */
 /* barre flottante par defaut ; /about/ la repasse en statique bordee */
@@ -59,8 +56,8 @@ nav {
   background: linear-gradient(to bottom, rgba(var(--bg-rgb),0.95), transparent);
   backdrop-filter: blur(2px);
 }
-.nav-logo { font-size: 18px; font-weight: 700; color: var(--ax1); text-decoration: none; letter-spacing: -0.5px; }
-.nav-logo span { color: var(--ax3); }
+.nav-logo { font-size: 18px; font-weight: 700; color: #fff; text-decoration: none; letter-spacing: -0.5px; }
+.nav-logo span { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .nav-links { display: flex; gap: 32px; list-style: none; }
 .nav-links a {
   color: var(--text2); text-decoration: none; font-size: 12px;

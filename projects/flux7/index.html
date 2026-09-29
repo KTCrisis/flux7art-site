@@ -91,13 +91,13 @@
 
   <section class="p-section">
     <h2>Four steps, from instant to human</h2>
-    <p>A request climbs only as far as it needs to. Most never leave the first step. The interesting part is the second: a decision taken once is kept, and answers the next identical request on its own.</p>
+    <p>A request climbs only as far as it needs to. Most never leave the first step. The interesting part is the second: a read a human approved is kept, and answers the next identical request on its own. A write always asks again.</p>
     <div class="p-diagram">
 <pre>  agent ──► <b>L0</b>  policy engine       rules say allow, deny or ask     &lt;1ms
               │
-              ├─► <b>L1</b>  memory          3 past approvals, 0 refusals    ~100ms
+              ├─► <b>L1</b>  memory          3 human approvals, reads only   ~100ms
               │
-              ├─► <b>L1+</b> arbitration     rules engine, then a model      ~2-20s
+              ├─► <b>L1+</b> arbitration     rules, then a decision model    ~350ms
               │
               └─► <b>L2</b>  human           the genuinely new decisions     minutes
 
@@ -118,7 +118,7 @@
       </div>
       <div class="p-item">
         <h3>flux7-supervisor</h3>
-        <p>The arbitration step. A rules engine first, a language model only for what the rules cannot settle.</p>
+        <p>The arbitration step. A rules engine first, then a decision model that answers narrow questions in a few hundred milliseconds; the code decides from its probabilities, and a local model takes over if it is down.</p>
       </div>
       <div class="p-item">
         <h3>flux7-console</h3>

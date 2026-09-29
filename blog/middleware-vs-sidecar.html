@@ -449,6 +449,7 @@ footer span { color: var(--green); }
     <p>Neither provides cross-agent policy-as-code.</p>
 
     <h2>What about Kong, Gravitee, Apigee?</h2>
+    <blockquote><p><strong>Update, 29 September 2026.</strong> Gateways moved faster than this section. Kong's AI Gateway now reads the token of an MCP call and allows or refuses each tool from its scopes, and agentgateway writes the same rule in CEL. So a gateway does know which agent calls, and can say "create_issue yes, delete_repo no". What it still does not do: look at the arguments, keep a call waiting for a human, or remember what was decided before. That is where flux7 now sits, behind the gateway rather than beside it; the demo runs mesh7 behind a Kong Konnect node, with Keycloak delegating a human's rights to the agent.</p></blockquote>
 
     <p>Different layer entirely. These are AI gateways that govern north-south traffic between your apps and LLMs. Rate limiting, PII redaction, semantic routing, model abstraction. Important stuff, but not the same problem.</p>
 
